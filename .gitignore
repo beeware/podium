@@ -1,0 +1,10 @@
+*.pyc
+*~
+.*.sw[op]
+*.egg-info
+dist
+build
+_build
+distribute-*
+local
+macOS
