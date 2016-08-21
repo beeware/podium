@@ -23,13 +23,13 @@ setup(
     long_description=long_description,
     author='Russell Keith-Magee',
     author_email='russell@keith-magee.com',
-    url='http://pybee.org/podium',
+    url='http://pybee.org/bee/podium',
     packages=find_packages(exclude=['tests']),
     install_requires=[
     ],
     entry_points={
         'console_scripts': [
-            'podium = podium.app.__main__:main',
+            'podium = podium.__main__:main',
         ]
     },
     license='New BSD',
@@ -39,7 +39,7 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3 :: only',
+        'Programming Language :: Python :: 3 :: Only',
         'Topic :: Software Development',
         'Topic :: Utilities',
     ],
