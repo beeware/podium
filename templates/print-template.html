@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+/* Don't display the original source */
+#source {
+    display: none;
+}
+    </style>
+    <!-- Print template doesn't need animations href="%s/animate.css" type="text/css" rel="stylesheet"-->
+    <style>
+%s
+
+/* Overrides for printing */
+.remark-slide {
+    -webkit-print-color-adjust: exact;
+}
+    
+.remark-container {
+    overflow: visible;
+    background-color: #fff;
+}
+
+.remark-slide-container {
+    display: block;
+    position: relative;
+}
+
+.remark-slide-scaler {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+%s
+    </textarea>
+    <script src="%s/remark.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({controller: function() {}});
+      slideshow.gotoSlide(%s);
+    </script>
+  </body>
+</html>

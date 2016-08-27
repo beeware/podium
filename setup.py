@@ -51,9 +51,9 @@ setup(
         },
         'macos': {
             'app_requires': [
-                # 'toga[macos]'
+                'toga[macos]'
             ],
-            'icon': 'icons/macos',
+            'icon': 'icons/podium',
         },
     }
 )
