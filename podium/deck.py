@@ -4,29 +4,8 @@ from rubicon.objc import ObjCClass, objc_classmethod, objc_method
 from colosseum import CSS
 
 import toga
+from toga_cocoa.libs import NSDocument, NSURL, NSScreen, NSDictionary, NSNumber, NSCursor
 
-####
-
-# Bits to be factored into toga.library
-NSDocument = ObjCClass('NSDocument')
-NSFileWrapper = ObjCClass('NSFileWrapper')
-NSScreen = ObjCClass('NSScreen')
-NSDictionary = ObjCClass('NSDictionary')
-NSNumber = ObjCClass('NSNumber')
-NSCursor = ObjCClass('NSCursor')
-NSURL = ObjCClass('NSURL')
-
-NSAlphaShiftKeyMask         = 1 << 16
-NSShiftKeyMask              = 1 << 17
-NSControlKeyMask            = 1 << 18
-NSAlternateKeyMask          = 1 << 19
-NSCommandKeyMask            = 1 << 20
-NSNumericPadKeyMask         = 1 << 21
-NSHelpKeyMask               = 1 << 22
-NSFunctionKeyMask           = 1 << 23
-NSDeviceIndependentModifierFlagsMask    = 0xffff0000
-
-####
 
 class TogaSlideDeck(NSDocument):
 
