@@ -4,7 +4,7 @@ from rubicon.objc import ObjCClass, objc_classmethod, objc_method
 from colosseum import CSS
 
 import toga
-from toga_cocoa.libs import NSDocument, NSURL, NSScreen, NSDictionary, NSNumber, NSCursor
+from toga_cocoa.libs import NSDocument, NSURL, NSScreen, NSDictionary, NSNumber, NSCursor, NSCommandKeyMask
 
 
 class TogaSlideDeck(NSDocument):
@@ -42,9 +42,9 @@ class SlideWindow(toga.Window):
     def __init__(self, deck, master):
         self.deck = deck
         self.master = master
-        super().__init__("Slides" if master else "Notes", 
-            position=(200, 200) if master else (100, 100), 
-            size=(738, 576), 
+        super().__init__("Slides" if master else "Notes",
+            position=(200, 200) if master else (100, 100),
+            size=(738, 576),
             resizeable=False,
             closeable=True if master else None
         )
@@ -65,19 +65,18 @@ class SlideWindow(toga.Window):
         else:
             return "notes-template.html"
 
-    def redraw(self, slide='1'):        
+    def redraw(self, slide='1'):
         with open(os.path.join(self.app.resource_path, 'templates', self.template_name), 'r') as data:
             template = data.read()
-        
+
         content = template % (
             os.path.join(self.app.resource_path, 'templates'),
-            self.deck._impl.theme, 
-            self.deck._impl.content, 
+            self.deck._impl.theme,
+            self.deck._impl.content,
             os.path.join(self.app.resource_path, 'templates'),
             slide
         )
-        print('CONTENT %s' % self.master, self.deck._impl.fileURL.absoluteString)
-        # print(content)
+
         self.html_view.set_content(self.deck._impl.fileURL.absoluteString + '/', content)
 
     def on_close(self):
@@ -126,7 +125,7 @@ class SlideDeck:
             secondaryScreen = NSScreen.screens().objectAtIndex_(1)
 
             opts = NSDictionary.dictionaryWithObjectsAndKeys_(
-                NSNumber.numberWithBool_(True), 
+                NSNumber.numberWithBool_(True),
                 "NSFullScreenModeAllScreens",
                 None
             )
@@ -152,7 +151,7 @@ class SlideDeck:
         secondaryScreen = NSScreen.screens().objectAtIndex_(1)
 
         opts = NSDictionary.dictionaryWithObjectsAndKeys_(
-            NSNumber.numberWithBool_(True), 
+            NSNumber.numberWithBool_(True),
             "NSFullScreenModeAllScreens",
             None
         )
@@ -169,7 +168,7 @@ class SlideDeck:
             else:
                 self.window_1.html_view._impl.enterFullScreenMode_withOptions_(primaryScreen, opts)
                 self.window_2.html_view._impl.enterFullScreenMode_withOptions_(secondaryScreen, opts)
-            
+
             self.full_screen = not self.full_screen
             NSCursor.hide()
 
@@ -199,31 +198,31 @@ class SlideDeck:
             if self.full_screen:
                 self.toggleFullScreen()
 
-        elif key_code == 35: 
+        elif key_code == 35:
             if self.full_screen:
                 self.togglePause()
             else:
                 self.toggleFullScreen()
 
-        elif key_code in (7, 48):  # X or <tab> 
+        elif key_code in (7, 48):  # X or <tab>
             self.switchScreens()
 
         elif key_code in (124, 125, 49, 35):  # <Right>, <Down>, <space>, <Enter>
             self.gotoNextSlide()
 
-        elif key_code in (123, 126):  # <left>, <up> 
+        elif key_code in (123, 126):  # <left>, <up>
             self.gotoPreviousSlide()
 
         elif key_code == 115:  # <home>
             self.gotoFirstSlide()
 
-        elif key_code == 119:  # <end> 
+        elif key_code == 119:  # <end>
             self.gotoLastSlide()
 
-        elif key_code == 15 and (modifiers & NSCommandKeyMask):  # CTRL-R 
+        elif key_code == 15 and (modifiers & NSCommandKeyMask):  # CTRL-R
             self.reload()
 
-        elif key_code == 17:  # T 
+        elif key_code == 17:  # T
             self.resetTimer()
 
     def resetTimer(self):
