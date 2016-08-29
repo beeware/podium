@@ -1,6 +1,9 @@
 Podium
 ======
 
+.. image:: http://pybee.org/project/projects/applications/podium/podium-stage-256.png
+    :target: http://pybee.org/project/projects/applications/podium/
+
 A markup-based slide presentation tool.
 
 Why?
@@ -8,7 +11,7 @@ Why?
 
 Developers go to conferences. And when they do, they need slide decks.
 
-Unfortunately, while presentation tools like Keynote_ and PowerPoint_
+Unfortunately, while presentation tools like `Keynote`_ and `PowerPoint`_
 are great for business presentations, they aren't well suited to the
 needs of developers. The mainstay of developer presentations -- code
 samples -- are generally painful to add to a Keynote presentation.
@@ -59,9 +62,7 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 Quickstart
 ----------
 
-To install podium::
-
-    $ pip install podium
+Installation requires the use of `Briefcase`_. Full instructions pending. 
 
 Then, you can run podium on a presentation::
 
@@ -100,6 +101,9 @@ If you experience problems with Podium, `log them on GitHub`_. If you
 want to contribute code, please `fork the code`_ and `submit a pull request`_.
 
 .. _BeeWare suite: http://pybee.org
+.. _Keynote: https://en.wikipedia.org/wiki/Keynote_(presentation_software)
+.. _PowerPoint: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
+.. _Briefcase: https://github.com/pybee/briefcase
 .. _Read The Docs: http://podium-app.readthedocs.org
 .. _@pybeeware on Twitter: https://twitter.com/pybeeware
 .. _BeeWare Users Mailing list: https://groups.google.com/forum/#!forum/beeware-users
