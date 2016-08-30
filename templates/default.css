@@ -1,19 +1,48 @@
-/*********************************************
- * A default theme for Remarkable slide decks.
- *********************************************/
+@import url('animate.css');
 
-/************************
- * Basic fonts and layout
- ************************/
+/******************
+ * Font definitions
+ ******************/
+
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./fonts/DroidSerif.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./fonts/YanoneKaffeesatz-Regular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./fonts/UbuntuMono-Regular.woff) format('woff');
+}
+
+
+/*******************************
+ * Basic slide layout and colors
+ ******************************/
 
 .remark-slide-content {
     padding: 1em 6em 1em 6em;
     background-color: #f6f7f1;
-    font-family: sans-serif;
+    font-family: 'Droid Serif';
     color: #272726;
 }
 
+/***********************
+ * Common content markup
+ ***********************/
+
 h1, h2, h3 {
+    font-family: 'Yanone Kaffeesatz';
     font-weight: normal;
     text-align: center;
 }
@@ -47,18 +76,25 @@ li p {
 
 pre {
     white-space: pre-wrap;
+    max-width: 100%;
 }
 
-.hljs-default pre code {
+.hljs-default code {
     font-size: 24pt;
-    font-family: monospace;
+    font-family: "Ubuntu Mono";
+}
+
+.hljs-default pre {
+  margin: 0.4em 0;
+}
+.hljs-default pre code {
     background-color: #f8fbfe;
     border: 1px solid #272726;
 }
 
 img {
     display: block;
-    max-width: 75%;
+    max-width: 100%;
     max-height: 75%;
     margin: 0 auto;
 }
@@ -93,9 +129,9 @@ li cite {
     margin-top: 0;
 }
 
-pre {
-    max-width: 100%;
-}
+/*********************************/
+/* Special content for footnotes */
+/*********************************/
 
 .footnotes {
     font-size: 18pt;
@@ -163,11 +199,69 @@ pre {
     font-weight: normal;
 }
 
-/****************/
-/* Title slides */
-/****************/
+/******************/
+/* Reverse slides */
+/******************/
 
-.reverse {
-  background: #272726;
+.remark-slide-content.reverse {
+  background-color: #272726;
   color: #f6f7f1;
+}
+
+/***************/
+/* Logo slides */
+/***************/
+
+.remark-slide-content.logo img {
+  margin-top: 15%;
+}
+
+/***************/
+/* Fullscreen slides */
+/***************/
+
+
+.remark-slide-content.fullscreen {
+  padding: 0;
+}
+
+.remark-slide-content.fullscreen img {
+  margin-top: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.aspect-16-9 .remark-slide-content.fullscreen img {
+  margin-top: 0;
+}
+
+.aspect-16-9 .remark-slide-content.fullscreen p {
+  margin: 0;
+}
+
+/*********************/
+/* Screenshot slides */
+/*********************/
+
+.remark-slide-content.screenshot img {
+}
+
+.aspect-16-9 .remark-slide-content.screenshot img {
+  max-width:70%;
+}
+
+/*********************/
+/* Django slides */
+/*********************/
+
+.remark-slide-content.django {
+  background-color: #092E20;
+}
+
+/*********************/
+/* Django slides */
+/*********************/
+
+.remark-slide-content.black {
+  background-color: black;
 }

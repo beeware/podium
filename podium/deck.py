@@ -8,7 +8,6 @@ from toga_cocoa.libs import NSDocument, NSURL, NSScreen, NSDictionary, NSNumber,
 
 
 class TogaSlideDeck(NSDocument):
-
     @objc_method
     def autosavesInPlace(self) -> bool:
         return True
@@ -27,10 +26,7 @@ class TogaSlideDeck(NSDocument):
 
             self.content = cast(contentFile.regularFileContents.bytes, c_char_p).value.decode('utf-8')
             if themeFile is None:
-                print("NO THEME FILE")
-                defaultThemeFileName = "%s/Contents/Resources/default.css" % NSBundle.mainBundle.bundlePath
-
-                self.theme = NSString.alloc().initWithContentsOfFile_encoding_error_(defaultThemeFileName, NSUTF8StringEncoding, None)
+                self.theme = None
             else:
                 self.theme = cast(themeFile.regularFileContents.bytes, c_char_p).value.decode('utf-8')
 
@@ -38,13 +34,14 @@ class TogaSlideDeck(NSDocument):
 
         return False
 
+
 class SlideWindow(toga.Window):
     def __init__(self, deck, master):
         self.deck = deck
         self.master = master
         super().__init__("Slides" if master else "Notes",
             position=(200, 200) if master else (100, 100),
-            size=(738, 576),
+            size=(984 if self.deck.aspect == '16:9' else 738, 576),
             resizeable=False,
             closeable=True if master else None
         )
@@ -72,8 +69,10 @@ class SlideWindow(toga.Window):
         content = template % (
             os.path.join(self.app.resource_path, 'templates'),
             self.deck._impl.theme,
+            self.deck.aspect.replace(':', '-'),
             self.deck._impl.content,
             os.path.join(self.app.resource_path, 'templates'),
+            self.deck.aspect,
             slide
         )
 
@@ -86,6 +85,7 @@ class SlideWindow(toga.Window):
 
 class SlideDeck:
     def __init__(self, url):
+        self.aspect = '4:3'
         self.window_2 = SlideWindow(self, master=False)
         self.window_1 = SlideWindow(self, master=True)
 
@@ -96,8 +96,9 @@ class SlideDeck:
         self.paused = False
 
         self.url = url
-        self._impl = TogaSlideDeck.alloc().initWithContentsOfURL_ofType_error_(NSURL.URLWithString_(url), "Podium Slide Deck", None)
+        self._impl = TogaSlideDeck.alloc()
         self._impl._interface = self
+        self._impl.initWithContentsOfURL_ofType_error_(NSURL.URLWithString_(url), "Podium Slide Deck", None)
 
     @property
     def app(self):
@@ -113,6 +114,8 @@ class SlideDeck:
         self.window_2.app = app
 
     def show(self):
+        self.ensure_theme()
+
         self.window_1.redraw()
         self.window_1.show()
 
@@ -145,6 +148,29 @@ class SlideDeck:
                 width=self.window_1.html_view._impl.frame.size.width,
                 height=self.window_1.html_view._impl.frame.size.height
             )
+
+    def switchAspectRatio(self):
+        if self.aspect == '16:9':
+            self.aspect = '4:3'
+        else:
+            self.aspect = '16:9'
+
+        if self.full_screen:
+            # If we're fullscreen, just reload to apply different
+            # aspect-related styles.
+            self.reload()
+        else:
+            # If we're not fullscreen, we need to re-create the
+            # display windows with the correct aspect ratio.
+            self.window_1.close()
+
+            self.window_2 = SlideWindow(self, master=False)
+            self.window_1 = SlideWindow(self, master=True)
+
+            self.window_1.app = self.app
+            self.window_2.app = self.app
+
+            self.show()
 
     def toggleFullScreen(self):
         primaryScreen = NSScreen.screens().objectAtIndex_(0)
@@ -183,17 +209,25 @@ class SlideDeck:
 
     def reload(self):
         self._impl.readFromURL_ofType_error_(self._impl.fileURL, self._impl.fileType, None)
+        self.ensure_theme()
 
         slide = self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()")
         print("Current slide:", slide)
 
         self.redraw(slide)
 
+    def ensure_theme(self):
+        if self._impl.theme is None:
+            defaultThemeFileName = os.path.join(self.app.resource_path, "templates", "default.css")
+            with open(defaultThemeFileName, 'r') as data:
+                self._impl.theme = data.read()
+
     def redraw(self, slide=None):
         self.window_1.redraw(slide)
         self.window_2.redraw(slide)
 
     def on_key_press(self, key_code, modifiers):
+        # print("KEY =", key_code, ", modifiers=", modifiers)
         if key_code == 53:  # escape
             if self.full_screen:
                 self.toggleFullScreen()
@@ -206,6 +240,9 @@ class SlideDeck:
 
         elif key_code in (7, 48):  # X or <tab>
             self.switchScreens()
+
+        elif key_code == 0:  # A
+            self.switchAspectRatio()
 
         elif key_code in (124, 125, 49, 35):  # <Right>, <Down>, <space>, <Enter>
             self.gotoNextSlide()
