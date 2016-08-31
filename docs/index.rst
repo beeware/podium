@@ -16,7 +16,7 @@ This will pop up a GUI window.
 Problems under Ubuntu/Debian
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Deian and Ubuntu's packaging of Python omits the ``idlelib`` library from it's
+Debian and Ubuntu's packaging of Python omits the ``idlelib`` library from it's
 base packge. If you're using Python 2.7 on Ubuntu 13.04, you can install
 ``idlelib`` by running::
 
@@ -55,7 +55,7 @@ Podium is part of the `BeeWare suite`_. You can talk to the community through:
  * The `BeeWare Developers Mailing list`_, for discussing the development of new features in the BeeWare suite, and ideas for new tools for the suite.
 
 .. _BeeWare suite: http://pybee.org
-.. _Read The Docs: http://podium.readthedocs.org
+.. _Read The Docs: http://podium-app.readthedocs.org
 .. _@pybeeware on Twitter: https://twitter.com/pybeeware
 .. _BeeWare Users Mailing list: https://groups.google.com/forum/#!forum/beeware-users
 .. _BeeWare Developers Mailing list: https://groups.google.com/forum/#!forum/beeware-developers
