@@ -1,8 +1,28 @@
+.. image:: http://pybee.org/project/projects/applications/podium/podium.png
+    :width: 72px
+    :target: https://pybee.org/podium
+
 Podium
 ======
 
-.. image:: http://pybee.org/project/projects/applications/podium/podium-stage-256.png
-    :target: http://pybee.org/project/projects/applications/podium/
+.. image:: https://img.shields.io/pypi/pyversions/podium.svg
+    :target: https://pypi.python.org/pypi/podium
+
+.. image:: https://img.shields.io/pypi/v/podium.svg
+    :target: https://pypi.python.org/pypi/podium
+
+.. image:: https://img.shields.io/pypi/status/podium.svg
+    :target: https://pypi.python.org/pypi/podium
+
+.. image:: https://img.shields.io/pypi/l/podium.svg
+    :target: https://github.com/pybee/podium/blob/master/LICENSE
+
+.. image:: https://travis-ci.org/pybee/podium.svg?branch=master
+    :target: https://travis-ci.org/pybee/podium
+
+.. image:: https://badges.gitter.im/pybee/general.svg
+    :target: https://gitter.im/pybee/general
+
 
 A markup-based slide presentation tool.
 
@@ -62,7 +82,7 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 Quickstart
 ----------
 
-Installation requires the use of `Briefcase`_. Full instructions pending. 
+Installation requires the use of `Briefcase`_. Full instructions pending.
 
 Then, you can run podium on a presentation::
 
@@ -88,11 +108,12 @@ Community
 
 Podium is part of the `BeeWare suite`_. You can talk to the community through:
 
- * `@pybeeware on Twitter`_
+* `@pybeeware on Twitter`_
 
- * The `BeeWare Users Mailing list`_, for questions about how to use the BeeWare suite.
+* The `pybee/general`_ channel on Gitter.
 
- * The `BeeWare Developers Mailing list`_, for discussing the development of new features in the BeeWare suite, and ideas for new tools for the suite.
+We foster a welcoming and respectful community as described in our
+`BeeWare Community Code of Conduct`_.
 
 Contributing
 ------------
@@ -106,8 +127,8 @@ want to contribute code, please `fork the code`_ and `submit a pull request`_.
 .. _Briefcase: https://github.com/pybee/briefcase
 .. _Read The Docs: http://podium-app.readthedocs.org
 .. _@pybeeware on Twitter: https://twitter.com/pybeeware
-.. _BeeWare Users Mailing list: https://groups.google.com/forum/#!forum/beeware-users
-.. _BeeWare Developers Mailing list: https://groups.google.com/forum/#!forum/beeware-developers
+.. _pybee/general: https://gitter.im/pybee/general
+.. _BeeWare Community Code of Conduct: http://pybee.org/community/behavior/
 .. _log them on Github: https://github.com/pybee/podium/issues
 .. _fork the code: https://github.com/pybee/podium
 .. _submit a pull request: https://github.com/pybee/podium/pulls
