@@ -2,7 +2,7 @@ import os
 
 import toga
 
-from .deck import *
+from podium.deck import *
 
 # class SlideView(toga.Window):
 #     def __init__(self, title=None, position=(100, 100), size=(640, 480)):
@@ -25,9 +25,7 @@ class Podium(toga.App):
     def startup(self):
         pass
 
-
-    def openFile(self, fileURL):
-        print("OPEN ", fileURL)
+    def open_document(self, fileURL):
         document = SlideDeck(fileURL)
         self.add_document(document)
         document.show()

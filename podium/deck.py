@@ -46,14 +46,17 @@ class SlideWindow(toga.Window):
             closeable=True if master else None
         )
 
-    def startup(self):
-        super().startup()
-        self.content = toga.Container()
+    def create(self):
+        super().create()
         self.html_view = toga.WebView(
-            style=CSS(flex=1),
+            style=CSS(
+                flex=1,
+                width=984 if self.deck.aspect == '16:9' else 738,
+                height=576
+            ),
             on_key_down=self.deck.on_key_press
         )
-        self.content.add(self.html_view)
+        self.content = self.html_view
 
     @property
     def template_name(self):
@@ -114,6 +117,7 @@ class SlideDeck:
         self.window_2.app = app
 
     def show(self):
+
         self.ensure_theme()
 
         self.window_1.redraw()
