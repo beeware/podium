@@ -42,7 +42,11 @@ class SlideWindow(toga.Window):
         super().__init__("Slides" if master else "Notes",
             position=(200, 200) if master else (100, 100),
             size=(984 if self.deck.aspect == '16:9' else 738, 576),
-            resizeable=False,
+            # FIXME: This should be False; but doing so
+            # enforces a constraint on the full screen window.
+            # When a formal "full screen" API is introduced,
+            # this can be restored.
+            # resizeable=False,
             closeable=True if master else None
         )
 
@@ -202,11 +206,11 @@ class SlideDeck:
             self.full_screen = not self.full_screen
             NSCursor.hide()
 
-        self.window_1.html_view._update_layout(
+        self.window_1.content._update_layout(
             width=self.window_1.html_view._impl.frame.size.width,
             height=self.window_1.html_view._impl.frame.size.height
         )
-        self.window_2.html_view._update_layout(
+        self.window_2.content._update_layout(
             width=self.window_2.html_view._impl.frame.size.width,
             height=self.window_2.html_view._impl.frame.size.height
         )
