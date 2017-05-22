@@ -203,8 +203,9 @@ class SlideDeck:
                 self.window_1.html_view._impl.enterFullScreenMode_withOptions_(primaryScreen, opts)
                 self.window_2.html_view._impl.enterFullScreenMode_withOptions_(secondaryScreen, opts)
 
-            self.full_screen = not self.full_screen
             NSCursor.hide()
+
+        self.full_screen = not self.full_screen
 
         self.window_1.content._update_layout(
             width=self.window_1.html_view._impl.frame.size.width,
@@ -240,22 +241,23 @@ class SlideDeck:
             if self.full_screen:
                 self.toggleFullScreen()
 
-        elif key_code == 35:
+        elif key_code == 35 and (modifiers & NSCommandKeyMask):  # CMD-P
             if self.full_screen:
                 self.togglePause()
             else:
                 self.toggleFullScreen()
 
         elif key_code in (7, 48):  # X or <tab>
-            self.switchScreens()
+            if self.full_screen:
+                self.switchScreens()
 
-        elif key_code == 0:  # A
+        elif key_code == 0 and (modifiers & NSCommandKeyMask):  # CMD-A
             self.switchAspectRatio()
 
-        elif key_code in (124, 125, 49, 35):  # <Right>, <Down>, <space>, <Enter>
+        elif key_code in (124, 125, 49, 36, 121):  # <Right>, <Down>, <space>, <Enter>, <Page Down>
             self.gotoNextSlide()
 
-        elif key_code in (123, 126):  # <left>, <up>
+        elif key_code in (123, 126, 116):  # <left>, <up>, <Page Up>
             self.gotoPreviousSlide()
 
         elif key_code == 115:  # <home>
@@ -264,10 +266,10 @@ class SlideDeck:
         elif key_code == 119:  # <end>
             self.gotoLastSlide()
 
-        elif key_code == 15 and (modifiers & NSCommandKeyMask):  # CTRL-R
+        elif key_code == 15 and (modifiers & NSCommandKeyMask):  # CMD-R
             self.reload()
 
-        elif key_code == 17:  # T
+        elif key_code == 17 and (modifiers & NSCommandKeyMask):  # CMD-T
             self.resetTimer()
 
     def resetTimer(self):
