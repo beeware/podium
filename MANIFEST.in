@@ -2,9 +2,13 @@ include README.rst
 include AUTHORS
 include LICENSE
 include requirements*.txt
-recursive-include podium *.py
 recursive-include docs *.bat
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile
+recursive-include icons *.icns
+recursive-include podium *.py
+recursive-include templates *.css
+recursive-include templates *.html
+recursive-include templates *.js
 recursive-include tests *.py
