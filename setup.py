@@ -25,11 +25,19 @@ setup(
     author_email='russell@keith-magee.com',
     url='http://pybee.org/bee/podium',
     packages=find_packages(exclude=['tests']),
+    package_data={
+        'podium': [
+            'templates/*.html',
+            'templates/*.css',
+            'templates/*.js'
+        ],
+    },
+    include_package_data=True,
     install_requires=[
     ],
     entry_points={
         'console_scripts': [
-            'podium = podium.__main__:main',
+            'podium = podium.__main__:start',
         ]
     },
     license='New BSD',
@@ -44,6 +52,7 @@ setup(
         'Topic :: Utilities',
     ],
     test_suite='tests',
+    zip_safe=False,
     options={
         'app': {
             'formal_name': 'Podium',
@@ -51,9 +60,9 @@ setup(
         },
         'macos': {
             'app_requires': [
-                'toga[macos]'
+                'toga-cocoa'
             ],
             'icon': 'icons/podium',
         },
-    }
+    },
 )
