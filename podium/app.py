@@ -26,10 +26,10 @@ class Podium(toga.App):
         pass
 
     def open_document(self, fileURL):
+        # print("open doc", fileURL)
         document = SlideDeck(fileURL)
         self.add_document(document)
         document.show()
 
-if __name__ == '__main__':
-    app = Podium()
-    app.main_loop()
+def main():
+    return Podium()
