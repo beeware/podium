@@ -4,7 +4,12 @@ from rubicon.objc import ObjCClass, objc_classmethod, objc_method
 from colosseum import CSS
 
 import toga
-from toga_cocoa.libs import NSDocument, NSURL, NSScreen, NSDictionary, NSNumber, NSCursor, NSCommandKeyMask
+from toga_cocoa.libs import (
+    NSDocument, NSURL, NSScreen,
+    NSNumber, NSCursor, NSCommandKeyMask
+)
+
+NSMutableDictionary = ObjCClass('NSMutableDictionary')
 
 
 class TogaSlideDeck(NSDocument):
@@ -131,15 +136,13 @@ class SlideDeck:
         self.window_2.show()
 
     def switchScreens(self):
+        print("Switch screens")
         if self.full_screen:
             primaryScreen = NSScreen.screens().objectAtIndex_(0)
             secondaryScreen = NSScreen.screens().objectAtIndex_(1)
 
-            opts = NSDictionary.dictionaryWithObjectsAndKeys_(
-                NSNumber.numberWithBool_(True),
-                "NSFullScreenModeAllScreens",
-                None
-            )
+            opts = NSMutableDictionary.alloc().init()
+            opts.setObject(NSNumber.numberWithBool_(True), forKey="NSFullScreenModeAllScreens")
 
             self.window_1.html_view._impl.exitFullScreenModeWithOptions_(opts)
             self.window_2.html_view._impl.exitFullScreenModeWithOptions_(opts)
@@ -158,6 +161,7 @@ class SlideDeck:
             )
 
     def switchAspectRatio(self):
+        print("Switch aspect ratio")
         if self.aspect == '16:9':
             self.aspect = '4:3'
         else:
@@ -181,14 +185,12 @@ class SlideDeck:
             self.show()
 
     def toggleFullScreen(self):
+        print("Toggle full screen")
         primaryScreen = NSScreen.screens().objectAtIndex_(0)
         secondaryScreen = NSScreen.screens().objectAtIndex_(1)
 
-        opts = NSDictionary.dictionaryWithObjectsAndKeys_(
-            NSNumber.numberWithBool_(True),
-            "NSFullScreenModeAllScreens",
-            None
-        )
+        opts = NSMutableDictionary.alloc().init()
+        opts.setObject(NSNumber.numberWithBool_(True), forKey="NSFullScreenModeAllScreens")
 
         if self.full_screen:
             self.window_1.html_view._impl.exitFullScreenModeWithOptions_(opts)
@@ -236,7 +238,7 @@ class SlideDeck:
         self.window_2.redraw(slide)
 
     def on_key_press(self, key_code, modifiers):
-        # print("KEY =", key_code, ", modifiers=", modifiers)
+        print("KEY =", key_code, ", modifiers=", modifiers)
         if key_code == 53:  # escape
             if self.full_screen:
                 self.toggleFullScreen()
