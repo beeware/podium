@@ -1,8 +1,8 @@
 import os
 from ctypes import cast, c_char_p
-from rubicon.objc import ObjCClass, objc_classmethod, objc_method
 
 import toga
+from rubicon.objc import ObjCClass, objc_method
 from toga.style import Pack
 from toga_cocoa.libs import (
     NSDocument, NSURL, NSScreen,
