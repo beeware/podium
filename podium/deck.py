@@ -174,7 +174,7 @@ class SlideDeck:
         else:
             # If we're not fullscreen, we need to re-create the
             # display windows with the correct aspect ratio.
-            self.window_1.close()
+            self.window_1._impl.close()
 
             self.window_2 = SlideWindow(self, master=False)
             self.window_1 = SlideWindow(self, master=True)
