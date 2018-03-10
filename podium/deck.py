@@ -92,7 +92,7 @@ class SlideWindow(toga.Window):
 
     def on_close(self):
         if self.master:
-            self.deck.window_2.close()
+            self.deck.window_2._impl.close()
 
 
 class SlideDeck:
