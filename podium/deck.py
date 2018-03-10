@@ -1,9 +1,9 @@
 import os
 from ctypes import cast, c_char_p
 from rubicon.objc import ObjCClass, objc_classmethod, objc_method
-from colosseum import CSS
 
 import toga
+from toga.style import Pack
 from toga_cocoa.libs import (
     NSDocument, NSURL, NSScreen,
     NSNumber, NSCursor, NSCommandKeyMask
@@ -58,7 +58,7 @@ class SlideWindow(toga.Window):
 
     def create(self):
         self.html_view = toga.WebView(
-            style=CSS(
+            style=Pack(
                 flex=1,
                 width=984 if self.deck.aspect == '16:9' else 738,
                 height=576
