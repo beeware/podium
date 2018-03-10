@@ -1,9 +1,9 @@
 import os
 from ctypes import cast, c_char_p
-from rubicon.objc import ObjCClass, objc_classmethod, objc_method
-from colosseum import CSS
 
 import toga
+from rubicon.objc import ObjCClass, objc_method
+from toga.style import Pack
 from toga_cocoa.libs import (
     NSDocument, NSURL, NSScreen,
     NSNumber, NSCursor, NSCommandKeyMask
@@ -54,11 +54,11 @@ class SlideWindow(toga.Window):
             # resizeable=False,
             closeable=True if master else None
         )
+        self.create()
 
     def create(self):
-        super().create()
         self.html_view = toga.WebView(
-            style=CSS(
+            style=Pack(
                 flex=1,
                 width=984 if self.deck.aspect == '16:9' else 738,
                 height=576
@@ -75,15 +75,15 @@ class SlideWindow(toga.Window):
             return "notes-template.html"
 
     def redraw(self, slide='1'):
-        with open(os.path.join(self.app.resource_path, 'templates', self.template_name), 'r') as data:
+        with open(os.path.join(self.app._impl.resource_path, 'templates', self.template_name), 'r') as data:
             template = data.read()
 
         content = template % (
-            os.path.join(self.app.resource_path, 'templates'),
+            os.path.join(self.app._impl.resource_path, 'templates'),
             self.deck._impl.theme,
             self.deck.aspect.replace(':', '-'),
             self.deck._impl.content,
-            os.path.join(self.app.resource_path, 'templates'),
+            os.path.join(self.app._impl.resource_path, 'templates'),
             self.deck.aspect,
             slide
         )
@@ -92,7 +92,7 @@ class SlideWindow(toga.Window):
 
     def on_close(self):
         if self.master:
-            self.deck.window_2.close()
+            self.deck.window_2._impl.close()
 
 
 class SlideDeck:
@@ -174,7 +174,7 @@ class SlideDeck:
         else:
             # If we're not fullscreen, we need to re-create the
             # display windows with the correct aspect ratio.
-            self.window_1.close()
+            self.window_1._impl.close()
 
             self.window_2 = SlideWindow(self, master=False)
             self.window_1 = SlideWindow(self, master=True)
@@ -229,7 +229,7 @@ class SlideDeck:
 
     def ensure_theme(self):
         if self._impl.theme is None:
-            defaultThemeFileName = os.path.join(self.app.resource_path, "templates", "default.css")
+            defaultThemeFileName = os.path.join(self.app._impl.resource_path, "templates", "default.css")
             with open(defaultThemeFileName, 'r') as data:
                 self._impl.theme = data.read()
 

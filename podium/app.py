@@ -1,7 +1,3 @@
-import os
-
-import toga
-
 from podium.deck import *
 
 # class SlideView(toga.Window):
