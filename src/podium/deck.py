@@ -97,7 +97,7 @@ class SlideWindow(toga.Window):
 
 class SlideDeck:
     def __init__(self, url):
-        self.aspect = '4:3'
+        self.aspect = '16:9'
         self.window_2 = SlideWindow(self, master=False)
         self.window_1 = SlideWindow(self, master=True)
 
