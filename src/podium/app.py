@@ -14,7 +14,7 @@ class Podium(toga.App):
         resource_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
         super().__init__(
             'Podium',
-            app_id='org.pybee.podium',
+            app_id='org.beeware.podium',
             icon=toga.Icon(os.path.join(resource_dir, 'podium.icns')),
             document_types=['podium']
         )

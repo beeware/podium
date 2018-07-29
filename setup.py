@@ -55,7 +55,7 @@ setup(
     options={
         'app': {
             'formal_name': 'Podium',
-            'bundle': 'org.pybee',
+            'bundle': 'org.beeware',
             'document_types': {
                 'deck': {
                     'description': 'Podium Slide Deck',
