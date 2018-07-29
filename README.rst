@@ -98,6 +98,14 @@ based:
 * Right/left arrows - next/previous slide
 * Command-right/left arrows - first/last slide
 
+Debugging
+---------
+
+If you need to debug the CSS for a slide, you can enable the "inspect element"
+menu option by running the following in the console::
+
+    defaults write org.beeware.podium WebKitDeveloperExtras True
+
 Documentation
 -------------
 
