@@ -4,7 +4,7 @@ import re
 from setuptools import setup, find_packages
 
 
-with io.open('./podium/__init__.py', encoding='utf8') as version_file:
+with io.open('./src/podium/__init__.py', encoding='utf8') as version_file:
     version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file.read(), re.M)
     if version_match:
         version = version_match.group(1)
@@ -24,22 +24,21 @@ setup(
     author='Russell Keith-Magee',
     author_email='russell@keith-magee.com',
     url='http://pybee.org/bee/podium',
-    packages=find_packages(exclude=['tests']),
-    package_data={
-        'podium': [
-            'templates/*.html',
-            'templates/*.css',
-            'templates/*.js'
-        ],
-    },
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    data_files=[
+        ('templates', [
+            'templates/notes-template.html',
+            'templates/print-template.html',
+            'templates/slide-template.html',
+            'templates/animate.css',
+            'templates/default.css',
+            'templates/remark.js'
+        ])
+    ],
     include_package_data=True,
     install_requires=[
     ],
-    entry_points={
-        'console_scripts': [
-            'podium = podium.__main__:start',
-        ]
-    },
     license='New BSD',
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -56,11 +55,19 @@ setup(
     options={
         'app': {
             'formal_name': 'Podium',
-            'bundle': 'org.pybee',
+            'bundle': 'org.beeware',
+            'document_types': {
+                'deck': {
+                    'description': 'Podium Slide Deck',
+                    'extension': 'podium',
+                    'icon': 'icons/podium-deck',
+                    'url': 'http://pybee.org/bee/podium',
+                }
+            }
         },
         'macos': {
             'app_requires': [
-                'toga-cocoa'
+                'toga-cocoa==0.3.0.dev9'
             ],
             'icon': 'icons/podium',
         },

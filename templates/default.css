@@ -265,3 +265,11 @@ li cite {
 .remark-slide-content.black {
   background-color: black;
 }
+
+/*********************/
+/* Bigger emoji      */
+/*********************/
+
+.emoji {
+  font-size: 144pt;
+}
