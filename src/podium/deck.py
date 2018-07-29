@@ -75,15 +75,15 @@ class SlideWindow(toga.Window):
             return "notes-template.html"
 
     def redraw(self, slide='1'):
-        with open(os.path.join(self.app._impl.resource_path, 'templates', self.template_name), 'r') as data:
+        with open(os.path.join(self.app._impl.resource_path, 'app', 'templates', self.template_name), 'r') as data:
             template = data.read()
 
         content = template % (
-            os.path.join(self.app._impl.resource_path, 'templates'),
+            os.path.join(self.app._impl.resource_path, 'app', 'templates'),
             self.deck._impl.theme,
             self.deck.aspect.replace(':', '-'),
             self.deck._impl.content,
-            os.path.join(self.app._impl.resource_path, 'templates'),
+            os.path.join(self.app._impl.resource_path, 'app', 'templates'),
             self.deck.aspect,
             slide
         )
@@ -229,7 +229,7 @@ class SlideDeck:
 
     def ensure_theme(self):
         if self._impl.theme is None:
-            defaultThemeFileName = os.path.join(self.app._impl.resource_path, "templates", "default.css")
+            defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
             with open(defaultThemeFileName, 'r') as data:
                 self._impl.theme = data.read()
 
