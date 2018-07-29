@@ -24,8 +24,8 @@ class TogaSlideDeck(NSDocument):
 
         if fileWrapper.isDirectory:
             # Multi-file .podium files must contain slides.md; may contain theme.css
-            themeFile = fileWrapper.fileWrappers.valueForKey_("theme.css")
-            contentFile = fileWrapper.fileWrappers.valueForKey_("slides.md")
+            themeFile = fileWrapper.fileWrappers.valueForKey("theme.css")
+            contentFile = fileWrapper.fileWrappers.valueForKey("slides.md")
             if contentFile is None:
                 return False
 
@@ -110,7 +110,7 @@ class SlideDeck:
         self.url = url
         self._impl = TogaSlideDeck.alloc()
         self._impl._interface = self
-        self._impl.initWithContentsOfURL_ofType_error_(NSURL.URLWithString_(url), "Podium Slide Deck", None)
+        self._impl.initWithContentsOfURL(NSURL.URLWithString(url), ofType="Podium Slide Deck", error=None)
 
     @property
     def app(self):
@@ -138,27 +138,22 @@ class SlideDeck:
     def switchScreens(self):
         print("Switch screens")
         if self.full_screen:
-            primaryScreen = NSScreen.screens().objectAtIndex_(0)
-            secondaryScreen = NSScreen.screens().objectAtIndex_(1)
+            primaryScreen = NSScreen.screens.objectAtIndex(0)
+            secondaryScreen = NSScreen.screens.objectAtIndex(1)
 
             opts = NSMutableDictionary.alloc().init()
-            opts.setObject(NSNumber.numberWithBool_(True), forKey="NSFullScreenModeAllScreens")
+            opts.setObject(NSNumber.numberWithBool(True), forKey="NSFullScreenModeAllScreens")
 
-            self.window_1.html_view._impl.exitFullScreenModeWithOptions_(opts)
-            self.window_2.html_view._impl.exitFullScreenModeWithOptions_(opts)
+            self.window_1.html_view._impl.native.exitFullScreenModeWithOptions(opts)
+            self.window_2.html_view._impl.native.exitFullScreenModeWithOptions(opts)
 
             if self.reversed_displays:
-                self.window_1.html_view._impl.enterFullScreenMode_withOptions_(primaryScreen, opts)
-                self.window_2.html_view._impl.enterFullScreenMode_withOptions_(secondaryScreen, opts)
+                self.window_1.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
+                self.window_2.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
             else:
-                self.window_1.html_view._impl.enterFullScreenMode_withOptions_(secondaryScreen, opts)
-                self.window_2.html_view._impl.enterFullScreenMode_withOptions_(primaryScreen, opts)
+                self.window_1.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
+                self.window_2.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
                 self.reversed_displays = not self.reversed_displays
-
-            self.window_1.html_view._update_layout(
-                width=self.window_1.html_view._impl.frame.size.width,
-                height=self.window_1.html_view._impl.frame.size.height
-            )
 
     def switchAspectRatio(self):
         print("Switch aspect ratio")
@@ -186,40 +181,34 @@ class SlideDeck:
 
     def toggleFullScreen(self):
         print("Toggle full screen")
-        primaryScreen = NSScreen.screens().objectAtIndex_(0)
-        secondaryScreen = NSScreen.screens().objectAtIndex_(1)
+        primaryScreen = NSScreen.screens.objectAtIndex(0)
+        secondaryScreen = NSScreen.screens.objectAtIndex(1)
 
         opts = NSMutableDictionary.alloc().init()
-        opts.setObject(NSNumber.numberWithBool_(True), forKey="NSFullScreenModeAllScreens")
+        opts.setObject(NSNumber.numberWithBool(True), forKey="NSFullScreenModeAllScreens")
 
         if self.full_screen:
-            self.window_1.html_view._impl.exitFullScreenModeWithOptions_(opts)
-            self.window_2.html_view._impl.exitFullScreenModeWithOptions_(opts)
+            self.window_1.html_view._impl.native.exitFullScreenModeWithOptions(opts)
+            self.window_2.html_view._impl.native.exitFullScreenModeWithOptions(opts)
 
             NSCursor.unhide()
         else:
             if self.reversed_displays:
-                self.window_1.html_view._impl.enterFullScreenMode_withOptions_(secondaryScreen, opts)
-                self.window_2.html_view._impl.enterFullScreenMode_withOptions_(primaryScreen, opts)
+                self.window_1.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
+                self.window_2.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
             else:
-                self.window_1.html_view._impl.enterFullScreenMode_withOptions_(primaryScreen, opts)
-                self.window_2.html_view._impl.enterFullScreenMode_withOptions_(secondaryScreen, opts)
+                print(self.window_1)
+                print(self.window_1.html_view)
+                print(self.window_1.html_view._impl)
+                self.window_1.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
+                self.window_2.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
 
             NSCursor.hide()
 
         self.full_screen = not self.full_screen
 
-        self.window_1.content._update_layout(
-            width=self.window_1.html_view._impl.frame.size.width,
-            height=self.window_1.html_view._impl.frame.size.height
-        )
-        self.window_2.content._update_layout(
-            width=self.window_2.html_view._impl.frame.size.width,
-            height=self.window_2.html_view._impl.frame.size.height
-        )
-
     def reload(self):
-        self._impl.readFromURL_ofType_error_(self._impl.fileURL, self._impl.fileType, None)
+        self._impl.readFromURL(self._impl.fileURL, ofType=self._impl.fileType, error=None)
         self.ensure_theme()
 
         slide = self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()")
@@ -238,7 +227,7 @@ class SlideDeck:
         self.window_2.redraw(slide)
 
     def on_key_press(self, key_code, modifiers):
-        print("KEY =", key_code, ", modifiers=", modifiers)
+        print("KEY =", key_code, "modifiers=", modifiers)
         if key_code == 53:  # escape
             if self.full_screen:
                 self.toggleFullScreen()
