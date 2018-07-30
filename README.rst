@@ -82,21 +82,25 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 Quickstart
 ----------
 
-Installation requires the use of `Briefcase`_. Full instructions pending.
+Use `Briefcase`_ to package this repository as a macOS application:
 
-Then, you can run podium on a presentation::
+    $ python setup.py macos
 
-    $ podium my-presentation
-
-Presentations are directories containing content.
+This will create a folder with an app you can install in your Applications folder.
 
 This will pop up 2 GUI windows, both displaying a test pattern. Controls from here are keyboard
 based:
 
-* F8 - Go to full screen presentation mode
-* F4 - Switch displays for the slide and presenter
-* Right/left arrows - next/previous slide
-* Command-right/left arrows - first/last slide
+* CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
+* Esc - Exit presentation mode
+* Tab - Switch displays
+* Right/Left arrows - Next/previous slide
+* Down/Up arrows - Next/previous slide
+* Enter - Next slide
+* Home/End - first/last slide
+* CMD-A - Switch aspect ratio between 16:9 and 4:3
+* CMD-R - Reload slide deck
+* CMD-T - Reset timer
 
 Debugging
 ---------
