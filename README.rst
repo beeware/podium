@@ -102,6 +102,8 @@ based:
 * CMD-R - Reload slide deck
 * CMD-T - Reset timer
 
+An example slide deck can be found in the `examples` directory of this repository.
+
 Debugging
 ---------
 
