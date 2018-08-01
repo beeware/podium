@@ -219,7 +219,7 @@ class SlideDeck:
     def ensure_theme(self):
         if self._impl.theme is None:
             defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
-            with open(defaultThemeFileName, 'r') as data:
+            with open(defaultThemeFileName, 'r', encoding='utf8') as data:
                 self._impl.theme = data.read()
 
     def redraw(self, slide=None):
