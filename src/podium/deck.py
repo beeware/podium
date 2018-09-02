@@ -109,7 +109,7 @@ class SlideDeck:
 
         self.url = url
         self._impl = TogaSlideDeck.alloc()
-        self._impl._interface = self
+        self._impl.interface = self
         self._impl.initWithContentsOfURL(NSURL.URLWithString(url), ofType="Podium Slide Deck", error=None)
 
     @property
@@ -135,7 +135,7 @@ class SlideDeck:
         self.window_2.redraw()
         self.window_2.show()
 
-    def switchScreens(self):
+    def switch_screens(self):
         print("Switch screens")
         if self.full_screen:
             primaryScreen = NSScreen.screens.objectAtIndex(0)
@@ -154,8 +154,10 @@ class SlideDeck:
                 self.window_1.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
                 self.window_2.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
                 self.reversed_displays = not self.reversed_displays
+        else:
+            print('Not in full screen mode')
 
-    def switchAspectRatio(self):
+    def change_aspect_ratio(self):
         print("Switch aspect ratio")
         if self.aspect == '16:9':
             self.aspect = '4:3'
@@ -179,7 +181,7 @@ class SlideDeck:
 
             self.show()
 
-    def toggleFullScreen(self):
+    def toggle_full_screen(self):
         print("Toggle full screen")
         primaryScreen = NSScreen.screens.objectAtIndex(0)
         secondaryScreen = NSScreen.screens.objectAtIndex(1)
@@ -230,46 +232,50 @@ class SlideDeck:
         print("KEY =", key_code, "modifiers=", modifiers)
         if key_code == 53:  # escape
             if self.full_screen:
-                self.toggleFullScreen()
+                self.toggle_full_screen()
+            else:
+                print('Not in full screen mode')
 
         elif key_code == 35 and (modifiers & NSCommandKeyMask):  # CMD-P
             if self.full_screen:
-                self.togglePause()
+                self.toggle_pause()
             else:
-                self.toggleFullScreen()
+                self.toggle_full_screen()
 
         elif key_code in (7, 48):  # X or <tab>
             if self.full_screen:
-                self.switchScreens()
+                self.switch_screens()
+            else:
+                print('Not in full screen mode')
 
         elif key_code == 0 and (modifiers & NSCommandKeyMask):  # CMD-A
-            self.switchAspectRatio()
+            self.change_aspect_ratio()
 
         elif key_code in (124, 125, 49, 36, 121):  # <Right>, <Down>, <space>, <Enter>, <Page Down>
-            self.gotoNextSlide()
+            self.goto_next_slide()
 
         elif key_code in (123, 126, 116):  # <left>, <up>, <Page Up>
-            self.gotoPreviousSlide()
+            self.goto_previous_slide()
 
         elif key_code == 115:  # <home>
-            self.gotoFirstSlide()
+            self.goto_first_slide()
 
         elif key_code == 119:  # <end>
-            self.gotoLastSlide()
+            self.goto_last_slide()
 
         elif key_code == 15 and (modifiers & NSCommandKeyMask):  # CMD-R
             self.reload()
 
         elif key_code == 17 and (modifiers & NSCommandKeyMask):  # CMD-T
-            self.resetTimer()
+            self.reset_timer()
 
-    def resetTimer(self):
+    def reset_timer(self):
         print("Reset Timer")
 
         self.window_1.html_view.evaluate("slideshow.resetTimer()")
         self.window_2.html_view.evaluate("slideshow.resetTimer()")
 
-    def togglePause(self):
+    def toggle_pause(self):
         if self.full_screen:
             if self.paused:
                 print("Resume presentation")
@@ -284,25 +290,25 @@ class SlideDeck:
         else:
             print("Presentation not in fullscreen mode; pause/play disabled")
 
-    def gotoFirstSlide(self):
+    def goto_first_slide(self):
         print("Goto first slide")
 
         self.window_1.html_view.evaluate("slideshow.gotoFirstSlide()")
         self.window_2.html_view.evaluate("slideshow.gotoFirstSlide()")
 
-    def gotoLastSlide(self):
+    def goto_last_slide(self):
         print("Goto previous slide")
 
         self.window_1.html_view.evaluate("slideshow.gotoLastSlide()")
         self.window_2.html_view.evaluate("slideshow.gotoLastSlide()")
 
-    def gotoNextSlide(self):
+    def goto_next_slide(self):
         print("Goto next slide")
 
         self.window_1.html_view.evaluate("slideshow.gotoNextSlide()")
         self.window_2.html_view.evaluate("slideshow.gotoNextSlide()")
 
-    def gotoPreviousSlide(self):
+    def goto_previous_slide(self):
         print("Goto previous slide")
 
         self.window_1.html_view.evaluate("slideshow.gotoPreviousSlide()")
