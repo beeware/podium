@@ -1,43 +1,17 @@
 import os
-from ctypes import cast, c_char_p
+from urllib.parse import quote
 
 import toga
 from rubicon.objc import ObjCClass, objc_method
+from toga import Document
 from toga.style import Pack
 from toga_cocoa.libs import (
-    NSDocument, NSURL, NSScreen,
+    NSScreen,
     NSNumber, NSCursor, NSCommandKeyMask
 )
 
 NSMutableDictionary = ObjCClass('NSMutableDictionary')
 
-
-class TogaSlideDeck(NSDocument):
-    @objc_method
-    def autosavesInPlace(self) -> bool:
-        return True
-
-    @objc_method
-    def readFromFileWrapper_ofType_error_(self, fileWrapper, typeName, outError) -> bool:
-        print("Read from File Wrapper: %s" % fileWrapper.filename)
-        print("   type: %s" % typeName)
-
-        if fileWrapper.isDirectory:
-            # Multi-file .podium files must contain slides.md; may contain theme.css
-            themeFile = fileWrapper.fileWrappers.valueForKey("theme.css")
-            contentFile = fileWrapper.fileWrappers.valueForKey("slides.md")
-            if contentFile is None:
-                return False
-
-            self.content = cast(contentFile.regularFileContents.bytes, c_char_p).value.decode('utf-8')
-            if themeFile is None:
-                self.theme = None
-            else:
-                self.theme = cast(themeFile.regularFileContents.bytes, c_char_p).value.decode('utf-8')
-
-            return True
-
-        return False
 
 
 class SlideWindow(toga.Window):
@@ -80,60 +54,74 @@ class SlideWindow(toga.Window):
 
         content = template % (
             os.path.join(self.app._impl.resource_path, 'app', 'templates'),
-            self.deck._impl.theme,
+            self.deck.theme,
             self.deck.aspect.replace(':', '-'),
-            self.deck._impl.content,
+            self.deck.content,
             os.path.join(self.app._impl.resource_path, 'app', 'templates'),
             self.deck.aspect,
             slide
         )
 
-        self.html_view.set_content(self.deck._impl.fileURL.absoluteString + '/', content)
+        self.html_view.set_content(self.deck.fileURL, content)
 
     def on_close(self):
         if self.master:
             self.deck.window_2._impl.close()
 
 
-class SlideDeck:
-    def __init__(self, url):
+class SlideDeck(Document):
+    def __init__(self, filename, app):
+        super().__init__(filename=filename, document_type='Podium Slide Deck', app=app)
+
         self.aspect = '16:9'
         self.window_2 = SlideWindow(self, master=False)
+        self.window_2.app = self.app
         self.window_1 = SlideWindow(self, master=True)
-
-        self._app = None
+        self.window_1.app = self.app
 
         self.full_screen = False
         self.reversed_displays = False
         self.paused = False
 
-        self.url = url
-        self._impl = TogaSlideDeck.alloc()
-        self._impl.interface = self
-        self._impl.initWithContentsOfURL(NSURL.URLWithString(url), ofType="Podium Slide Deck", error=None)
+    def read(self):
+        if os.path.isdir(self.filename):
+            # Multi-file .podium files must contain slides.md; may contain theme.css
+            themeFile = os.path.join(self.filename, "theme.css")
+            contentFile = os.path.join(self.filename, "slides.md")
 
-    @property
-    def app(self):
-        return self._app
+            with open(contentFile, encoding='utf-8') as f:
+                self.content = f.read()
 
-    @app.setter
-    def app(self, app):
-        if self._app:
-            raise Exception("Window is already associated with an App")
+            if os.path.exists(themeFile):
+                with open(themeFile, encoding='utf-8') as f:
+                    self.theme = f.read()
+            else:
+                self.theme = None
 
-        self._app = app
-        self.window_1.app = app
-        self.window_2.app = app
+        else:
+            # Single file can just be a standalone markdown file
+            with open(self.filename, encoding='utf-8') as f:
+                self.content = f.read()
+
+            self.theme = None
+
+        if self.theme is None:
+            print("USE DEFAULT THEME")
+            defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
+            with open(defaultThemeFileName, 'r') as data:
+                self.theme = data.read()
+        print("DECK HAS BEEN READ")
 
     def show(self):
-
-        self.ensure_theme()
-
         self.window_1.redraw()
         self.window_1.show()
 
         self.window_2.redraw()
         self.window_2.show()
+
+    @property
+    def fileURL(self):
+        return 'file://{}/'.format(quote(self.filename))
 
     def switch_screens(self):
         print("Switch screens")
@@ -210,19 +198,12 @@ class SlideDeck:
         self.full_screen = not self.full_screen
 
     def reload(self):
-        self._impl.readFromURL(self._impl.fileURL, ofType=self._impl.fileType, error=None)
-        self.ensure_theme()
+        self.read()
 
         slide = self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()")
         print("Current slide:", slide)
 
         self.redraw(slide)
-
-    def ensure_theme(self):
-        if self._impl.theme is None:
-            defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
-            with open(defaultThemeFileName, 'r') as data:
-                self._impl.theme = data.read()
 
     def redraw(self, slide=None):
         self.window_1.redraw(slide)

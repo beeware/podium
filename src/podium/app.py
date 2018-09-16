@@ -10,7 +10,7 @@ class Podium(toga.DocumentApp):
             'Podium',
             app_id='org.beeware.podium',
             icon=toga.Icon(os.path.join(resource_dir, 'podium.icns')),
-            document_types=['podium']
+            document_types={'podium': SlideDeck}
         )
 
     # FILE commands ##################################################
@@ -124,11 +124,6 @@ class Podium(toga.DocumentApp):
             ),
         )
 
-    def open_document(self, fileURL):
-        # print("open doc", fileURL)
-        document = SlideDeck(fileURL)
-        self.add_document(document)
-        document.show()
 
 def main():
     return Podium()
