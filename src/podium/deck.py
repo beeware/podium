@@ -1,13 +1,10 @@
 import os
 from urllib.parse import quote
 
-import toga
 from rubicon.objc import ObjCClass, objc_method
-from toga import Document
+
+import toga
 from toga.style import Pack
-from toga_cocoa.libs import (
-    NSCommandKeyMask
-)
 
 
 class SlideWindow(toga.Window):
@@ -65,7 +62,7 @@ class SlideWindow(toga.Window):
             self.deck.window_2._impl.close()
 
 
-class SlideDeck(Document):
+class SlideDeck(toga.Document):
     def __init__(self, filename, app):
         super().__init__(filename=filename, document_type='Podium Slide Deck', app=app)
 
@@ -177,45 +174,45 @@ class SlideDeck(Document):
         self.window_1.redraw(slide)
         self.window_2.redraw(slide)
 
-    def on_key_press(self, key_code, modifiers):
-        print("KEY =", key_code, "modifiers=", modifiers)
-        if key_code == 53:  # escape
+    def on_key_press(self, key, modifiers):
+        print("KEY =", key, "modifiers=", modifiers)
+        if key == toga.Key.ESCAPE:
             if self.app.is_full_screen:
                 self.toggle_full_screen()
             else:
                 print('Not in full screen mode')
 
-        elif key_code == 35 and (modifiers & NSCommandKeyMask):  # CMD-P
+        elif key == toga.Key.P and (toga.Key.COMMAND in modifiers):
             if self.app.is_full_screen:
                 self.toggle_pause()
             else:
                 self.toggle_full_screen()
 
-        elif key_code in (7, 48):  # X or <tab>
+        elif key == toga.Key.TAB and (toga.Key.COMMAND in modifiers):
             if self.app.is_full_screen:
                 self.switch_screens()
             else:
                 print('Not in full screen mode')
 
-        elif key_code == 0 and (modifiers & NSCommandKeyMask):  # CMD-A
+        elif key == toga.Key.A and (toga.Key.COMMAND in modifiers):
             self.change_aspect_ratio()
 
-        elif key_code in (124, 125, 49, 36, 121):  # <Right>, <Down>, <space>, <Enter>, <Page Down>
+        elif key in (toga.Key.RIGHT, toga.Key.DOWN, toga.Key.SPACE, toga.Key.ENTER, toga.Key.PAGE_DOWN):
             self.goto_next_slide()
 
-        elif key_code in (123, 126, 116):  # <left>, <up>, <Page Up>
+        elif key in (toga.Key.LEFT, toga.Key.DOWN, toga.Key.PAGE_UP):
             self.goto_previous_slide()
 
-        elif key_code == 115:  # <home>
+        elif key == toga.Key.HOME:
             self.goto_first_slide()
 
-        elif key_code == 119:  # <end>
+        elif key == toga.Key.END:
             self.goto_last_slide()
 
-        elif key_code == 15 and (modifiers & NSCommandKeyMask):  # CMD-R
+        elif key == toga.Key.R and (toga.Key.COMMAND in modifiers):
             self.reload()
 
-        elif key_code == 17 and (modifiers & NSCommandKeyMask):  # CMD-T
+        elif key == toga.Key.T and (toga.Key.COMMAND in modifiers):
             self.reset_timer()
 
     def reset_timer(self):
