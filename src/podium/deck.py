@@ -6,12 +6,8 @@ from rubicon.objc import ObjCClass, objc_method
 from toga import Document
 from toga.style import Pack
 from toga_cocoa.libs import (
-    NSScreen,
-    NSNumber, NSCursor, NSCommandKeyMask
+    NSCursor, NSCommandKeyMask
 )
-
-NSMutableDictionary = ObjCClass('NSMutableDictionary')
-
 
 
 class SlideWindow(toga.Window):
@@ -79,7 +75,6 @@ class SlideDeck(Document):
         self.window_1 = SlideWindow(self, master=True)
         self.window_1.app = self.app
 
-        self.full_screen = False
         self.reversed_displays = False
         self.paused = False
 
@@ -106,11 +101,10 @@ class SlideDeck(Document):
             self.theme = None
 
         if self.theme is None:
-            print("USE DEFAULT THEME")
             defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
             with open(defaultThemeFileName, 'r') as data:
                 self.theme = data.read()
-        print("DECK HAS BEEN READ")
+
 
     def show(self):
         self.window_1.redraw()
@@ -125,23 +119,12 @@ class SlideDeck(Document):
 
     def switch_screens(self):
         print("Switch screens")
-        if self.full_screen:
-            primaryScreen = NSScreen.screens.objectAtIndex(0)
-            secondaryScreen = NSScreen.screens.objectAtIndex(1)
-
-            opts = NSMutableDictionary.alloc().init()
-            opts.setObject(NSNumber.numberWithBool(True), forKey="NSFullScreenModeAllScreens")
-
-            self.window_1.html_view._impl.native.exitFullScreenModeWithOptions(opts)
-            self.window_2.html_view._impl.native.exitFullScreenModeWithOptions(opts)
-
+        if self.app.is_full_screen:
+            self.reversed_displays = not self.reversed_displays
             if self.reversed_displays:
-                self.window_1.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
-                self.window_2.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
+                self.app.set_full_screen(self.window_2, self.window_1)
             else:
-                self.window_1.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
-                self.window_2.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
-                self.reversed_displays = not self.reversed_displays
+                self.app.set_full_screen(self.window_1, self.window_2)
         else:
             print('Not in full screen mode')
 
@@ -152,7 +135,7 @@ class SlideDeck(Document):
         else:
             self.aspect = '16:9'
 
-        if self.full_screen:
+        if self.app.is_full_screen:
             # If we're fullscreen, just reload to apply different
             # aspect-related styles.
             self.reload()
@@ -171,31 +154,16 @@ class SlideDeck(Document):
 
     def toggle_full_screen(self):
         print("Toggle full screen")
-        primaryScreen = NSScreen.screens.objectAtIndex(0)
-        secondaryScreen = NSScreen.screens.objectAtIndex(1)
-
-        opts = NSMutableDictionary.alloc().init()
-        opts.setObject(NSNumber.numberWithBool(True), forKey="NSFullScreenModeAllScreens")
-
-        if self.full_screen:
-            self.window_1.html_view._impl.native.exitFullScreenModeWithOptions(opts)
-            self.window_2.html_view._impl.native.exitFullScreenModeWithOptions(opts)
-
+        if self.app.is_full_screen:
+            self.app.exit_full_screen()
             NSCursor.unhide()
         else:
             if self.reversed_displays:
-                self.window_1.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
-                self.window_2.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
+                self.app.set_full_screen(self.window_2, self.window_1)
             else:
-                print(self.window_1)
-                print(self.window_1.html_view)
-                print(self.window_1.html_view._impl)
-                self.window_1.html_view._impl.native.enterFullScreenMode(primaryScreen, withOptions=opts)
-                self.window_2.html_view._impl.native.enterFullScreenMode(secondaryScreen, withOptions=opts)
+                self.app.set_full_screen(self.window_1, self.window_2)
 
             NSCursor.hide()
-
-        self.full_screen = not self.full_screen
 
     def reload(self):
         self.read()
@@ -212,19 +180,19 @@ class SlideDeck(Document):
     def on_key_press(self, key_code, modifiers):
         print("KEY =", key_code, "modifiers=", modifiers)
         if key_code == 53:  # escape
-            if self.full_screen:
+            if self.app.is_full_screen:
                 self.toggle_full_screen()
             else:
                 print('Not in full screen mode')
 
         elif key_code == 35 and (modifiers & NSCommandKeyMask):  # CMD-P
-            if self.full_screen:
+            if self.app.is_full_screen:
                 self.toggle_pause()
             else:
                 self.toggle_full_screen()
 
         elif key_code in (7, 48):  # X or <tab>
-            if self.full_screen:
+            if self.app.is_full_screen:
                 self.switch_screens()
             else:
                 print('Not in full screen mode')
@@ -257,7 +225,7 @@ class SlideDeck(Document):
         self.window_2.html_view.evaluate("slideshow.resetTimer()")
 
     def toggle_pause(self):
-        if self.full_screen:
+        if self.app.is_full_screen:
             if self.paused:
                 print("Resume presentation")
                 self.window_1.html_view.evaluate("slideshow.resume()")
