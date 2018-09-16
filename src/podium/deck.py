@@ -6,7 +6,7 @@ from rubicon.objc import ObjCClass, objc_method
 from toga import Document
 from toga.style import Pack
 from toga_cocoa.libs import (
-    NSCursor, NSCommandKeyMask
+    NSCommandKeyMask
 )
 
 
@@ -156,14 +156,14 @@ class SlideDeck(Document):
         print("Toggle full screen")
         if self.app.is_full_screen:
             self.app.exit_full_screen()
-            NSCursor.unhide()
+            self.app.show_cursor()
         else:
             if self.reversed_displays:
                 self.app.set_full_screen(self.window_2, self.window_1)
             else:
                 self.app.set_full_screen(self.window_1, self.window_2)
 
-            NSCursor.hide()
+            self.app.hide_cursor()
 
     def reload(self):
         self.read()
