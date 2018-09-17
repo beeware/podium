@@ -81,25 +81,25 @@ class SlideDeck(toga.Document):
             themeFile = os.path.join(self.filename, "theme.css")
             contentFile = os.path.join(self.filename, "slides.md")
 
-            with open(contentFile, encoding='utf-8') as f:
+            with open(contentFile, 'r', encoding='utf-8') as f:
                 self.content = f.read()
 
             if os.path.exists(themeFile):
-                with open(themeFile, encoding='utf-8') as f:
+                with open(themeFile, 'r', encoding='utf-8') as f:
                     self.theme = f.read()
             else:
                 self.theme = None
 
         else:
             # Single file can just be a standalone markdown file
-            with open(self.filename, encoding='utf-8') as f:
+            with open(self.filename, 'r', encoding='utf-8') as f:
                 self.content = f.read()
 
             self.theme = None
 
         if self.theme is None:
             defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
-            with open(defaultThemeFileName, 'r') as data:
+            with open(defaultThemeFileName, 'r', encoding='utf-8') as data:
                 self.theme = data.read()
 
 
