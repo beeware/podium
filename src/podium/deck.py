@@ -11,7 +11,9 @@ class SlideWindow(toga.Window):
     def __init__(self, deck, master):
         self.deck = deck
         self.master = master
-        super().__init__("Slides" if master else "Notes",
+        name = "Slides" if master else "Notes",
+        super().__init__(name,
+            title="Podium - %s" % name,
             position=(200, 200) if master else (100, 100),
             size=(984 if self.deck.aspect == '16:9' else 738, 576),
             # FIXME: This should be False; but doing so
