@@ -67,7 +67,7 @@ setup(
         },
         'macos': {
             'app_requires': [
-                'toga-cocoa==0.3.0.dev9'
+                'toga-cocoa==0.3.0.dev11'
             ],
             'icon': 'icons/podium',
         },
