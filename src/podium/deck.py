@@ -1,6 +1,5 @@
 import os
 from urllib.parse import quote
-from ntpath import basename
 
 from rubicon.objc import ObjCClass, objc_method
 
@@ -12,7 +11,8 @@ class SlideWindow(toga.Window):
     def __init__(self, deck, master):
         self.deck = deck
         self.master = master
-        title = basename(deck.filename).replace(".podium", "")
+        title = os.path.splitext(os.path.basename(deck.filename))[0]
+
         if master:
             title += ": Speaker notes"
         super().__init__(
