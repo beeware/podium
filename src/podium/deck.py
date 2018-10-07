@@ -13,7 +13,7 @@ class SlideWindow(toga.Window):
         self.master = master
         title = os.path.splitext(os.path.basename(deck.filename))[0]
 
-        if master:
+        if not master:
             title += ": Speaker notes"
         super().__init__(
             title=title,
