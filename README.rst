@@ -86,14 +86,16 @@ Use `Briefcase`_ to package this repository as a macOS application:
 
     $ python setup.py macos
 
-This will create a folder with an app you can install in your Applications folder.
+This will create a folder ``macOS`` with an app ``Podium.app``, which you can install in your Applications folder.
+
+From here, launch Podium and open the ``examples/example.podium`` sample deck.
 
 This will pop up 2 GUI windows, both displaying a test pattern. Controls from here are keyboard
 based:
 
 * CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
 * Esc - Exit presentation mode
-* Tab - Switch displays
+* CMD-Tab - Switch displays
 * Right/Left arrows - Next/previous slide
 * Down/Up arrows - Next/previous slide
 * Enter - Next slide
