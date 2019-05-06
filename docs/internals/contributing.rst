@@ -16,28 +16,27 @@ Setting up your development environment
 Install prerequisites
 ~~~~~~~~~~~~~~~~~~~~~
 
-Podium requires Toga A Python native, OS native GUI toolkit. Follow the instructions
-to install `Toga Prerequisites`_ for your operating system.
+Podium requires Toga_ (A Python native, OS native GUI toolkit).
+Follow the instructions to install `Toga Prerequisites`_ for your operating system.
 
 Setup virtual environment and install Podium
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The recommended way of setting up your development environment for Podium
-is to install a virtual environment, install the required dependencies and
-start coding. Assuming that you are using ``virtualenvwrapper``, you only have
-to run::
+is to create a virtual environment, install Podium in development mode into
+your virtual environment and start coding.
+Assuming that you are using ``virtualenvwrapper``, you only have to run::
 
     $ git clone https://github.com/beeware/podium.git
     $ cd podium
     $ mkvirtualenv podium
-
-Podium uses ``unittest`` for its own test suite as well as additional helper
-modules for testing. To install Podium in development mode, you have to run the
-following command within your virtual environment::
-
     $ pip install -e .
 
 
+Podium uses ``unittest`` for its own test suite as well as additional helper
+modules for testing.
+
 Now you are ready to start hacking! Have fun!
 
+.. _Toga: https://github.com/beeware/toga
 .. _Toga Prerequisites: https://github.com/beeware/toga#prerequisites
