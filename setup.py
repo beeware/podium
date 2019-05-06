@@ -23,7 +23,7 @@ setup(
     long_description=long_description,
     author='Russell Keith-Magee',
     author_email='russell@keith-magee.com',
-    url='http://pybee.org/bee/podium',
+    url='https://beeware.org/project/projects/applications/podium',
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     data_files=[
@@ -61,7 +61,7 @@ setup(
                     'description': 'Podium Slide Deck',
                     'extension': 'podium',
                     'icon': 'icons/podium-deck',
-                    'url': 'http://pybee.org/bee/podium',
+                    'url': 'https://beeware.org/project/projects/applications/podium/',
                 }
             }
         },
