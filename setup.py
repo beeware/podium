@@ -40,8 +40,8 @@ setup(
     ],
     extras_require={
         # Automatically installed platform backends
-        ':sys_platform=="darwin"': ['toga-cocoa==0.3.0.dev11'],
-        ':sys_platform=="linux"': ['toga-gtk==0.3.0.dev11'],
+        ':sys_platform=="darwin"': ['toga-cocoa>=0.3.0.dev11'],
+        ':sys_platform=="linux"': ['toga-gtk>=0.3.0.dev11'],
     },
     license='New BSD',
     classifiers=[
@@ -71,13 +71,13 @@ setup(
         },
         'macos': {
             'app_requires': [
-                'toga-cocoa==0.3.0.dev11'
+                'toga-cocoa>=0.3.0.dev11'
             ],
             'icon': 'icons/podium',
         },
         'linux': {
             'app_requires': [
-                'toga-gtk==0.3.0.dev11'
+                'toga-gtk>=0.3.0.dev11'
             ],
         }
     }
