@@ -15,7 +15,6 @@ with io.open('./src/podium/__init__.py', encoding='utf8') as version_file:
 with io.open('README.rst', encoding='utf8') as readme:
     long_description = readme.read()
 
-
 setup(
     name='podium',
     version=version,
@@ -71,5 +70,10 @@ setup(
             ],
             'icon': 'icons/podium',
         },
-    },
+        'linux': {
+            'app_requires': [
+                'toga-gtk==0.3.0.dev11'
+            ],
+        }
+    }
 )
