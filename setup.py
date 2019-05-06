@@ -38,6 +38,11 @@ setup(
     include_package_data=True,
     install_requires=[
     ],
+    extras_require={
+        # Automatically installed platform backends
+        ':sys_platform=="darwin"': ['toga-cocoa==0.3.0.dev11'],
+        ':sys_platform=="linux"': ['toga-gtk==0.3.0.dev11'],
+    },
     license='New BSD',
     classifiers=[
         'Development Status :: 4 - Beta',
