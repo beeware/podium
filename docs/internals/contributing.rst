@@ -2,7 +2,8 @@ Contributing to Podium
 ======================
 
 
-If you experience problems with Podium, `log them on GitHub`_. If you want to contribute code, please `fork the code`_ and `submit a pull request`_.
+If you experience problems with Podium, `log them on GitHub`_. If you want to contribute code,
+please `fork the code`_ and `submit a pull request`_.
 
 .. _log them on Github: https://github.com/pybee/podium/issues
 .. _fork the code: https://github.com/pybee/podium
@@ -12,25 +13,31 @@ If you experience problems with Podium, `log them on GitHub`_. If you want to co
 Setting up your development environment
 ---------------------------------------
 
-The recommended way of setting up your development envrionment for Podium
+Install prerequisites
+~~~~~~~~~~~~~~~~~~~~~
+
+Podium requires Toga A Python native, OS native GUI toolkit. Follow the instructions
+to install `Toga Prerequisites`_ for your operating system.
+
+Setup virtual environment and install Podium
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The recommended way of setting up your development environment for Podium
 is to install a virtual environment, install the required dependencies and
 start coding. Assuming that you are using ``virtualenvwrapper``, you only have
 to run::
 
-    $ git clone git@github.com:pybee/podium.git
+    $ git clone https://github.com/beeware/podium.git
     $ cd podium
     $ mkvirtualenv podium
 
-Podium uses ``unittest`` (or ``unittest2`` for Python < 2.7) for its own test
-suite as well as additional helper modules for testing. To install all the
-requirements for Podium, you have to run the following commands within your
-virutal envrionment::
+Podium uses ``unittest`` for its own test suite as well as additional helper
+modules for testing. To install Podium in development mode, you have to run the
+following command within your virtual environment::
 
     $ pip install -e .
-    $ pip install -r requirements_dev.txt
 
-In case you are running a python version ``< 2.7`` please use the
-``requirements_dev.py26.txt`` instead because ``unittest2`` is not part
-of the standard library for these version.
 
 Now you are ready to start hacking! Have fun!
+
+.. _Toga Prerequisites: https://github.com/beeware/toga#prerequisites
