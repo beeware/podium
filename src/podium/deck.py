@@ -1,8 +1,6 @@
 import os
 from urllib.parse import quote
 
-from rubicon.objc import ObjCClass, objc_method
-
 import toga
 from toga.style import Pack
 
@@ -106,7 +104,6 @@ class SlideDeck(toga.Document):
             defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
             with open(defaultThemeFileName, 'r', encoding='utf-8') as data:
                 self.theme = data.read()
-
 
     def show(self):
         self.window_1.redraw()
