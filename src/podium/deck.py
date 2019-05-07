@@ -202,7 +202,7 @@ class SlideDeck(toga.Document):
         elif key in (toga.Key.RIGHT, toga.Key.DOWN, toga.Key.SPACE, toga.Key.ENTER, toga.Key.PAGE_DOWN):
             self.goto_next_slide()
 
-        elif key in (toga.Key.LEFT, toga.Key.DOWN, toga.Key.PAGE_UP):
+        elif key in (toga.Key.LEFT, toga.Key.UP, toga.Key.PAGE_UP):
             self.goto_previous_slide()
 
         elif key == toga.Key.HOME:
