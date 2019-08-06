@@ -4,6 +4,7 @@ from urllib.parse import quote
 import toga
 from toga.style import Pack
 
+import podium
 
 class SlideWindow(toga.Window):
     def __init__(self, deck, master):
@@ -45,15 +46,15 @@ class SlideWindow(toga.Window):
             return "notes-template.html"
 
     def redraw(self, slide='1'):
-        with open(os.path.join(self.app._impl.resource_path, 'app', 'templates', self.template_name), 'r') as data:
+        with open(os.path.join(self.deck.resource_path, 'templates', self.template_name), 'r') as data:
             template = data.read()
 
         content = template % (
-            os.path.join(self.app._impl.resource_path, 'app', 'templates'),
+            os.path.join(self.deck.resource_path, 'templates'),
             self.deck.theme,
             self.deck.aspect.replace(':', '-'),
             self.deck.content,
-            os.path.join(self.app._impl.resource_path, 'app', 'templates'),
+            os.path.join(self.deck.resource_path, 'templates'),
             self.deck.aspect,
             slide
         )
@@ -78,6 +79,13 @@ class SlideDeck(toga.Document):
         self.reversed_displays = False
         self.paused = False
 
+    @property
+    def resource_path(self):
+        try:
+            return os.path.join(self.app._impl.resource_path, 'app')
+        except Exception:
+            return os.path.sep.join(os.path.dirname(os.path.abspath(podium.__file__)).split(os.path.sep)[:-2])
+
     def read(self):
         if os.path.isdir(self.filename):
             # Multi-file .podium files must contain slides.md; may contain theme.css
@@ -101,7 +109,7 @@ class SlideDeck(toga.Document):
             self.theme = None
 
         if self.theme is None:
-            defaultThemeFileName = os.path.join(self.app._impl.resource_path, 'app', 'templates', 'default.css')
+            defaultThemeFileName = os.path.join(self.deck.resource_path, 'templates', 'default.css')
             with open(defaultThemeFileName, 'r', encoding='utf-8') as data:
                 self.theme = data.read()
 
