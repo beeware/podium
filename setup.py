@@ -32,7 +32,10 @@ setup(
             'templates/slide-template.html',
             'templates/animate.css',
             'templates/default.css',
-            'templates/remark.js'
+            'templates/remark.js',
+            'templates/fonts/DroidSerif.woff',
+            'templates/fonts/UbuntuMono-Regular.woff',
+            'templates/fonts/YanoneKaffeesatz-Regular.woff',
         ])
     ],
     include_package_data=True,
