@@ -33,6 +33,8 @@ setup(
             'templates/animate.css',
             'templates/default.css',
             'templates/remark.js',
+        ]),
+        ('templates/fonts', [
             'templates/fonts/DroidSerif.woff',
             'templates/fonts/UbuntuMono-Regular.woff',
             'templates/fonts/YanoneKaffeesatz-Regular.woff',
