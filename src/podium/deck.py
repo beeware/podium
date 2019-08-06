@@ -109,7 +109,7 @@ class SlideDeck(toga.Document):
             self.theme = None
 
         if self.theme is None:
-            defaultThemeFileName = os.path.join(self.deck.resource_path, 'templates', 'default.css')
+            defaultThemeFileName = os.path.join(self.resource_path, 'templates', 'default.css')
             with open(defaultThemeFileName, 'r', encoding='utf-8') as data:
                 self.theme = data.read()
 
