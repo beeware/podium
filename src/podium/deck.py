@@ -6,6 +6,7 @@ from toga.style import Pack
 
 import podium
 
+
 class SlideWindow(toga.Window):
     def __init__(self, deck, master):
         self.deck = deck
@@ -49,14 +50,12 @@ class SlideWindow(toga.Window):
         with open(os.path.join(self.deck.resource_path, 'templates', self.template_name), 'r') as data:
             template = data.read()
 
-        content = template % (
-            os.path.join(self.deck.resource_path, 'templates'),
-            self.deck.theme,
-            self.deck.aspect.replace(':', '-'),
-            self.deck.content,
-            os.path.join(self.deck.resource_path, 'templates'),
-            self.deck.aspect,
-            slide
+        content = template.format(
+            template_path=os.path.join(self.deck.resource_path, 'templates'),
+            aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
+            aspect_ratio=self.deck.aspect,
+            slide_content=self.deck.content,
+            slide_number=slide,
         )
 
         self.html_view.set_content(self.deck.fileURL, content)
@@ -68,7 +67,11 @@ class SlideWindow(toga.Window):
 
 class SlideDeck(toga.Document):
     def __init__(self, filename, app):
-        super().__init__(filename=filename, document_type='Podium Slide Deck', app=app)
+        super().__init__(
+            filename=filename,
+            document_type='Podium Slide Deck',
+            app=app,
+        )
 
         self.aspect = '16:9'
         self.window_2 = SlideWindow(self, master=False)
@@ -84,11 +87,14 @@ class SlideDeck(toga.Document):
         try:
             return os.path.join(self.app._impl.resource_path, 'app')
         except Exception:
-            return os.path.sep.join(os.path.dirname(os.path.abspath(podium.__file__)).split(os.path.sep)[:-2])
+            return os.path.sep.join(
+                os.path.dirname(os.path.abspath(podium.__file__)
+            ).split(os.path.sep)[:-2])
 
     def read(self):
         if os.path.isdir(self.filename):
-            # Multi-file .podium files must contain slides.md; may contain theme.css
+            # Multi-file .podium files must contain slides.md;
+            # may contain theme.css
             themeFile = os.path.join(self.filename, "theme.css")
             contentFile = os.path.join(self.filename, "slides.md")
 
@@ -109,7 +115,7 @@ class SlideDeck(toga.Document):
             self.theme = None
 
         if self.theme is None:
-            defaultThemeFileName = os.path.join(self.deck.resource_path, 'templates', 'default.css')
+            defaultThemeFileName = os.path.join(self.resource_path, 'templates', 'default.css')
             with open(defaultThemeFileName, 'r', encoding='utf-8') as data:
                 self.theme = data.read()
 
@@ -207,7 +213,13 @@ class SlideDeck(toga.Document):
         elif key == toga.Key.A and (toga.Key.COMMAND in modifiers):
             self.change_aspect_ratio()
 
-        elif key in (toga.Key.RIGHT, toga.Key.DOWN, toga.Key.SPACE, toga.Key.ENTER, toga.Key.PAGE_DOWN):
+        elif key in (
+            toga.Key.RIGHT,
+            toga.Key.DOWN,
+            toga.Key.SPACE,
+            toga.Key.ENTER,
+            toga.Key.PAGE_DOWN
+        ):
             self.goto_next_slide()
 
         elif key in (toga.Key.LEFT, toga.Key.UP, toga.Key.PAGE_UP):
