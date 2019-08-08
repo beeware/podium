@@ -47,11 +47,13 @@ class SlideWindow(toga.Window):
             return "notes-template.html"
 
     def redraw(self, slide='1'):
-        with open(os.path.join(self.deck.resource_path, 'templates', self.template_name), 'r') as data:
+        with open(os.path.join(self.deck.resource_path, self.template_name), 'r') as data:
             template = data.read()
 
         content = template.format(
-            template_path=os.path.join(self.deck.resource_path, 'templates'),
+            resource_path=os.path.join(self.deck.resource_path),
+            theme=self.deck.theme,
+            style_overrides=self.deck.style_overrides,
             aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
             aspect_ratio=self.deck.aspect,
             slide_content=self.deck.content,
@@ -85,39 +87,43 @@ class SlideDeck(toga.Document):
     @property
     def resource_path(self):
         try:
-            return os.path.join(self.app._impl.resource_path, 'app')
-        except Exception:
-            return os.path.sep.join(
-                os.path.dirname(os.path.abspath(podium.__file__)
-            ).split(os.path.sep)[:-2])
+            return os.path.join(
+                self.app._impl.resource_path,
+                'app',
+                'resources',
+            )
+        except AttributeError:
+            return os.path.join(
+                os.path.dirname(
+                    os.path.dirname(
+                        os.path.dirname(os.path.abspath(podium.__file__))
+                    )
+                ),
+                'resources',
+            )
 
     def read(self):
+        # TODO: There's only 1 theme.
+        self.theme = 'default'
         if os.path.isdir(self.filename):
             # Multi-file .podium files must contain slides.md;
-            # may contain theme.css
-            themeFile = os.path.join(self.filename, "theme.css")
+            # may contain style.css
+            styleFile = os.path.join(self.filename, "style.css")
             contentFile = os.path.join(self.filename, "slides.md")
 
             with open(contentFile, 'r', encoding='utf-8') as f:
                 self.content = f.read()
 
-            if os.path.exists(themeFile):
-                with open(themeFile, 'r', encoding='utf-8') as f:
-                    self.theme = f.read()
+            if os.path.exists(styleFile):
+                with open(styleFile, 'r', encoding='utf-8') as f:
+                    self.style_overrides = f.read()
             else:
-                self.theme = None
-
+                self.style_overrides = ''
         else:
             # Single file can just be a standalone markdown file
             with open(self.filename, 'r', encoding='utf-8') as f:
                 self.content = f.read()
-
-            self.theme = None
-
-        if self.theme is None:
-            defaultThemeFileName = os.path.join(self.resource_path, 'templates', 'default.css')
-            with open(defaultThemeFileName, 'r', encoding='utf-8') as data:
-                self.theme = data.read()
+            self.style_overrides = ''
 
     def show(self):
         self.window_1.redraw()

@@ -26,18 +26,18 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     data_files=[
-        ('templates', [
-            'templates/notes-template.html',
-            'templates/print-template.html',
-            'templates/slide-template.html',
-            'templates/animate.css',
-            'templates/default.css',
-            'templates/remark.js',
+        ('resources', [
+            'resources/notes-template.html',
+            'resources/print-template.html',
+            'resources/slide-template.html',
+            'resources/remark.js',
+            'resources/animate.css',
         ]),
-        ('templates/fonts', [
-            'templates/fonts/DroidSerif.woff',
-            'templates/fonts/UbuntuMono-Regular.woff',
-            'templates/fonts/YanoneKaffeesatz-Regular.woff',
+        ('resources/themes/default', [
+            'resources/themes/default/style.css',
+            'resources/themes/default/DroidSerif.woff',
+            'resources/themes/default/UbuntuMono-Regular.woff',
+            'resources/themes/default/YanoneKaffeesatz-Regular.woff',
         ])
     ],
     include_package_data=True,
