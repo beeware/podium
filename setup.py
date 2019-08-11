@@ -30,6 +30,7 @@ setup(
             'resources/*.html',
             'resources/*.js',
             'resources/*.css',
+            'resources/*.png',
             'resources/themes/default/*.css',
             'resources/themes/default/*.woff',
         ]
@@ -65,13 +66,13 @@ setup(
         },
         'macos': {
             'app_requires': [
-                'toga-cocoa>=0.3.0.dev12'
+                'toga-cocoa>=0.3.0.dev13'
             ],
             'icon': 'icons/podium',
         },
         'linux': {
             'app_requires': [
-                'toga-gtk>=0.3.0.dev12'
+                'toga-gtk>=0.3.0.dev13'
             ],
         }
     }
