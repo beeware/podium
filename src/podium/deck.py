@@ -11,7 +11,7 @@ class SlideWindow(toga.Window):
     def __init__(self, deck, master):
         self.deck = deck
         self.master = master
-        title = os.path.splitext(os.path.basename(deck.filename))[0]
+        title = self.deck.title
 
         if not master:
             title += ": Speaker notes"
@@ -83,6 +83,10 @@ class SlideDeck(toga.Document):
 
         self.reversed_displays = False
         self.paused = False
+
+    @property
+    def title(self):
+        return os.path.splitext(os.path.basename(self.filename))[0]
 
     @property
     def resource_path(self):
