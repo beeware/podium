@@ -85,14 +85,26 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 Quickstart
 ----------
 
-Use `Briefcase`_ to package this repository as a standalone application:
+Use `Briefcase`_ to package this repository as a standalone application.
+Install briefcase using `pip install briefcase`, then:
 
-* **macOS** run `python setup.py macos`
+* **macOS** Run::
 
-From here, launch Podium and open the ``examples/example.podium`` sample deck.
+      $ python setup.py macos
+      $ open macOS/Podium.app
 
-This will open up 2 GUI windows, displaying a test pattern as the first slide.
-Controls from here are keyboard based:
+  This app file can also be copied into your Applications folder.
+
+* **Linux** Run::
+
+     $ python setup.py linux
+     $ ./linux/Podium
+
+A sample slide deck has been provided in the ``examples`` folder of this
+repository.
+
+If you open this deck, you'll see 2 GUI windows, displaying a test pattern as
+the first slide. Controls from here are keyboard based:
 
 * CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
 * Esc - Exit presentation mode
