@@ -86,21 +86,10 @@ class SlideDeck(toga.Document):
 
     @property
     def resource_path(self):
-        try:
-            return os.path.join(
-                self.app._impl.resource_path,
-                'app',
-                'resources',
-            )
-        except AttributeError:
-            return os.path.join(
-                os.path.dirname(
-                    os.path.dirname(
-                        os.path.dirname(os.path.abspath(podium.__file__))
-                    )
-                ),
-                'resources',
-            )
+        return os.path.join(
+            os.path.dirname(os.path.abspath(podium.__file__)),
+            'resources',
+        )
 
     def read(self):
         # TODO: There's only 1 theme.

@@ -25,21 +25,15 @@ setup(
     url='https://beeware.org/project/projects/applications/podium',
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    data_files=[
-        ('resources', [
-            'resources/notes-template.html',
-            'resources/print-template.html',
-            'resources/slide-template.html',
-            'resources/remark.js',
-            'resources/animate.css',
-        ]),
-        ('resources/themes/default', [
-            'resources/themes/default/style.css',
-            'resources/themes/default/DroidSerif.woff',
-            'resources/themes/default/UbuntuMono-Regular.woff',
-            'resources/themes/default/YanoneKaffeesatz-Regular.woff',
-        ])
-    ],
+    package_data={
+        'podium': [
+            'resources/*.html',
+            'resources/*.js',
+            'resources/*.css',
+            'resources/themes/default/*.css',
+            'resources/themes/default/*.woff',
+        ]
+    },
     include_package_data=True,
     install_requires=[
     ],
@@ -71,13 +65,13 @@ setup(
         },
         'macos': {
             'app_requires': [
-                'toga-cocoa>=0.3.0.dev11'
+                'toga-cocoa>=0.3.0.dev12'
             ],
             'icon': 'icons/podium',
         },
         'linux': {
             'app_requires': [
-                'toga-gtk>=0.3.0.dev11'
+                'toga-gtk>=0.3.0.dev12'
             ],
         }
     }
