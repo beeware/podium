@@ -6,11 +6,12 @@ from toga.style import Pack
 
 import podium
 
+
 class SlideWindow(toga.Window):
     def __init__(self, deck, master):
         self.deck = deck
         self.master = master
-        title = os.path.splitext(os.path.basename(deck.filename))[0]
+        title = self.deck.title
 
         if not master:
             title += ": Speaker notes"
@@ -46,17 +47,17 @@ class SlideWindow(toga.Window):
             return "notes-template.html"
 
     def redraw(self, slide='1'):
-        with open(os.path.join(self.deck.resource_path, 'templates', self.template_name), 'r') as data:
+        with open(os.path.join(self.deck.resource_path, self.template_name), 'r') as data:
             template = data.read()
 
-        content = template % (
-            os.path.join(self.deck.resource_path, 'templates'),
-            self.deck.theme,
-            self.deck.aspect.replace(':', '-'),
-            self.deck.content,
-            os.path.join(self.deck.resource_path, 'templates'),
-            self.deck.aspect,
-            slide
+        content = template.format(
+            resource_path=os.path.join(self.deck.resource_path),
+            theme=self.deck.theme,
+            style_overrides=self.deck.style_overrides,
+            aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
+            aspect_ratio=self.deck.aspect,
+            slide_content=self.deck.content,
+            slide_number=slide,
         )
 
         self.html_view.set_content(self.deck.fileURL, content)
@@ -68,7 +69,11 @@ class SlideWindow(toga.Window):
 
 class SlideDeck(toga.Document):
     def __init__(self, filename, app):
-        super().__init__(filename=filename, document_type='Podium Slide Deck', app=app)
+        super().__init__(
+            filename=filename,
+            document_type='Podium Slide Deck',
+            app=app,
+        )
 
         self.aspect = '16:9'
         self.window_2 = SlideWindow(self, master=False)
@@ -80,38 +85,38 @@ class SlideDeck(toga.Document):
         self.paused = False
 
     @property
+    def title(self):
+        return os.path.splitext(os.path.basename(self.filename))[0]
+
+    @property
     def resource_path(self):
-        try:
-            return os.path.join(self.app._impl.resource_path, 'app')
-        except Exception:
-            return os.path.sep.join(os.path.dirname(os.path.abspath(podium.__file__)).split(os.path.sep)[:-2])
+        return os.path.join(
+            os.path.dirname(os.path.abspath(podium.__file__)),
+            'resources',
+        )
 
     def read(self):
+        # TODO: There's only 1 theme.
+        self.theme = 'default'
         if os.path.isdir(self.filename):
-            # Multi-file .podium files must contain slides.md; may contain theme.css
-            themeFile = os.path.join(self.filename, "theme.css")
+            # Multi-file .podium files must contain slides.md;
+            # may contain style.css
+            styleFile = os.path.join(self.filename, "style.css")
             contentFile = os.path.join(self.filename, "slides.md")
 
             with open(contentFile, 'r', encoding='utf-8') as f:
                 self.content = f.read()
 
-            if os.path.exists(themeFile):
-                with open(themeFile, 'r', encoding='utf-8') as f:
-                    self.theme = f.read()
+            if os.path.exists(styleFile):
+                with open(styleFile, 'r', encoding='utf-8') as f:
+                    self.style_overrides = f.read()
             else:
-                self.theme = None
-
+                self.style_overrides = ''
         else:
             # Single file can just be a standalone markdown file
             with open(self.filename, 'r', encoding='utf-8') as f:
                 self.content = f.read()
-
-            self.theme = None
-
-        if self.theme is None:
-            defaultThemeFileName = os.path.join(self.resource_path, 'templates', 'default.css')
-            with open(defaultThemeFileName, 'r', encoding='utf-8') as data:
-                self.theme = data.read()
+            self.style_overrides = ''
 
     def show(self):
         self.window_1.redraw()
@@ -207,7 +212,13 @@ class SlideDeck(toga.Document):
         elif key == toga.Key.A and (toga.Key.COMMAND in modifiers):
             self.change_aspect_ratio()
 
-        elif key in (toga.Key.RIGHT, toga.Key.DOWN, toga.Key.SPACE, toga.Key.ENTER, toga.Key.PAGE_DOWN):
+        elif key in (
+            toga.Key.RIGHT,
+            toga.Key.DOWN,
+            toga.Key.SPACE,
+            toga.Key.ENTER,
+            toga.Key.PAGE_DOWN
+        ):
             self.goto_next_slide()
 
         elif key in (toga.Key.LEFT, toga.Key.UP, toga.Key.PAGE_UP):

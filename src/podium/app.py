@@ -1,11 +1,15 @@
+import os
+
 import toga
 
-from podium.deck import *
+from podium.deck import SlideDeck
 
 
 class Podium(toga.DocumentApp):
     def __init__(self):
-        resource_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        resource_dir = os.path.dirname(
+            os.path.dirname(os.path.dirname(__file__))
+        )
         super().__init__(
             'Podium',
             app_id='org.beeware.podium',

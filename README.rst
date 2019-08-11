@@ -53,17 +53,22 @@ the development of a number of HTML-based presentation tools, like prezi_,
 `deck.js`_, `keydown`_ and `showoff`_. These tools exploit the power of HTML5
 to make full screen presentations.
 
-However, by using browser technology as the basis for these tools, they miss one
-very important feature of WYSIWYG presentation tools: presenter mode.
-
+However, by using browser technology as the basis for these tools, they miss
+one very important feature of WYSIWYG presentation tools: presenter mode.
 One of the big features of Keynote and Powerpoint is that they aren't just
 decks of slides -- they have presenter notes and timing tools, and the
 display shown to the audience isn't the same as the display shown to the
-presenter.
+presenter. Web-based presentation tools are often missing presenter mode.
 
-Many of these tools also assume that you have a good WiFi connection, and will
-be able to display your content live off the internet... which if you've ever
-been to a developer conference, you'll know is a risky proposition.
+Or, if they *do* have a presenter mode, they rely on you being able to
+independently resize two separate web browsers, and they won't provide any
+assistance in hiding all the browser toolbars, menus, titlebars, and so on.
+This can be done, but it's awkward.
+
+Many of these tools are also online-only. They assume that you have a good WiFi
+connection, and will be able to display your content live off the internet...
+which if you've ever been to a developer conference, you'll know is a risky
+proposition.
 
 Podium attempts to bridge the gap between these two poles. It is comprised of:
 
@@ -72,8 +77,6 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 * A graphical presentation tool that has a presenter display independent of
   the slide display.
 
-.. Keynote: https://www.apple.com/au/iwork/keynote/
-.. PowerPoint: http://office.microsoft.com/en-au/powerpoint/
 .. _prezi: http://prezi.com
 .. _deck.js: http://imakewebthings.com/deck.js/
 .. _keydown: https://github.com/infews/keydown
@@ -82,16 +85,26 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 Quickstart
 ----------
 
-Use `Briefcase`_ to package this repository as a macOS application:
+Use `Briefcase`_ to package this repository as a standalone application.
+Install briefcase using `pip install briefcase`, then:
 
-    $ python setup.py macos
+* **macOS** Run::
 
-This will create a folder ``macOS`` with an app ``Podium.app``, which you can install in your Applications folder.
+      $ python setup.py macos
+      $ open macOS/Podium.app
 
-From here, launch Podium and open the ``examples/example.podium`` sample deck.
+  This app file can also be copied into your Applications folder.
 
-This will pop up 2 GUI windows, both displaying a test pattern. Controls from here are keyboard
-based:
+* **Linux** Run::
+
+     $ python setup.py linux
+     $ ./linux/Podium
+
+A sample slide deck has been provided in the ``examples`` folder of this
+repository.
+
+If you open this deck, you'll see 2 GUI windows, displaying a test pattern as
+the first slide. Controls from here are keyboard based:
 
 * CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
 * Esc - Exit presentation mode
@@ -104,15 +117,18 @@ based:
 * CMD-R - Reload slide deck
 * CMD-T - Reset timer
 
-An example slide deck can be found in the `examples` directory of this repository.
+An example slide deck can be found in the `examples` directory of this
+repository.
 
 Debugging
 ---------
 
-If you need to debug the CSS for a slide, you can enable the "inspect element"
-menu option by running the following in the console::
+If you need to debug the CSS for a slide, you may want to use the "inspect
+element" feature of the webview. You may need to enable manually enable the
+feature at an operating system level:
 
-    defaults write org.beeware.podium WebKitDeveloperExtras True
+* **macOS**: at a terminal prompt, run
+  `defaults write NSGlobalDomain WebKitDeveloperExtras -bool true`
 
 Documentation
 -------------

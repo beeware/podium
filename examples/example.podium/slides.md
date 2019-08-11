@@ -47,6 +47,29 @@ class: title
 4. ...
 
 ---
+# Incremental presentation
+
+* Introduce
+--
+
+* one
+--
+
+* bullet
+--
+
+* point
+--
+
+* at
+--
+
+* a
+--
+
+* time
+
+---
 
 # Title & Bullets (2 col)
 
@@ -183,3 +206,302 @@ It will then start a new paragraph.
 class: title reverse
 
 # Point of emphasis
+
+---
+class: title
+
+# Slide decks can also have animated transitions
+
+---
+class: title animated shake
+
+## This is a
+# shake
+## transition
+---
+class: title animated bounce
+
+## This is a
+# bounce
+## transition
+---
+class: title animated tada
+
+## This is a
+# tada
+## transition
+---
+class: title animated swing
+
+## This is a
+# swing
+## transition
+---
+class: title animated wobble
+
+## This is a
+# wobble
+## transition
+---
+class: title animated pulse
+
+## This is a
+# pulse
+## transition
+---
+class: title animated flash
+
+## This is a
+# flash
+## transition
+
+---
+class: title animated flip
+
+## This is a
+# flip
+## transition
+---
+class: title animated flipInX
+
+## This is a
+# flipInX
+## transition
+---
+class: title animated flipInY
+
+## This is a
+# flipInY
+## transition
+---
+class: title animated fadeIn
+
+## This is a
+# fadeIn
+## transition
+---
+class: title animated fadeInUp
+
+## This is a
+# fadeInUp
+## transition
+---
+class: title animated fadeInDown
+
+## This is a
+# fadeInDown
+## transition
+---
+class: title animated fadeInLeft
+
+## This is a
+# fadeInLeft
+## transition
+---
+class: title animated fadeInRight
+
+## This is a
+# fadeInRight
+## transition
+---
+class: title animated bounceIn
+
+## This is a
+# bounceIn
+## transition
+---
+class: title animated bounceInUp
+
+## This is a
+# bounceInUp
+## transition
+---
+class: title animated bounceInDown
+
+## This is a
+# bounceInDown
+## transition
+---
+class: title animated bounceInLeft
+
+## This is a
+# bounceInLeft
+## transition
+---
+class: title animated bounceInRight
+
+## This is a
+# bounceInRight
+## transition
+---
+class: title animated rotateIn
+
+## This is a
+# rotateIn
+## transition
+---
+class: title animated rotateInUpLeft
+
+## This is a
+# rotateInUpLeft
+## transition
+---
+class: title animated rotateInDownLeft
+
+## This is a
+# rotateInDownLeft
+## transition
+---
+class: title animated rotateInUpRight
+
+## This is a
+# rotateInUpRight
+## transition
+---
+class: title animated rotateInDownRight
+
+## This is a
+# rotateInDownRight
+## transition
+
+---
+class: title animated rollIn
+
+## This is a
+# rollIn
+## transition
+---
+class: title animated lightSpeedIn
+
+## This is a
+# lightSpeedIn
+## transition
+---
+class: title
+
+# There are also some outgoing transitions
+## But they don't work all that well...
+---
+class: title animated flipOutX
+
+## This is a
+# flipOutX
+## transition
+---
+class: title animated flipOutY
+
+## This is a
+# flipOutY
+## transition
+---
+class: title animated fadeOut
+
+## This is a
+# fadeOut
+## transition
+---
+class: title animated fadeOutUp
+
+## This is a
+# fadeOutUp
+## transition
+---
+class: title animated fadeOutDown
+
+## This is a
+# fadeOutDown
+## transition
+---
+class: title animated fadeOutLeft
+
+## This is a
+# fadeOutLeft
+## transition
+---
+class: title animated fadeOutRight
+
+## This is a
+# fadeOutRight
+## transition
+---
+class: title animated bounceOut
+
+## This is a
+# bounceOut
+## transition
+---
+class: title animated bounceOutUp
+
+## This is a
+# bounceOutUp
+## transition
+---
+class: title animated bounceOutDown
+
+## This is a
+# bounceOutDown
+## transition
+---
+class: title animated bounceOutLeft
+
+## This is a
+# bounceOutLeft
+## transition
+---
+class: title animated bounceOutRight
+
+## This is a
+# bounceOutRight
+## transition
+---
+class: title animated rotateOut
+
+## This is a
+# rotateOut
+## transition
+---
+class: title animated rotateOutUpLeft
+
+## This is a
+# rotateOutUpLeft
+## transition
+---
+class: title animated rotateOutDownLeft
+
+## This is a
+# rotateOutDownLeft
+## transition
+---
+class: title animated rotateOutUpRight
+
+## This is a
+# rotateOutUpRight
+## transition
+---
+class: title animated rotateOutDownRight
+
+## This is a
+# rotateOutDownRight
+## transition
+---
+class: title animated rollOut
+
+## This is a
+# rollOut
+## transition
+---
+class: title animated lightSpeedOut
+
+## This is a
+# lightSpeedOut
+## transition
+---
+class: title animated hinge
+
+## This is a
+# hinge
+## transition
+---
+class: title
+
+# And that's it!

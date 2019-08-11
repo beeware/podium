@@ -1,0 +1,12 @@
+/* You can put style overrides in this file... */
+
+.remark-slides-area .remark-slide-content::after {
+    content: "Made with Podium";
+    font-family: 'Droid Serif';
+    font-weight: normal;
+    font-size: 18pt;
+    position: absolute;
+    bottom: 12px;
+    right: 20px;
+    opacity: 0.5;
+}
