@@ -125,6 +125,8 @@ class SlideDeck(toga.Document):
         self.window_2.redraw()
         self.window_2.show()
 
+        return self.window_1
+
     @property
     def fileURL(self):
         return 'file://{}/'.format(quote(self.filename))
@@ -180,10 +182,11 @@ class SlideDeck(toga.Document):
     def reload(self):
         self.read()
 
-        slide = self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()")
-        print("Current slide:", slide)
+        def on_cb(slide):
+            print("Current slide:", slide)
+            self.redraw(slide)
 
-        self.redraw(slide)
+        self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()", on_cb)
 
     def redraw(self, slide=None):
         self.window_1.redraw(slide)
@@ -196,6 +199,9 @@ class SlideDeck(toga.Document):
                 self.toggle_full_screen()
             else:
                 print('Not in full screen mode')
+
+        elif key == toga.Key.F11:
+            self.toggle_full_screen()
 
         elif key == toga.Key.P and (toga.Key.COMMAND in modifiers):
             if self.app.is_full_screen:

@@ -19,7 +19,7 @@ class Podium(toga.DocumentApp):
 
     # FILE commands ##################################################
 
-    def reload(self, widget, **kwargs):
+    def reload(self, widget, *args, **kwargs):
         self.current_window.deck.reload()
 
     # PLAY commands ##################################################
