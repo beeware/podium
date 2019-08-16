@@ -19,12 +19,8 @@ class SlideWindow(toga.Window):
             title=title,
             position=(200, 200) if master else (100, 100),
             size=(984 if self.deck.aspect == '16:9' else 738, 576),
-            # FIXME: This should be False; but doing so
-            # enforces a constraint on the full screen window.
-            # When a formal "full screen" API is introduced,
-            # this can be restored.
-            # resizeable=False,
-            closeable=True if master else None
+            resizeable=False,
+            closeable=False if master else True
         )
         self.create()
 
@@ -63,8 +59,8 @@ class SlideWindow(toga.Window):
         self.html_view.set_content(self.deck.fileURL, content)
 
     def on_close(self):
-        if self.master:
-            self.deck.window_2._impl.close()
+        if not self.master:
+            self.deck.window_1._impl.close()
 
 
 class SlideDeck(toga.Document):
