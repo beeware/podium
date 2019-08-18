@@ -120,6 +120,12 @@ the first slide. Controls from here are keyboard based:
 An example slide deck can be found in the `examples` directory of this
 repository.
 
+Overriding Default themes
+-------------------------
+
+Define a `style.css` file to override the default theme. You can use the **Debugging** section
+to help you create a theme that suites your style. 
+
 Debugging
 ---------
 
