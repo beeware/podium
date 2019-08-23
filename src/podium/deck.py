@@ -175,9 +175,13 @@ class SlideDeck(toga.Document):
     def reload(self):
         self.read()
 
-        slide = self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()")
-        print("Current slide:", slide)
+        # FIXME
+        # slide = await self.window_1.html_view.invoke_javascript("slideshow.getCurrentSlideNo()")
 
+        self.window_1.html_view.invoke_javascript("slideshow.getCurrentSlideNo()")
+        slide = 1
+
+        print("Current slide:", slide)
         self.redraw(slide)
 
     def redraw(self, slide=None):
@@ -237,20 +241,20 @@ class SlideDeck(toga.Document):
     def reset_timer(self):
         print("Reset Timer")
 
-        self.window_1.html_view.evaluate("slideshow.resetTimer()")
-        self.window_2.html_view.evaluate("slideshow.resetTimer()")
+        self.window_1.html_view.invoke_javascript("slideshow.resetTimer()")
+        self.window_2.html_view.invoke_javascript("slideshow.resetTimer()")
 
     def toggle_pause(self):
         if self.app.is_full_screen:
             if self.paused:
                 print("Resume presentation")
-                self.window_1.html_view.evaluate("slideshow.resume()")
-                self.window_2.html_view.evaluate("slideshow.resume()")
+                self.window_1.html_view.invoke_javascript("slideshow.resume()")
+                self.window_2.html_view.invoke_javascript("slideshow.resume()")
                 self.paused = False
             else:
                 print("Pause presentation")
-                self.window_1.html_view.evaluate("slideshow.pause()")
-                self.window_2.html_view.evaluate("slideshow.pause()")
+                self.window_1.html_view.invoke_javascript("slideshow.pause()")
+                self.window_2.html_view.invoke_javascript("slideshow.pause()")
                 self.paused = True
         else:
             print("Presentation not in fullscreen mode; pause/play disabled")
@@ -258,23 +262,23 @@ class SlideDeck(toga.Document):
     def goto_first_slide(self):
         print("Goto first slide")
 
-        self.window_1.html_view.evaluate("slideshow.gotoFirstSlide()")
-        self.window_2.html_view.evaluate("slideshow.gotoFirstSlide()")
+        self.window_1.html_view.invoke_javascript("slideshow.gotoFirstSlide()")
+        self.window_2.html_view.invoke_javascript("slideshow.gotoFirstSlide()")
 
     def goto_last_slide(self):
         print("Goto previous slide")
 
-        self.window_1.html_view.evaluate("slideshow.gotoLastSlide()")
-        self.window_2.html_view.evaluate("slideshow.gotoLastSlide()")
+        self.window_1.html_view.invoke_javascript("slideshow.gotoLastSlide()")
+        self.window_2.html_view.invoke_javascript("slideshow.gotoLastSlide()")
 
     def goto_next_slide(self):
         print("Goto next slide")
 
-        self.window_1.html_view.evaluate("slideshow.gotoNextSlide()")
-        self.window_2.html_view.evaluate("slideshow.gotoNextSlide()")
+        self.window_1.html_view.invoke_javascript("slideshow.gotoNextSlide()")
+        self.window_2.html_view.invoke_javascript("slideshow.gotoNextSlide()")
 
     def goto_previous_slide(self):
         print("Goto previous slide")
 
-        self.window_1.html_view.evaluate("slideshow.gotoPreviousSlide()")
-        self.window_2.html_view.evaluate("slideshow.gotoPreviousSlide()")
+        self.window_1.html_view.invoke_javascript("slideshow.gotoPreviousSlide()")
+        self.window_2.html_view.invoke_javascript("slideshow.gotoPreviousSlide()")
