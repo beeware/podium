@@ -19,8 +19,7 @@ class SlideWindow(toga.Window):
             title=title,
             position=(200, 200) if master else (100, 100),
             size=(984 if self.deck.aspect == '16:9' else 738, 576),
-            resizeable=False,
-            closeable=False if master else True
+            closeable=True if master else False
         )
         self.create()
 
@@ -59,8 +58,8 @@ class SlideWindow(toga.Window):
         self.html_view.set_content(self.deck.fileURL, content)
 
     def on_close(self):
-        if not self.master:
-            self.deck.window_1._impl.close()
+        if self.master:
+            self.deck.window_2._impl.close()
 
 
 class SlideDeck(toga.Document):
@@ -121,8 +120,6 @@ class SlideDeck(toga.Document):
         self.window_2.redraw()
         self.window_2.show()
 
-        return self.window_1
-
     @property
     def fileURL(self):
         return 'file://{}/'.format(quote(self.filename))
@@ -178,17 +175,16 @@ class SlideDeck(toga.Document):
     def reload(self):
         self.read()
 
-        def on_cb(slide):
-            print("Current slide:", slide)
-            self.redraw(slide)
+        slide = self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()")
+        print("Current slide:", slide)
 
-        self.window_1.html_view.evaluate("slideshow.getCurrentSlideNo()", on_cb)
+        self.redraw(slide)
 
     def redraw(self, slide=None):
         self.window_1.redraw(slide)
         self.window_2.redraw(slide)
 
-    def on_key_press(self, key, modifiers):
+    def on_key_press(self, widget, key, modifiers):
         print("KEY =", key, "modifiers=", modifiers)
         if key == toga.Key.ESCAPE:
             if self.app.is_full_screen:
