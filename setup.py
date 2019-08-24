@@ -66,13 +66,13 @@ setup(
         },
         'macos': {
             'app_requires': [
-                'toga-cocoa>=0.3.0.dev13'
+                'toga-cocoa>=0.3.0.dev14'
             ],
             'icon': 'icons/podium',
         },
         'linux': {
             'app_requires': [
-                'toga-gtk>=0.3.0.dev13'
+                'toga-gtk>=0.3.0.dev14'
             ],
         }
     }

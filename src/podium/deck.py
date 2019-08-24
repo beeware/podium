@@ -172,14 +172,10 @@ class SlideDeck(toga.Document):
 
             self.app.hide_cursor()
 
-    def reload(self):
+    async def reload(self):
         self.read()
 
-        # FIXME
-        # slide = await self.window_1.html_view.invoke_javascript("slideshow.getCurrentSlideNo()")
-
-        self.window_1.html_view.invoke_javascript("slideshow.getCurrentSlideNo()")
-        slide = 1
+        slide = await self.window_1.html_view.evaluate_javascript("slideshow.getCurrentSlideNo()")
 
         print("Current slide:", slide)
         self.redraw(slide)
@@ -188,7 +184,7 @@ class SlideDeck(toga.Document):
         self.window_1.redraw(slide)
         self.window_2.redraw(slide)
 
-    def on_key_press(self, widget, key, modifiers):
+    async def on_key_press(self, widget, key, modifiers):
         print("KEY =", key, "modifiers=", modifiers)
         if key == toga.Key.ESCAPE:
             if self.app.is_full_screen:
@@ -233,7 +229,7 @@ class SlideDeck(toga.Document):
             self.goto_last_slide()
 
         elif key == toga.Key.R and (toga.Key.COMMAND in modifiers):
-            self.reload()
+            await self.reload()
 
         elif key == toga.Key.T and (toga.Key.COMMAND in modifiers):
             self.reset_timer()
