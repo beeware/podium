@@ -7,9 +7,10 @@ from toga.style import Pack
 import podium
 
 
-class MasterSlideWindow(toga.MainWindow):
-    def __init__(self, deck):
+class PrimarySlideWindow(toga.MainWindow):
+    def __init__(self, deck, secondary):
         self.deck = deck
+        self.secondary = secondary
         super().__init__(
             title=self.deck.title,
             position=(200, 200),
@@ -49,10 +50,10 @@ class MasterSlideWindow(toga.MainWindow):
         self.html_view.set_content(self.deck.fileURL, content)
 
     def on_close(self):
-        self.deck.window_2._impl.close()
+        self.secondary.close()
 
 
-class SupportSlideWindow(toga.Window):
+class SecondarySlideWindow(toga.Window):
     def __init__(self, deck):
         self.deck = deck
         super().__init__(
@@ -104,10 +105,10 @@ class SlideDeck(toga.Document):
         )
 
         self.aspect = '16:9'
-        self.window_2 = SupportSlideWindow(self)
+        self.window_2 = SecondarySlideWindow(self)
         self.window_2.app = self.app
 
-        self.window_1 = MasterSlideWindow(self)
+        self.window_1 = PrimarySlideWindow(self, self.window_2)
         self.window_1.app = self.app
 
         self.reversed_displays = False
@@ -183,10 +184,10 @@ class SlideDeck(toga.Document):
         else:
             # If we're not fullscreen, we need to re-create the
             # display windows with the correct aspect ratio.
-            self.window_1._impl.close()
+            self.window_1.close()
 
-            self.window_2 = SupportSlideWindow(self)
-            self.window_1 = MasterSlideWindow(self)
+            self.window_2 = SecondarySlideWindow(self)
+            self.window_1 = PrimarySlideWindow(self, self.window_2)
 
             self.window_1.app = self.app
             self.window_2.app = self.app
