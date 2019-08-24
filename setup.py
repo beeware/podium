@@ -31,6 +31,7 @@ setup(
             'resources/*.js',
             'resources/*.css',
             'resources/*.png',
+            'resources/*.icns',
             'resources/themes/default/*.css',
             'resources/themes/default/*.woff',
         ]
@@ -59,7 +60,7 @@ setup(
                 'deck': {
                     'description': 'Podium Slide Deck',
                     'extension': 'podium',
-                    'icon': 'icons/podium-deck',
+                    'icon': 'src/podium/resources/podium-deck',
                     'url': 'https://beeware.org/project/projects/applications/podium/',
                 }
             }
@@ -68,7 +69,7 @@ setup(
             'app_requires': [
                 'toga-cocoa>=0.3.0.dev14'
             ],
-            'icon': 'icons/podium',
+            'icon': 'src/podium/resources/podium',
         },
         'linux': {
             'app_requires': [
