@@ -185,8 +185,8 @@ class SlideDeck(toga.Document):
             # display windows with the correct aspect ratio.
             self.window_1._impl.close()
 
-            self.window_2 = SlideWindow(self, master=False)
-            self.window_1 = SlideWindow(self, master=True)
+            self.window_2 = SupportSlideWindow(self)
+            self.window_1 = MasterSlideWindow(self)
 
             self.window_1.app = self.app
             self.window_2.app = self.app
