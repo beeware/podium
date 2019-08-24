@@ -7,19 +7,13 @@ from toga.style import Pack
 import podium
 
 
-class SlideWindow(toga.Window):
-    def __init__(self, deck, master):
+class MasterSlideWindow(toga.MainWindow):
+    def __init__(self, deck):
         self.deck = deck
-        self.master = master
-        title = self.deck.title
-
-        if not master:
-            title += ": Speaker notes"
         super().__init__(
-            title=title,
-            position=(200, 200) if master else (100, 100),
-            size=(984 if self.deck.aspect == '16:9' else 738, 576),
-            closeable=True if master else False
+            title=self.deck.title,
+            position=(200, 200),
+            size=(984 if self.deck.aspect == '16:9' else 738, 576)
         )
         self.create()
 
@@ -36,10 +30,7 @@ class SlideWindow(toga.Window):
 
     @property
     def template_name(self):
-        if self.master:
-            return "slide-template.html"
-        else:
-            return "notes-template.html"
+        return "slide-template.html"
 
     def redraw(self, slide='1'):
         with open(os.path.join(self.deck.resource_path, self.template_name), 'r') as data:
@@ -58,8 +49,50 @@ class SlideWindow(toga.Window):
         self.html_view.set_content(self.deck.fileURL, content)
 
     def on_close(self):
-        if self.master:
-            self.deck.window_2._impl.close()
+        self.deck.window_2._impl.close()
+
+
+class SupportSlideWindow(toga.Window):
+    def __init__(self, deck):
+        self.deck = deck
+        super().__init__(
+            title=self.deck.title + ": Speaker notes",
+            position=(100, 100),
+            size=(984 if self.deck.aspect == '16:9' else 738, 576),
+            closeable=False
+        )
+        self.create()
+
+    def create(self):
+        self.html_view = toga.WebView(
+            style=Pack(
+                flex=1,
+                width=984 if self.deck.aspect == '16:9' else 738,
+                height=576
+            ),
+            on_key_down=self.deck.on_key_press
+        )
+        self.content = self.html_view
+
+    @property
+    def template_name(self):
+        return "notes-template.html"
+
+    def redraw(self, slide='1'):
+        with open(os.path.join(self.deck.resource_path, self.template_name), 'r') as data:
+            template = data.read()
+
+        content = template.format(
+            resource_path=os.path.join(self.deck.resource_path),
+            theme=self.deck.theme,
+            style_overrides=self.deck.style_overrides,
+            aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
+            aspect_ratio=self.deck.aspect,
+            slide_content=self.deck.content,
+            slide_number=slide,
+        )
+
+        self.html_view.set_content(self.deck.fileURL, content)
 
 
 class SlideDeck(toga.Document):
@@ -71,9 +104,10 @@ class SlideDeck(toga.Document):
         )
 
         self.aspect = '16:9'
-        self.window_2 = SlideWindow(self, master=False)
+        self.window_2 = SupportSlideWindow(self)
         self.window_2.app = self.app
-        self.window_1 = SlideWindow(self, master=True)
+
+        self.window_1 = MasterSlideWindow(self)
         self.window_1.app = self.app
 
         self.reversed_displays = False
