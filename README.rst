@@ -85,6 +85,60 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 Quickstart
 ----------
 
+Podium currently requires a source checkout of Toga and Podium, as it uses
+unreleased features of both projects.
+
+If you're using Linux, you'll need to install some system packages first::
+
+    # Ubuntu/Debian
+    $ sudo apt-get update
+    $ sudo apt-get install python3-dev libgirepository1.0-dev libcairo2-dev libpango1.0-dev libwebkitgtk-3.0-0 gir1.2-webkit-3.0
+
+    # Fedora
+    $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel cairo-gobject-devel pango-devel webkitgtk3
+
+Then, you can create a virtual environment and run the following to install
+Toga and Podium::
+
+    $ mkdir beeware
+    $ cd beeware
+    $ python3 -m venv venv
+    $ source venv/bin/activate
+    (venv) $ git clone https://github.com/beeware/toga.git
+    (venv) $ pip install toga/src/core
+    # In the next line, replace <your platform> with:
+    #  * cocoa if you're on macOS
+    #  * gtk if you're on Linux
+    (venv) $ pip install toga/src/<your platform>
+    (venv) $ git clone https://github.com/beeware/podium.git
+
+Now that you have the code, you can run Podium.
+
+    (venv) $ cd podium/src
+    (venv) $ python -m podium ../example/example.podium
+
+This will open a sample slide deck. You should 2 GUI windows, displaying a test
+pattern as the first slide. Controls from here are keyboard based:
+
+* CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
+* Esc - Exit presentation mode
+* CMD-Tab - Switch displays
+* Right/Left arrows - Next/previous slide
+* Down/Up arrows - Next/previous slide
+* Enter - Next slide
+* Home/End - first/last slide
+* CMD-A - Switch aspect ratio between 16:9 and 4:3
+* CMD-R - Reload slide deck
+* CMD-T - Reset timer
+
+If you're on Linux, "CMD" is the Control key.
+
+Packaging with Briefcase
+------------------------
+
+**NOTE: These instruction won't work until Podium can use a released
+version of Toga**
+
 Use `Briefcase`_ to package this repository as a standalone application.
 Install briefcase using `pip install briefcase`, then:
 
@@ -100,31 +154,12 @@ Install briefcase using `pip install briefcase`, then:
      $ python setup.py linux
      $ ./linux/Podium
 
-A sample slide deck has been provided in the ``examples`` folder of this
-repository.
-
-If you open this deck, you'll see 2 GUI windows, displaying a test pattern as
-the first slide. Controls from here are keyboard based:
-
-* CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
-* Esc - Exit presentation mode
-* CMD-Tab - Switch displays
-* Right/Left arrows - Next/previous slide
-* Down/Up arrows - Next/previous slide
-* Enter - Next slide
-* Home/End - first/last slide
-* CMD-A - Switch aspect ratio between 16:9 and 4:3
-* CMD-R - Reload slide deck
-* CMD-T - Reset timer
-
-An example slide deck can be found in the `examples` directory of this
-repository.
 
 Overriding Default themes
 -------------------------
 
-Define a `style.css` file to override the default theme. You can use the **Debugging** section
-to help you create a theme that suites your style. 
+Define a `style.css` file to override the default theme. You can use the
+**Debugging** section to help you create a theme that suites your style.
 
 Debugging
 ---------
