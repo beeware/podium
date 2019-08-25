@@ -106,8 +106,10 @@ Toga and Podium::
     $ source venv/bin/activate
     (venv) $ git clone https://github.com/beeware/toga.git
     (venv) $ pip install toga/src/core
-    (venv) $ pip install toga/src/cocoa  # if you're on macOS
-    (venv) $ pip install toga/src/gtk  # if you're on GTK
+    # In the next line, replace <your platform> with:
+    #  * cocoa if you're on macOS
+    #  * gtk if you're on Linux
+    (venv) $ pip install toga/src/<your platform>
     (venv) $ git clone https://github.com/beeware/podium.git
 
 Now that you have the code, you can run Podium.
