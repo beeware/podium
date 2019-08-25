@@ -7,20 +7,21 @@ from podium.deck import SlideDeck
 
 class Podium(toga.DocumentApp):
     def __init__(self):
-        resource_dir = os.path.dirname(
-            os.path.dirname(os.path.dirname(__file__))
+        resource_dir = os.path.join(
+            os.path.dirname(__file__),
+            'resources'
         )
         super().__init__(
             'Podium',
             app_id='org.beeware.podium',
-            icon=toga.Icon(os.path.join(resource_dir, 'podium.icns')),
+            icon=toga.Icon(os.path.join(resource_dir, 'podium')),
             document_types={'podium': SlideDeck}
         )
 
     # FILE commands ##################################################
 
-    def reload(self, widget, **kwargs):
-        self.current_window.deck.reload()
+    async def reload(self, widget, **kwargs):
+        await self.current_window.deck.reload()
 
     # PLAY commands ##################################################
 
@@ -58,7 +59,7 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.reload,
                 label='Reload slide deck',
-                shortcut='r',
+                shortcut=toga.Key.MOD_1 + 'r',
                 group=toga.Group.FILE,
                 section=1
             ),
@@ -67,7 +68,7 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.play,
                 label='Play slideshow',
-                shortcut='p',
+                shortcut=toga.Key.MOD_1 + 'p',
                 group=play_group,
                 section=0,
                 order=0,
@@ -75,7 +76,7 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.reset_timer,
                 label='Reset timer',
-                shortcut='t',
+                shortcut=toga.Key.MOD_1 + 't',
                 group=play_group,
                 section=0,
                 order=1,
@@ -83,7 +84,7 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.next_slide,
                 label='Next slide',
-                # shortcut='',
+                shortcut=toga.Key.RIGHT,
                 group=play_group,
                 section=1,
                 order=0,
@@ -91,7 +92,7 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.previous_slide,
                 label='Previous slide',
-                # shortcut='',
+                shortcut=toga.Key.LEFT,
                 group=play_group,
                 section=1,
                 order=1,
@@ -99,7 +100,7 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.first_slide,
                 label='First slide',
-                # shortcut='',
+                shortcut=toga.Key.HOME,
                 group=play_group,
                 section=1,
                 order=2,
@@ -107,7 +108,7 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.last_slide,
                 label='Last slide',
-                # shortcut='',
+                shortcut=toga.Key.END,
                 group=play_group,
                 section=1,
                 order=3,
@@ -117,13 +118,13 @@ class Podium(toga.DocumentApp):
             toga.Command(
                 self.switch_screens,
                 label='Switch screens',
-                shortcut='m',
+                shortcut=toga.Key.MOD_1 + toga.Key.TAB,
                 group=view_group,
             ),
             toga.Command(
                 self.change_aspect_ratio,
                 label='Change aspect ratio',
-                # shortcut='',
+                shortcut=toga.Key.MOD_1 + 'a',
                 group=view_group,
             ),
         )
