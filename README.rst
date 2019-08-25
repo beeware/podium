@@ -90,9 +90,15 @@ unreleased features of both projects.
 
 If you're using Linux, you'll need to install some system packages first::
 
-    # Ubuntu/Debian
+    # Ubuntu, Debian 9
     $ sudo apt-get update
     $ sudo apt-get install python3-dev libgirepository1.0-dev libcairo2-dev libpango1.0-dev libwebkitgtk-3.0-0 gir1.2-webkit-3.0
+
+    # Debian 10
+    # has webkit2-4.0
+    # libwebkitgtk version seems very specific, but that is what it currently is.
+    $ sudo apt-get update
+    $ sudo apt-get install python3-dev libgirepository1.0-dev libcairo2-dev libpango1.0-dev libwebkit2gtk-4.0-37 gir1.2-webkit2-4.0
 
     # Fedora
     $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel cairo-gobject-devel pango-devel webkitgtk3
@@ -106,10 +112,10 @@ Toga and Podium::
     $ source venv/bin/activate
     (venv) $ git clone https://github.com/beeware/toga.git
     (venv) $ pip install toga/src/core
-    # In the next line, replace <your platform> with:
-    #  * cocoa if you're on macOS
-    #  * gtk if you're on Linux
-    (venv) $ pip install toga/src/<your platform>
+    #  If you're on macOS:
+    (venv) $ pip install toga/src/cocoa
+    #  If you're on Linux:
+    (venv) $ pip install toga/src/gtk
     (venv) $ git clone https://github.com/beeware/podium.git
 
 Now that you have the code, you can run Podium.
