@@ -230,19 +230,19 @@ class SlideDeck(toga.Document):
         elif key == toga.Key.F11:
             self.toggle_full_screen()
 
-        elif key == toga.Key.P and (toga.Key.COMMAND in modifiers):
+        elif key == toga.Key.P and (toga.Key.MOD_1 in modifiers):
             if self.app.is_full_screen:
                 self.toggle_pause()
             else:
                 self.toggle_full_screen()
 
-        elif key == toga.Key.TAB and (toga.Key.COMMAND in modifiers):
+        elif key == toga.Key.TAB and (toga.Key.MOD_1 in modifiers):
             if self.app.is_full_screen:
                 self.switch_screens()
             else:
                 print('Not in full screen mode')
 
-        elif key == toga.Key.A and (toga.Key.COMMAND in modifiers):
+        elif key == toga.Key.A and (toga.Key.MOD_1 in modifiers):
             self.change_aspect_ratio()
 
         elif key in (
@@ -263,10 +263,10 @@ class SlideDeck(toga.Document):
         elif key == toga.Key.END:
             self.goto_last_slide()
 
-        elif key == toga.Key.R and (toga.Key.COMMAND in modifiers):
+        elif key == toga.Key.R and (toga.Key.MOD_1 in modifiers):
             await self.reload()
 
-        elif key == toga.Key.T and (toga.Key.COMMAND in modifiers):
+        elif key == toga.Key.T and (toga.Key.MOD_1 in modifiers):
             self.reset_timer()
 
     def reset_timer(self):
