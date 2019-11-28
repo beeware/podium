@@ -90,11 +90,7 @@ unreleased features of both projects.
 
 If you're using Linux, you'll need to install some system packages first::
 
-    # Ubuntu, Debian 9
-    $ sudo apt-get update
-    $ sudo apt-get install python3-dev libgirepository1.0-dev libcairo2-dev libpango1.0-dev libwebkitgtk-3.0-0 gir1.2-webkit-3.0
-
-    # Debian 10
+    # Ubuntu, Debian 10+
     # has webkit2-4.0
     # libwebkitgtk version seems very specific, but that is what it currently is.
     $ sudo apt-get update
@@ -118,7 +114,7 @@ Toga and Podium::
     (venv) $ pip install toga/src/gtk
     (venv) $ git clone https://github.com/beeware/podium.git
 
-Now that you have the code, you can run Podium.
+Now that you have the code, you can run Podium::
 
     (venv) $ cd podium/src
     (venv) $ python -m podium ../example/example.podium
