@@ -2,9 +2,12 @@
 *~
 .*.sw[op]
 *.egg-info
+*.dist-info
 dist
 build
 _build
 distribute-*
 local
 macOS
+linux
+windows
