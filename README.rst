@@ -5,23 +5,8 @@
 Podium
 ======
 
-.. image:: https://img.shields.io/pypi/pyversions/podium.svg
-    :target: https://pypi.python.org/pypi/podium
-
-.. image:: https://img.shields.io/pypi/v/podium.svg
-    :target: https://pypi.python.org/pypi/podium
-
-.. image:: https://img.shields.io/pypi/status/podium.svg
-    :target: https://pypi.python.org/pypi/podium
-
-.. image:: https://img.shields.io/pypi/l/podium.svg
-    :target: https://github.com/beeware/podium/blob/master/LICENSE
-
-.. image:: https://travis-ci.org/beeware/podium.svg?branch=master
-    :target: https://travis-ci.org/beeware/podium
-
 .. image:: https://badges.gitter.im/beeware/general.svg
-    :target: https://gitter.im/beeware/general
+   :target: https://gitter.im/beeware/general
 
 
 A markup-based slide presentation tool.
@@ -85,40 +70,25 @@ Podium attempts to bridge the gap between these two poles. It is comprised of:
 Quickstart
 ----------
 
-Podium currently requires a source checkout of Toga and Podium, as it uses
-unreleased features of both projects.
+Official releases of Podium can be downloaded from the `GitHub releases page
+<https://github.com/beeware/podium/releases>`__.
 
-If you're using Linux, you'll need to install some system packages first::
+Download the binary for your platform of choice, and run it. This should open a
+file dialog, prompting you to open a ``.podium`` slide deck. An example Podium
+slide deck is also available in the releases folder. Unzip the deck, and open
+it in Podium.
 
-    # Ubuntu/Debian
-    $ sudo apt-get update
-    $ sudo apt-get install python3-dev libgirepository1.0-dev libcairo2-dev libpango1.0-dev libwebkitgtk-3.0-0 gir1.2-webkit-3.0
+.. note::
 
-    # Fedora
-    $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel cairo-gobject-devel pango-devel webkitgtk3
+    The Linux AppImage format is a cross-platform binary that should run on
+    any Linux distribution using GLibC 2.23 or later - this includes Ubuntu
+    16.04 and later, Fedora 24 and later, and others.
 
-Then, you can create a virtual environment and run the following to install
-Toga and Podium::
+    After downloading the AppImage, you may need to mark the AppImage file as
+    executable (``chmod +x Podium-*.AppImage``) first. In Linux, ``.podium``
+    files appear as directories; select the directory and click ``Open``.
 
-    $ mkdir beeware
-    $ cd beeware
-    $ python3 -m venv venv
-    $ source venv/bin/activate
-    (venv) $ git clone https://github.com/beeware/toga.git
-    (venv) $ pip install toga/src/core
-    # In the next line, replace <your platform> with:
-    #  * cocoa if you're on macOS
-    #  * gtk if you're on Linux
-    (venv) $ pip install toga/src/<your platform>
-    (venv) $ git clone https://github.com/beeware/podium.git
-
-Now that you have the code, you can run Podium.
-
-    (venv) $ cd podium/src
-    (venv) $ python -m podium ../example/example.podium
-
-This will open a sample slide deck. You should 2 GUI windows, displaying a test
-pattern as the first slide. Controls from here are keyboard based:
+Controls from here are keyboard based:
 
 * CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
 * Esc - Exit presentation mode
@@ -133,27 +103,57 @@ pattern as the first slide. Controls from here are keyboard based:
 
 If you're on Linux, "CMD" is the Control key.
 
+Developing Podium
+-----------------
+
+Podium uses the `BeeWare <https://beeware.org>`__ suite of tools and libraries -
+most notably, the `Toga <https://github.com/beeware/toga>`__ widget toolkit, and
+the `Briefcase <https://github.com/beeware/briefcase>`__ packaging tool.
+
+To develop Podium, create a virtual environment, and install the BeeWare tools.
+
+If you're using Linux, you'll need to install some system packages first::
+
+    # Ubuntu/Debian
+    $ sudo apt-get update
+    $ sudo apt-get install python3-dev libgirepository1.0-dev libcairo2-dev libpango1.0-dev libwebkitgtk-3.0-0 gir1.2-webkit-3.0
+
+    # Fedora
+    $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel cairo-gobject-devel pango-devel webkitgtk3
+
+Then, you can create a virtual environment and install the BeeWare tools::
+
+    $ mkdir beeware
+    $ cd beeware
+    $ python3 -m venv venv
+    $ source venv/bin/activate
+    (venv) $ pip install --pre beeware
+
+Now that you have the code, you can clone the Podium repository and run it in
+developer mode.
+
+    (venv) $ git clone https://github.com/beeware/podium.git
+    (venv) $ cd podium
+    (venv) $ briefcase dev
+
+This should open the same file dialog as before.
+
 Packaging with Briefcase
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-**NOTE: These instruction won't work until Podium can use a released
-version of Toga**
+Use `Briefcase`_ to package this repository as a standalone application::
 
-Use `Briefcase`_ to package this repository as a standalone application.
-Install briefcase using `pip install briefcase`, then:
+    $ briefcase package
 
-* **macOS** Run::
+Depending on your platform, this will produce a ``macOS`` folder containing
+a Podium DMG file, or a ``linux`` folder containing a ``.AppImage`` file.
 
-      $ python setup.py macos
-      $ open macOS/Podium.app
+.. note::
 
-  This app file can also be copied into your Applications folder.
-
-* **Linux** Run::
-
-     $ python setup.py linux
-     $ ./linux/Podium
-
+    Packaging cross-distribution Linux binaries is a complex process; See `the
+    notes on AppImage packaging
+    <https://briefcase.readthedocs.io/en/latest/reference/platforms/linux/appimage.html>`__
+    in the Briefcase documentation for more details.
 
 Overriding Default themes
 -------------------------
