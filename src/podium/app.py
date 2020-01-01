@@ -7,14 +7,7 @@ from podium.deck import SlideDeck
 
 class Podium(toga.DocumentApp):
     def __init__(self):
-        resource_dir = os.path.join(
-            os.path.dirname(__file__),
-            'resources'
-        )
         super().__init__(
-            'Podium',
-            app_id='org.beeware.podium',
-            icon=toga.Icon(os.path.join(resource_dir, 'podium')),
             document_types={'podium': SlideDeck}
         )
 
