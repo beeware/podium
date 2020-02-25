@@ -131,7 +131,7 @@ Then, you can create a virtual environment and install the BeeWare tools::
     (venv) $ pip install --pre beeware
 
 Now that you have the code, you can clone the Podium repository and run it in
-developer mode.
+developer mode::
 
     (venv) $ git clone https://github.com/beeware/podium.git
     (venv) $ cd podium
