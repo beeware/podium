@@ -5,9 +5,9 @@ requires = ["briefcase"]
 project_name = "Podium"
 version = "0.2"
 bundle = "org.beeware"
-author='Russell Keith-Magee'
-author_email='russell@keith-magee.com'
-homepage='https://beeware.org/project/projects/applications/podium'
+author = 'Russell Keith-Magee'
+author_email = 'russell@keith-magee.com'
+homepage = 'https://beeware.org/project/projects/applications/podium'
 
 [tool.briefcase.app.podium]
 formal_name = "Podium"
@@ -22,7 +22,6 @@ icon = "src/podium/resources/podium-deck"
 url = 'https://beeware.org/project/projects/applications/podium/'
 
 [tool.briefcase.app.podium.macOS]
-template = '/Users/rkm/projects/beeware/templates/briefcase-macOS-app-template'
 requires = ["toga-cocoa>=0.3.0.dev16"]
 
 [tool.briefcase.app.podium.linux]
