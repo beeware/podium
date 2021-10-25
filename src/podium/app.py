@@ -8,7 +8,7 @@ from podium.deck import SlideDeck
 class Podium(toga.DocumentApp):
     def __init__(self):
         super().__init__(
-            document_types={'podium': SlideDeck}
+            document_types={'podium': SlideDeck},
         )
 
     # FILE commands ##################################################

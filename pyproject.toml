@@ -22,7 +22,7 @@ icon = "src/podium/resources/podium-deck"
 url = 'https://beeware.org/project/projects/applications/podium/'
 
 [tool.briefcase.app.podium.macOS]
-requires = ["toga-cocoa>=0.3.0.dev16"]
+requires = ["toga-cocoa>=0.3.0.dev28"]
 
 [tool.briefcase.app.podium.linux]
-requires = ["toga-gtk>=0.3.0.dev16"]
+requires = ["toga-gtk>=0.3.0.dev28"]
