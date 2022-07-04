@@ -169,8 +169,9 @@ If you need to debug the CSS for a slide, you may want to use the "inspect
 element" feature of the webview. You may need to enable manually enable the
 feature at an operating system level:
 
-* **macOS**: at a terminal prompt, run
-  `defaults write NSGlobalDomain WebKitDeveloperExtras -bool true`
+* **macOS**: at a terminal prompt, run:
+
+    defaults write org.beeware.podium WebKitDeveloperExtras -bool true
 
 Documentation
 -------------
