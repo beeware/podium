@@ -3,7 +3,7 @@ requires = ["briefcase"]
 
 [tool.briefcase]
 project_name = "Podium"
-version = "0.2"
+version = "0.3"
 bundle = "org.beeware"
 author = 'Russell Keith-Magee'
 author_email = 'russell@keith-magee.com'
