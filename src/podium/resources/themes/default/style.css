@@ -341,7 +341,6 @@ ol > li {
 ol
 {
     list-style-type: none;
-    counter-reset: list-item 0;
 }
 
 .right-column ol

@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from urllib.parse import quote
 
 import toga
@@ -30,15 +30,16 @@ class PrimarySlideWindow(toga.MainWindow):
         self.content = self.html_view
 
     @property
-    def template_name(self):
-        return "slide-template.html"
+    def template_path(self):
+        return self.deck.resource_path / "slide-template.html"
 
     def redraw(self, slide='1'):
-        with open(os.path.join(self.deck.resource_path, self.template_name), 'r') as data:
+        print(f"Loading slide template from {self.template_path}")
+        with self.template_path.open('r', encoding='utf-8') as data:
             template = data.read()
 
         content = template.format(
-            resource_path=os.path.join(self.deck.resource_path),
+            resource_path=self.deck.resource_path,
             theme=self.deck.theme,
             style_overrides=self.deck.style_overrides,
             aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
@@ -76,15 +77,16 @@ class SecondarySlideWindow(toga.Window):
         self.content = self.html_view
 
     @property
-    def template_name(self):
-        return "notes-template.html"
+    def template_path(self):
+        return self.deck.resource_path / "notes-template.html"
 
     def redraw(self, slide='1'):
-        with open(os.path.join(self.deck.resource_path, self.template_name), 'r') as data:
+        print(f"Loading notes template from {self.template_path}")
+        with self.template_path.open('r', encoding='utf-8') as data:
             template = data.read()
 
         content = template.format(
-            resource_path=os.path.join(self.deck.resource_path),
+            resource_path=self.deck.resource_path,
             theme=self.deck.theme,
             style_overrides=self.deck.style_overrides,
             aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
@@ -115,36 +117,41 @@ class SlideDeck(toga.Document):
         self.paused = False
 
     @property
+    def file_path(self):
+        return Path(self.filename)
+
+    @property
     def title(self):
-        return os.path.splitext(os.path.basename(self.filename))[0]
+        return self.file_path.stem
 
     @property
     def resource_path(self):
-        return os.path.join(
-            os.path.dirname(os.path.abspath(podium.__file__)),
-            'resources',
-        )
+        return self.app.paths.app / 'resources'
 
     def read(self):
         # TODO: There's only 1 theme.
         self.theme = 'default'
-        if os.path.isdir(self.filename):
+        if self.file_path.is_dir():
             # Multi-file .podium files must contain slides.md;
             # may contain style.css
-            styleFile = os.path.join(self.filename, "style.css")
-            contentFile = os.path.join(self.filename, "slides.md")
+            styleFile = self.file_path / "style.css"
+            contentFile = self.file_path / "slides.md"
 
+            print(f"Loading content from {contentFile}")
             with open(contentFile, 'r', encoding='utf-8') as f:
                 self.content = f.read()
 
-            if os.path.exists(styleFile):
-                with open(styleFile, 'r', encoding='utf-8') as f:
+            if styleFile.exists():
+                print(f"Loading style overrides from {styleFile}")
+                with styleFile.open('r', encoding='utf-8') as f:
                     self.style_overrides = f.read()
             else:
+                print(f"No style overrides")
                 self.style_overrides = ''
         else:
             # Single file can just be a standalone markdown file
-            with open(self.filename, 'r', encoding='utf-8') as f:
+            print(f"Loading content from {self.file_path}")
+            with self.file_path.open('r', encoding='utf-8') as f:
                 self.content = f.read()
             self.style_overrides = ''
 
