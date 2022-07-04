@@ -1,5 +1,3 @@
-import os
-
 import toga
 
 from podium.deck import SlideDeck
