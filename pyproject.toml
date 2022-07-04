@@ -22,7 +22,11 @@ icon = "src/podium/resources/podium-deck"
 url = 'https://beeware.org/project/projects/applications/podium/'
 
 [tool.briefcase.app.podium.macOS]
-requires = ["toga-cocoa>=0.3.0.dev28"]
+# Dev21 is the last version that used WebView, rather than WKWebView
+requires = [
+    "toga-cocoa==0.3.0.dev21",
+    "std-nslog==1.0.1",
+]
 
 [tool.briefcase.app.podium.linux]
-requires = ["toga-gtk>=0.3.0.dev28"]
+requires = ["toga-gtk==0.3.0.dev21"]
