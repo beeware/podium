@@ -5,33 +5,34 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="/resources/themes/{theme}/style.css" type="text/css" rel="stylesheet">
     <!-- Print template doesn't need animations link-->
+    <!-- style overrides from the slide deck itself -->
+    <link href="./style.css" type="text/css" rel="stylesheet">
     <style>
       /* Don't display the original source */
       #source {{
           display: none;
       }}
-{style_overrides}
 
-/* Overrides for printing */
-.remark-slide {{
-    -webkit-print-color-adjust: exact;
-}}
+      /* Overrides for printing */
+      .remark-slide {{
+          -webkit-print-color-adjust: exact;
+      }}
 
-.remark-container {{
-    overflow: visible;
-    background-color: #fff;
-}}
+      .remark-container {{
+          overflow: visible;
+          background-color: #fff;
+      }}
 
-.remark-slide-container {{
-    display: block;
-    position: relative;
-}}
+      .remark-slide-container {{
+          display: block;
+          position: relative;
+      }}
 
-.remark-slide-scaler {{
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}}
+      .remark-slide-scaler {{
+          -moz-box-shadow: none;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+      }}
     </style>
   </head>
   <body>

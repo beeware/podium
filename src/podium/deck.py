@@ -32,14 +32,12 @@ class PrimarySlideWindow(toga.MainWindow):
         return self.deck.resource_path / "slide-template.html"
 
     def html_content(self):
-        print(f"Loading slide template from {self.template_path}")
         with self.template_path.open('r', encoding="utf-8") as data:
             template = data.read()
 
         html = template.format(
             resource_path=self.deck.resource_path,
             theme=self.deck.theme,
-            style_overrides=self.deck.style_overrides,
             aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
             aspect_ratio=self.deck.aspect,
             title=self.deck.title,
@@ -83,14 +81,12 @@ class SecondarySlideWindow(toga.Window):
         return self.deck.resource_path / "notes-template.html"
 
     def html_content(self):
-        print(f"Loading notes template from {self.template_path}")
         with self.template_path.open('r', encoding='utf-8') as data:
             template = data.read()
 
         html = template.format(
             resource_path=self.deck.resource_path,
             theme=self.deck.theme,
-            style_overrides=self.deck.style_overrides,
             aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
             aspect_ratio=self.deck.aspect,
             title=self.deck.title,
@@ -144,26 +140,16 @@ class SlideDeck(toga.Document):
         if self.file_path.is_dir():
             # Multi-file .podium files must contain slides.md;
             # may contain style.css
-            styleFile = self.file_path / "style.css"
             contentFile = self.file_path / "slides.md"
 
             print(f"Loading content from {contentFile}")
             with open(contentFile, 'r', encoding='utf-8') as f:
                 self.content = f.read()
-
-            if styleFile.exists():
-                print(f"Loading style overrides from {styleFile}")
-                with styleFile.open('r', encoding='utf-8') as f:
-                    self.style_overrides = f.read()
-            else:
-                print(f"No style overrides")
-                self.style_overrides = ''
         else:
             # Single file can just be a standalone markdown file
             print(f"Loading content from {self.file_path}")
             with self.file_path.open('r', encoding='utf-8') as f:
                 self.content = f.read()
-            self.style_overrides = ''
 
     def show(self):
         self.window_1.redraw()
@@ -181,14 +167,12 @@ class SlideDeck(toga.Document):
         return self.resource_path / "print-template.html"
 
     def html_content(self):
-        print(f"Loading print template from {self.print_template_path}")
         with self.print_template_path.open('r', encoding='utf-8') as data:
             template = data.read()
 
         html = template.format(
             resource_path=self.resource_path,
             theme=self.theme,
-            style_overrides=self.style_overrides,
             aspect_ratio_tag=self.aspect.replace(':', '-'),
             aspect_ratio=self.aspect,
             title=self.title,
