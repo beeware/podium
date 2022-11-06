@@ -1,10 +1,8 @@
 from pathlib import Path
-from urllib.parse import quote
+import hashlib
 
 import toga
 from toga.style import Pack
-
-import podium
 
 
 class PrimarySlideWindow(toga.MainWindow):
@@ -33,22 +31,26 @@ class PrimarySlideWindow(toga.MainWindow):
     def template_path(self):
         return self.deck.resource_path / "slide-template.html"
 
-    def redraw(self, slide='1'):
+    def html_content(self):
         print(f"Loading slide template from {self.template_path}")
-        with self.template_path.open('r', encoding='utf-8') as data:
+        with self.template_path.open('r', encoding="utf-8") as data:
             template = data.read()
 
-        content = template.format(
+        html = template.format(
             resource_path=self.deck.resource_path,
             theme=self.deck.theme,
             style_overrides=self.deck.style_overrides,
             aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
             aspect_ratio=self.deck.aspect,
+            title=self.deck.title,
             slide_content=self.deck.content,
-            slide_number=slide,
+            slide_number=self.deck.current_slide,
         )
 
-        self.html_view.set_content(self.deck.fileURL, content)
+        return html.encode("utf-8")
+
+    def redraw(self):
+        self.html_view.url = f"{self.deck.base_url}/slides"
 
     def on_close(self):
         self.secondary.close()
@@ -80,22 +82,25 @@ class SecondarySlideWindow(toga.Window):
     def template_path(self):
         return self.deck.resource_path / "notes-template.html"
 
-    def redraw(self, slide='1'):
+    def html_content(self):
         print(f"Loading notes template from {self.template_path}")
         with self.template_path.open('r', encoding='utf-8') as data:
             template = data.read()
 
-        content = template.format(
+        html = template.format(
             resource_path=self.deck.resource_path,
             theme=self.deck.theme,
             style_overrides=self.deck.style_overrides,
             aspect_ratio_tag=self.deck.aspect.replace(':', '-'),
             aspect_ratio=self.deck.aspect,
+            title=self.deck.title,
             slide_content=self.deck.content,
-            slide_number=slide,
+            slide_number=self.deck.current_slide,
         )
+        return html.encode("utf-8")
 
-        self.html_view.set_content(self.deck.fileURL, content)
+    def redraw(self):
+        self.html_view.url = f"{self.deck.base_url}/notes"
 
 
 class SlideDeck(toga.Document):
@@ -115,10 +120,15 @@ class SlideDeck(toga.Document):
 
         self.reversed_displays = False
         self.paused = False
+        self.current_slide = 1
 
     @property
     def file_path(self):
         return Path(self.filename)
+
+    @property
+    def file_sha(self):
+        return hashlib.sha256(self.filename.encode("utf-8")).hexdigest()[:20]
 
     @property
     def title(self):
@@ -163,8 +173,30 @@ class SlideDeck(toga.Document):
         self.window_2.show()
 
     @property
-    def fileURL(self):
-        return 'file://{}/'.format(quote(self.filename))
+    def base_url(self):
+        return f'http://{self.app.server_host}:{self.app.server_port}/deck/{self.file_sha}'
+
+    @property
+    def print_template_path(self):
+        return self.resource_path / "print-template.html"
+
+    def html_content(self):
+        print(f"Loading print template from {self.print_template_path}")
+        with self.print_template_path.open('r', encoding='utf-8') as data:
+            template = data.read()
+
+        html = template.format(
+            resource_path=self.resource_path,
+            theme=self.theme,
+            style_overrides=self.style_overrides,
+            aspect_ratio_tag=self.aspect.replace(':', '-'),
+            aspect_ratio=self.aspect,
+            title=self.title,
+            slide_content=self.content,
+            slide_number=self.current_slide,
+        )
+        return html.encode("utf-8")
+
 
     def switch_screens(self):
         print("Switch screens")
@@ -217,14 +249,15 @@ class SlideDeck(toga.Document):
     async def reload(self):
         self.read()
 
-        slide = await self.window_1.html_view.evaluate_javascript("slideshow.getCurrentSlideNo()")
+        self.current_slide = await self.window_1.html_view.evaluate_javascript("slideshow.getCurrentSlideNo()")
 
-        print("Current slide:", slide)
-        self.redraw(slide)
+        print("Current slide:", self.current_slide)
 
-    def redraw(self, slide=None):
-        self.window_1.redraw(slide)
-        self.window_2.redraw(slide)
+        self.redraw()
+
+    def redraw(self):
+        self.window_1.redraw()
+        self.window_2.redraw()
 
     async def on_key_press(self, widget, key, modifiers):
         print("KEY =", key, "modifiers=", modifiers)
