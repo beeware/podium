@@ -5,9 +5,9 @@
 Podium
 ======
 
-.. image:: https://badges.gitter.im/beeware/general.svg
-   :target: https://gitter.im/beeware/general
-
+.. image:: https://img.shields.io/discord/836455665257021440?label=Discord%20Chat&logo=discord&style=plastic
+   :target: https://beeware.org/bee/chat/
+   :alt: Discord server
 
 A markup-based slide presentation tool.
 
@@ -185,7 +185,7 @@ Podium is part of the `BeeWare suite`_. You can talk to the community through:
 
 * `@pybeeware on Twitter`_
 
-* The `beeware/general`_ channel on Gitter.
+* `Discord <https://beeware.org/bee/chat/>`__
 
 We foster a welcoming and respectful community as described in our
 `BeeWare Community Code of Conduct`_.
