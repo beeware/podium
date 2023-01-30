@@ -6,21 +6,21 @@
   font-family: 'Droid Serif';
   font-style: normal;
   font-weight: 400;
-  src: url(./DroidSerif.woff) format('woff');
+  src: url(/resources/themes/default/DroidSerif.woff) format('woff');
 }
 
 @font-face {
   font-family: 'Yanone Kaffeesatz';
   font-style: normal;
   font-weight: 400;
-  src: url(./YanoneKaffeesatz-Regular.woff) format('woff');
+  src: url(/resources/themes/default/YanoneKaffeesatz-Regular.woff) format('woff');
 }
 
 @font-face {
   font-family: 'Ubuntu Mono';
   font-style: normal;
   font-weight: 400;
-  src: url(./UbuntuMono-Regular.woff) format('woff');
+  src: url(/resources/themes/default/UbuntuMono-Regular.woff) format('woff');
 }
 
 /*******************************
