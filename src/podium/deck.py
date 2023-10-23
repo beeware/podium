@@ -23,7 +23,6 @@ class PrimarySlideWindow(toga.MainWindow):
                 width=984 if self.deck.aspect == '16:9' else 738,
                 height=576
             ),
-            on_key_down=self.deck.on_key_press
         )
         self.content = self.html_view
 
@@ -61,7 +60,7 @@ class SecondarySlideWindow(toga.Window):
             title=self.deck.title + ": Speaker notes",
             position=(100, 100),
             size=(984 if self.deck.aspect == '16:9' else 738, 576),
-            closeable=False
+            closable=False
         )
         self.create()
 
@@ -72,7 +71,6 @@ class SecondarySlideWindow(toga.Window):
                 width=984 if self.deck.aspect == '16:9' else 738,
                 height=576
             ),
-            on_key_down=self.deck.on_key_press
         )
         self.content = self.html_view
 
@@ -100,35 +98,29 @@ class SecondarySlideWindow(toga.Window):
 
 
 class SlideDeck(toga.Document):
-    def __init__(self, filename, app):
+    def __init__(self, path, app):
         super().__init__(
-            filename=filename,
+            path=path,
             document_type='Podium Slide Deck',
             app=app,
         )
 
+    def create(self):
         self.aspect = '16:9'
         self.window_2 = SecondarySlideWindow(self)
-        self.window_2.app = self.app
-
         self.window_1 = PrimarySlideWindow(self, self.window_2)
-        self.window_1.app = self.app
 
         self.reversed_displays = False
         self.paused = False
         self.current_slide = 1
 
     @property
-    def file_path(self):
-        return Path(self.filename)
-
-    @property
     def file_sha(self):
-        return hashlib.sha256(self.filename.encode("utf-8")).hexdigest()[:20]
+        return hashlib.sha256(str(self.path).encode("utf-8")).hexdigest()[:20]
 
     @property
     def title(self):
-        return self.file_path.stem
+        return self.path.stem
 
     @property
     def resource_path(self):
@@ -137,18 +129,18 @@ class SlideDeck(toga.Document):
     def read(self):
         # TODO: There's only 1 theme.
         self.theme = 'default'
-        if self.file_path.is_dir():
+        if self.path.is_dir():
             # Multi-file .podium files must contain slides.md;
             # may contain style.css
-            contentFile = self.file_path / "slides.md"
+            contentFile = self.path / "slides.md"
 
             print(f"Loading content from {contentFile}")
             with open(contentFile, 'r', encoding='utf-8') as f:
                 self.content = f.read()
         else:
             # Single file can just be a standalone markdown file
-            print(f"Loading content from {self.file_path}")
-            with self.file_path.open('r', encoding='utf-8') as f:
+            print(f"Loading content from {self.path}")
+            with self.path.open('r', encoding='utf-8') as f:
                 self.content = f.read()
 
     def show(self):
@@ -180,7 +172,6 @@ class SlideDeck(toga.Document):
             slide_number=self.current_slide,
         )
         return html.encode("utf-8")
-
 
     def switch_screens(self):
         print("Switch screens")
@@ -296,20 +287,20 @@ class SlideDeck(toga.Document):
     def reset_timer(self):
         print("Reset Timer")
 
-        self.window_1.html_view.invoke_javascript("slideshow.resetTimer()")
-        self.window_2.html_view.invoke_javascript("slideshow.resetTimer()")
+        self.window_1.html_view.evaluate_javascript("slideshow.resetTimer()")
+        self.window_2.html_view.evaluate_javascript("slideshow.resetTimer()")
 
     def toggle_pause(self):
         if self.app.is_full_screen:
             if self.paused:
                 print("Resume presentation")
-                self.window_1.html_view.invoke_javascript("slideshow.resume()")
-                self.window_2.html_view.invoke_javascript("slideshow.resume()")
+                self.window_1.html_view.evaluate_javascript("slideshow.resume()")
+                self.window_2.html_view.evaluate_javascript("slideshow.resume()")
                 self.paused = False
             else:
                 print("Pause presentation")
-                self.window_1.html_view.invoke_javascript("slideshow.pause()")
-                self.window_2.html_view.invoke_javascript("slideshow.pause()")
+                self.window_1.html_view.evaluate_javascript("slideshow.pause()")
+                self.window_2.html_view.evaluate_javascript("slideshow.pause()")
                 self.paused = True
         else:
             print("Presentation not in fullscreen mode; pause/play disabled")
@@ -317,23 +308,23 @@ class SlideDeck(toga.Document):
     def goto_first_slide(self):
         print("Goto first slide")
 
-        self.window_1.html_view.invoke_javascript("slideshow.gotoFirstSlide()")
-        self.window_2.html_view.invoke_javascript("slideshow.gotoFirstSlide()")
+        self.window_1.html_view.evaluate_javascript("slideshow.gotoFirstSlide()")
+        self.window_2.html_view.evaluate_javascript("slideshow.gotoFirstSlide()")
 
     def goto_last_slide(self):
         print("Goto previous slide")
 
-        self.window_1.html_view.invoke_javascript("slideshow.gotoLastSlide()")
-        self.window_2.html_view.invoke_javascript("slideshow.gotoLastSlide()")
+        self.window_1.html_view.evaluate_javascript("slideshow.gotoLastSlide()")
+        self.window_2.html_view.evaluate_javascript("slideshow.gotoLastSlide()")
 
     def goto_next_slide(self):
         print("Goto next slide")
 
-        self.window_1.html_view.invoke_javascript("slideshow.gotoNextSlide()")
-        self.window_2.html_view.invoke_javascript("slideshow.gotoNextSlide()")
+        self.window_1.html_view.evaluate_javascript("slideshow.gotoNextSlide()")
+        self.window_2.html_view.evaluate_javascript("slideshow.gotoNextSlide()")
 
     def goto_previous_slide(self):
         print("Goto previous slide")
 
-        self.window_1.html_view.invoke_javascript("slideshow.gotoPreviousSlide()")
-        self.window_2.html_view.invoke_javascript("slideshow.gotoPreviousSlide()")
+        self.window_1.html_view.evaluate_javascript("slideshow.gotoPreviousSlide()")
+        self.window_2.html_view.evaluate_javascript("slideshow.gotoPreviousSlide()")

@@ -10,7 +10,8 @@ from podium.deck import SlideDeck
 
 
 class DeckHTTPHandler(SimpleHTTPRequestHandler):
-    DECK_URL_RE = re.compile("^/deck/([a-z\d]+)/(slides|notes|print)$")
+    DECK_URL_RE = re.compile(r"^/deck/([a-z\d]+)/(slides|notes|print)$")
+
     def do_GET(self):
         # Look for the URLs for dynamic deck content:
         #     /deck/<id>/slides
@@ -55,7 +56,7 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
             try:
                 parts = path.split('/', 3)
                 deck = self.server.app.deck_for_id(parts[2])
-                return f"{deck.filename}/{parts[3]}"
+                return f"{deck.path}/{parts[3]}"
             except KeyError:
                 self.send_error(HTTPStatus.NOT_FOUND, "Deck not found")
                 return None
