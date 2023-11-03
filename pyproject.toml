@@ -23,11 +23,11 @@ url = 'https://beeware.org/project/projects/applications/podium/'
 
 [tool.briefcase.app.podium.macOS]
 requires = [
-    "toga-cocoa>=0.3.0",
+    "toga-cocoa~=0.4.0",
     "std-nslog==1.0.1",
 ]
 
 [tool.briefcase.app.podium.linux]
 requires = [
-    "toga-gtk>=0.3.0"
+    "toga-gtk~=0.4.0"
 ]
