@@ -10,7 +10,8 @@ from podium.deck import SlideDeck
 
 
 class DeckHTTPHandler(SimpleHTTPRequestHandler):
-    DECK_URL_RE = re.compile("^/deck/([a-z\d]+)/(slides|notes|print)$")
+    DECK_URL_RE = re.compile(r"^/deck/([a-z\d]+)/(slides|notes|print)$")
+
     def do_GET(self):
         # Look for the URLs for dynamic deck content:
         #     /deck/<id>/slides
@@ -55,7 +56,7 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
             try:
                 parts = path.split('/', 3)
                 deck = self.server.app.deck_for_id(parts[2])
-                return f"{deck.filename}/{parts[3]}"
+                return f"{deck.path}/{parts[3]}"
             except KeyError:
                 self.send_error(HTTPStatus.NOT_FOUND, "Deck not found")
                 return None
@@ -130,6 +131,13 @@ class Podium(toga.DocumentApp):
     # PLAY commands ##################################################
 
     def play(self, widget, **kwargs):
+        self.play_command.enabled = False
+        self.stop_command.enabled = True
+        self.current_window.deck.toggle_full_screen()
+
+    def stop(self, widget, **kwargs):
+        self.play_command.enabled = True
+        self.stop_command.enabled = False
         self.current_window.deck.toggle_full_screen()
 
     def reset_timer(self, widget, **kwargs):
@@ -175,22 +183,33 @@ class Podium(toga.DocumentApp):
                 section=2
             ),
         )
-        self.commands.add(
-            toga.Command(
+        self.play_command = toga.Command(
                 self.play,
                 text='Play slideshow',
                 shortcut=toga.Key.MOD_1 + 'P',
                 group=play_group,
                 section=0,
                 order=0,
-            ),
+            )
+        self.stop_command = toga.Command(
+                self.stop,
+                text='Stop slideshow',
+                shortcut=toga.Key.ESCAPE,
+                group=play_group,
+                section=0,
+                order=1,
+                enabled=False,
+            )
+        self.commands.add(
+            self.play_command,
+            self.stop_command,
             toga.Command(
                 self.reset_timer,
                 text='Reset timer',
                 shortcut=toga.Key.MOD_1 + 't',
                 group=play_group,
                 section=0,
-                order=1,
+                order=2,
             ),
             toga.Command(
                 self.next_slide,
