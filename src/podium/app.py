@@ -131,6 +131,13 @@ class Podium(toga.DocumentApp):
     # PLAY commands ##################################################
 
     def play(self, widget, **kwargs):
+        self.play_command.enabled = False
+        self.stop_command.enabled = True
+        self.current_window.deck.toggle_full_screen()
+
+    def stop(self, widget, **kwargs):
+        self.play_command.enabled = True
+        self.stop_command.enabled = False
         self.current_window.deck.toggle_full_screen()
 
     def reset_timer(self, widget, **kwargs):
@@ -176,22 +183,33 @@ class Podium(toga.DocumentApp):
                 section=2
             ),
         )
-        self.commands.add(
-            toga.Command(
+        self.play_command = toga.Command(
                 self.play,
                 text='Play slideshow',
                 shortcut=toga.Key.MOD_1 + 'P',
                 group=play_group,
                 section=0,
                 order=0,
-            ),
+            )
+        self.stop_command = toga.Command(
+                self.stop,
+                text='Stop slideshow',
+                shortcut=toga.Key.ESCAPE,
+                group=play_group,
+                section=0,
+                order=1,
+                enabled=False,
+            )
+        self.commands.add(
+            self.play_command,
+            self.stop_command,
             toga.Command(
                 self.reset_timer,
                 text='Reset timer',
                 shortcut=toga.Key.MOD_1 + 't',
                 group=play_group,
                 section=0,
-                order=1,
+                order=2,
             ),
             toga.Command(
                 self.next_slide,
