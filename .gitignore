@@ -8,8 +8,6 @@ build
 _build
 distribute-*
 local
-macOS
-linux
-windows
 .DS_Store
 venv
+logs
