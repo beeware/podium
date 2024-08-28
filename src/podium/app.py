@@ -26,9 +26,9 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
         if match:
             deck = self.server.app.deck_for_id(match[1])
             if match[2] == "slides":
-                content = deck.window_1.html_content()
+                content = deck.main_window.html_content()
             elif match[2] == "notes":
-                content = deck.window_2.html_content()
+                content = deck.secondary_window.html_content()
             elif match[2] == "print":
                 content = deck.html_content()
             else:
@@ -83,10 +83,10 @@ class PodiumHTTPServer(HTTPServer):
         return self.app.paths.app / "resources"
 
 
-class Podium(toga.DocumentApp):
+class Podium(toga.App):
     def __init__(self):
         super().__init__(
-            document_types={'podium': SlideDeck},
+            document_types=[SlideDeck],
         )
 
         self.server_exists = Event()
@@ -123,47 +123,51 @@ class Podium(toga.DocumentApp):
     # FILE commands ##################################################
 
     async def reload(self, widget, **kwargs):
-        await self.current_window.deck.reload()
+        await self.current_window.doc.reload()
 
     def print(self, widget, **kwargs):
-        webbrowser.open(f"{self.current_window.deck.base_url}/print")
+        webbrowser.open(f"{self.current_window.doc.base_url}/print")
 
     # PLAY commands ##################################################
 
     def play(self, widget, **kwargs):
         self.play_command.enabled = False
         self.stop_command.enabled = True
-        self.current_window.deck.toggle_full_screen()
+        self.current_window.doc.toggle_full_screen()
 
     def stop(self, widget, **kwargs):
         self.play_command.enabled = True
         self.stop_command.enabled = False
-        self.current_window.deck.toggle_full_screen()
+        self.current_window.doc.toggle_full_screen()
 
     def reset_timer(self, widget, **kwargs):
-        self.current_window.deck.reset_timer()
+        self.current_window.doc.reset_timer()
 
     def next_slide(self, widget, **kwargs):
-        self.current_window.deck.goto_next_slide()
+        self.current_window.doc.goto_next_slide()
 
     def previous_slide(self, widget, **kwargs):
-        self.current_window.deck.goto_previous_slide()
+        self.current_window.doc.goto_previous_slide()
 
     def first_slide(self, widget, **kwargs):
-        self.current_window.deck.goto_first_slide()
+        self.current_window.doc.goto_first_slide()
 
     def last_slide(self, widget, **kwargs):
-        self.current_window.deck.goto_last_slide()
+        self.current_window.doc.goto_last_slide()
 
     # VIEW commands ##################################################
 
     def switch_screens(self, widget, **kwargs):
-        self.current_window.deck.switch_screens()
+        self.current_window.doc.switch_screens()
 
     def change_aspect_ratio(self, widget, **kwargs):
-        self.current_window.deck.change_aspect_ratio()
+        self.current_window.doc.change_aspect_ratio()
 
     def startup(self):
+        # Document-based app; no main window.
+        self.main_window = None
+
+        # Add commands for slide control.
         play_group = toga.Group('Play', order=31)
         view_group = toga.Group('View', order=32)
 

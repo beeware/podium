@@ -4,6 +4,7 @@ requires = ["briefcase"]
 [tool.briefcase]
 project_name = "Podium"
 version = "0.3"
+license.file = "LICENSE"
 bundle = "org.beeware"
 author = 'Russell Keith-Magee'
 author_email = 'russell@keith-magee.com'
@@ -13,21 +14,26 @@ homepage = 'https://beeware.org/project/projects/applications/podium'
 formal_name = "Podium"
 description = "A presentation tool for developers."
 sources = ["src/podium"]
-icon = "src/podium/resources/podium"
+icon = "icons/podium"
 
 [tool.briefcase.app.podium.document_type.deck]
 description = "Podium Slide Deck"
 extension = "podium"
-icon = "src/podium/resources/podium-deck"
+icon = "icons/podium-deck"
 url = 'https://beeware.org/project/projects/applications/podium/'
 
 [tool.briefcase.app.podium.macOS]
 requires = [
-    "toga-cocoa~=0.4.0",
+    "toga-cocoa==0.4.6",
     "std-nslog==1.0.1",
 ]
 
 [tool.briefcase.app.podium.linux]
 requires = [
-    "toga-gtk~=0.4.0"
+    "toga-gtk==0.4.6"
+]
+
+[tool.briefcase.app.podium.windows]
+requires = [
+    "toga-winforms==0.4.6"
 ]
