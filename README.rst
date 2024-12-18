@@ -90,7 +90,8 @@ it in Podium.
 
 Controls from here are keyboard based:
 
-* CMD-P - Enter presentation mode; or, if in presentation mode, Pause timer
+* CMD-Shift-P - Enter presentation mode; or, if in presentation mode, Pause timer
+* CMD-P - Open presentation in Print view
 * Esc - Exit presentation mode
 * CMD-Tab - Switch displays
 * Right/Left arrows - Next/previous slide
