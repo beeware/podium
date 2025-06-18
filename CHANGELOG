@@ -1,0 +1,9 @@
+# Podium Release Notes
+
+# In development
+
+* Updated to use Toga 0.5.1, and new Document-based app structure
+
+# v0.2 (2 Jan 2020)
+
+* First formal release. Includes macOS and Linux support.
