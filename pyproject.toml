@@ -24,16 +24,16 @@ url = 'https://beeware.org/project/projects/applications/podium/'
 
 [tool.briefcase.app.podium.macOS]
 requires = [
-    "toga-cocoa==0.4.6",
+    "toga-cocoa==0.5.1",
     "std-nslog==1.0.1",
 ]
 
 [tool.briefcase.app.podium.linux]
 requires = [
-    "toga-gtk==0.4.6"
+    "toga-gtk==0.5.1"
 ]
 
 [tool.briefcase.app.podium.windows]
 requires = [
-    "toga-winforms==0.4.6"
+    "toga-winforms==0.5.1"
 ]
