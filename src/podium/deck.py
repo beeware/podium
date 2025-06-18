@@ -29,7 +29,6 @@ class PrimarySlideWindow(toga.DocumentWindow):
         super().__init__(
             doc=doc,
             size=size_for_aspect(doc.aspect),
-            on_close=self.close_all
         )
         self.create()
 
@@ -65,9 +64,9 @@ class PrimarySlideWindow(toga.DocumentWindow):
     def redraw(self):
         self.html_view.url = f"{self.doc.base_url}/slides"
 
-    def close_all(self, window, **kwargs):
+    def close(self):
         self.secondary.close()
-        return True
+        super().close()
 
 
 class SecondarySlideWindow(toga.Window):
