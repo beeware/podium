@@ -198,7 +198,7 @@ class Podium(toga.App):
         self.stop_command = toga.Command(
                 self.stop,
                 text='Stop slideshow',
-                shortcut=toga.Key.ESCAPE,
+                shortcut=toga.Key.MOD_1 + toga.Key.ESCAPE,
                 group=play_group,
                 section=0,
                 order=1,
