@@ -78,16 +78,6 @@ file dialog, prompting you to open a ``.podium`` slide deck. An example Podium
 slide deck is also available in the releases folder. Unzip the deck, and open
 it in Podium.
 
-.. note::
-
-    The Linux AppImage format is a cross-platform binary that should run on
-    any Linux distribution using GLibC 2.23 or later - this includes Ubuntu
-    16.04 and later, Fedora 24 and later, and others.
-
-    After downloading the AppImage, you may need to mark the AppImage file as
-    executable (``chmod +x Podium-*.AppImage``) first. In Linux, ``.podium``
-    files appear as directories; select the directory and click ``Open``.
-
 Controls from here are keyboard based:
 
 * CMD-Shift-P - Enter presentation mode; or, if in presentation mode, Pause timer
@@ -117,10 +107,10 @@ If you're using Linux, you'll need to install some system packages first::
 
     # Ubuntu/Debian
     $ sudo apt-get update
-    $ sudo apt-get install python3-dev libgirepository1.0-dev libcairo2-dev libpango1.0-dev libwebkit2gtk-4.0-37 gir1.2-webkit2-4.0
+    $ sudo apt-get install python3-dev libgirepository2.0-dev libcairo2-dev libpango1.0-dev gir1.2-gtk-3.0 libcanberra-gtk3-module gir1.2-webkit2-4.1
 
     # Fedora
-    $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel cairo-gobject-devel pango-devel webkitgtk3
+    $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel gtk3 cairo-gobject-devel pango-devel libcanberra-gtk3 webkit2gtk4.1
 
 
 Then, you can create a virtual environment and install the BeeWare tools::
@@ -129,7 +119,7 @@ Then, you can create a virtual environment and install the BeeWare tools::
     $ cd beeware
     $ python3 -m venv venv
     $ source venv/bin/activate
-    (venv) $ pip install --pre beeware
+    (venv) $ pip install briefcase
 
 Now that you have the code, you can clone the Podium repository and run it in
 developer mode::
@@ -147,15 +137,9 @@ Use `Briefcase`_ to package this repository as a standalone application::
 
     $ briefcase package
 
-Depending on your platform, this will produce a ``macOS`` folder containing
-a Podium DMG file, or a ``linux`` folder containing a ``.AppImage`` file.
-
-.. note::
-
-    Packaging cross-distribution Linux binaries is a complex process; See `the
-    notes on AppImage packaging
-    <https://briefcase.readthedocs.io/en/latest/reference/platforms/linux/appimage.html>`__
-    in the Briefcase documentation for more details.
+Depending on your platform, this will produce a ``macOS`` folder containing a
+Podium DMG file, or a ``linux`` folder containing a system package appropriate
+to your distribution (a `.deb`, `.rpm` or `.pkg.zip` file)
 
 Overriding Default themes
 -------------------------
