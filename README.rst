@@ -107,10 +107,10 @@ If you're using Linux, you'll need to install some system packages first::
 
     # Ubuntu/Debian
     $ sudo apt-get update
-    $ sudo apt-get install python3-dev libgirepository2.0-dev libcairo2-dev libpango1.0-dev gir1.2-gtk-3.0 libcanberra-gtk3-module gir1.2-webkit2-4.1
+    $ sudo apt-get install python3-dev libgirepository2.0-dev libcairo2-dev libpango1.0-dev gir1.2-gtk-3.0 libcanberra-gtk3-module gir1.2-webkit2-4.1 dpkg-dev
 
     # Fedora
-    $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel gtk3 cairo-gobject-devel pango-devel libcanberra-gtk3 webkit2gtk4.1
+    $ sudo dnf install pkg-config python3-devel gobject-introspection-devel cairo-devel gtk3 cairo-gobject-devel pango-devel libcanberra-gtk3 webkit2gtk4.1 rpm-build
 
 
 Then, you can create a virtual environment and install the BeeWare tools::
