@@ -56,7 +56,7 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
             try:
                 parts = path.split('/', 3)
                 deck = self.server.app.deck_for_id(parts[2])
-                return f"{deck.path}/{parts[3]}"
+                return f"{deck.content_path}/{parts[3]}"
             except KeyError:
                 self.send_error(HTTPStatus.NOT_FOUND, "Deck not found")
                 return None

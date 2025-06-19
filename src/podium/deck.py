@@ -138,6 +138,13 @@ class SlideDeck(toga.Document):
     def resource_path(self):
         return self.app.paths.app / 'resources'
 
+    @property
+    def content_path(self):
+        if self.path and self.path.suffix == ".md":
+            return self.path.parent
+        else:
+            return self.path
+
     def read(self):
         if self.path.is_dir():
             # Multi-file .podium files must contain slides.md;
