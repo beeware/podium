@@ -13,6 +13,10 @@ homepage = 'https://beeware.org/project/projects/applications/podium'
 [tool.briefcase.app.podium]
 formal_name = "Podium"
 description = "A presentation tool for developers."
+long_description = """A slide presentation tool.
+
+It is focussed on developer needs, using Markdown as a slide format.
+"""
 sources = ["src/podium"]
 icon = "icons/podium"
 
