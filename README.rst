@@ -167,7 +167,7 @@ Debugging
 ---------
 
 If you need to debug the CSS for a slide, you may want to use the "inspect
-element" feature of the webview. You may need to enable manually enable the
+element" feature of the webview. You may need to manually enable the
 feature at an operating system level:
 
 * **macOS**: at a terminal prompt, run:
