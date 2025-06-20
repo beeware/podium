@@ -9,5 +9,6 @@ _build
 distribute-*
 local
 .DS_Store
-venv
+venv*
+.venv*
 logs
