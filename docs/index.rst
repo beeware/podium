@@ -41,22 +41,28 @@ virtualenv is activated.
 Documentation
 -------------
 
-Documentation for Podium can be found on `Read The Docs`_.
+Documentation for Podium can be found on `Read The Docs <http://podium-app.readthedocs.org>`__.
 
 Community
 ---------
 
-Podium is part of the `BeeWare suite`_. You can talk to the community through:
+Podium is part of the `BeeWare suite <https://beeware.org>`__. You can talk to the
+community through:
 
- * `@pybeeware on Twitter`_
+* `@beeware@fosstodon.org on Mastodon <https://fosstodon.org/@beeware>`__
 
- * The `BeeWare Gitter channel`_, for discussing the development of new features in the BeeWare suite, and ideas for new tools for the suite and questions about how to use the BeeWare suite.
+* `Discord <https://beeware.org/bee/chat/>`__
 
+We foster a welcoming and respectful community as described in our `BeeWare Community
+Code of Conduct <https://beeware.org/community/behavior/>`__.
 
-.. _BeeWare suite: http://pybee.org
-.. _Read The Docs: http://podium-app.readthedocs.org
-.. _@pybeeware on Twitter: https://twitter.com/pybeeware
-.. _BeeWare Gitter channel: https://gitter.im/pybee/general
+Contributing
+------------
+
+If you experience problems with Podium, `log them on GitHub <https://github.com/beeware/podium/issues>`__.
+
+If you want to contribute, please `fork the project <https://github.com/beeware/podium>`__ and `submit a pull request <https://github.com/beeware/podium/pulls>`__.
+
 
 Contents:
 
