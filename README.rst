@@ -182,29 +182,26 @@ Documentation for Podium can be found on `Read The Docs`_.
 Community
 ---------
 
-Podium is part of the `BeeWare suite`_. You can talk to the community through:
+Podium is part of the `BeeWare suite <https://beeware.org>`__. You can talk to the
+community through:
 
-* `@pybeeware on Twitter`_
+* `@beeware@fosstodon.org on Mastodon <https://fosstodon.org/@beeware>`__
 
 * `Discord <https://beeware.org/bee/chat/>`__
 
-We foster a welcoming and respectful community as described in our
-`BeeWare Community Code of Conduct`_.
+We foster a welcoming and respectful community as described in our `BeeWare Community
+Code of Conduct <https://beeware.org/community/behavior/>`__.
 
 Contributing
 ------------
 
-If you experience problems with Podium, `log them on GitHub`_. If you
-want to contribute code, please `fork the code`_ and `submit a pull request`_.
+If you experience problems with Podium, `log them on GitHub <https://github.com/beeware/podium/issues>`__.
+
+If you want to contribute, please `fork the project <https://github.com/beeware/podium>`__ and `submit a pull request <https://github.com/beeware/podium/pulls>`__.
+
 
 .. _BeeWare suite: https://beeware.org/
 .. _Keynote: https://en.wikipedia.org/wiki/Keynote_(presentation_software)
 .. _PowerPoint: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 .. _Briefcase: https://github.com/beeware/briefcase
 .. _Read The Docs: https://podium-app.readthedocs.io/en/latest/
-.. _@pybeeware on Twitter: https://twitter.com/pybeeware
-.. _beeware/general: https://gitter.im/beeware/general
-.. _BeeWare Community Code of Conduct: https://beeware.org/community/behavior/
-.. _log them on Github: https://github.com/beeware/podium/issues
-.. _fork the code: https://github.com/beeware/podium
-.. _submit a pull request: https://github.com/beeware/podium/pulls
