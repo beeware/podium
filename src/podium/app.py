@@ -163,6 +163,9 @@ class Podium(toga.App):
     def change_aspect_ratio(self, widget, **kwargs):
         self.current_window.doc.change_aspect_ratio()
 
+    def open_in_browser(self, widget, **kwargs):
+        webbrowser.open(f"{self.current_window.doc.base_url}/slides")
+
     def startup(self):
         # Document-based app; no main window.
         self.main_window = None
@@ -259,6 +262,11 @@ class Podium(toga.App):
                 self.change_aspect_ratio,
                 text='Change aspect ratio',
                 shortcut=toga.Key.MOD_1 + 'a',
+                group=view_group,
+            ),
+            toga.Command(
+                self.open_in_browser,
+                text='Open in browser',
                 group=view_group,
             ),
         )
