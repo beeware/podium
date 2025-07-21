@@ -25,6 +25,7 @@ description = "Podium Slide Deck"
 extension = "podium"
 icon = "icons/podium-deck"
 url = 'https://beeware.org/project/projects/applications/podium/'
+macOS.UTTypeConformsTo = ["com.apple.package", "public.content"]
 
 [tool.briefcase.app.podium.macOS]
 requires = [
