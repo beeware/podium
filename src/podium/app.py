@@ -56,7 +56,7 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
             try:
                 parts = path.split('/', 3)
                 deck = self.server.app.deck_for_id(parts[2])
-                return f"{deck.path}/{parts[3]}"
+                return f"{deck.content_path}/{parts[3]}"
             except KeyError:
                 self.send_error(HTTPStatus.NOT_FOUND, "Deck not found")
                 return None
@@ -163,6 +163,9 @@ class Podium(toga.App):
     def change_aspect_ratio(self, widget, **kwargs):
         self.current_window.doc.change_aspect_ratio()
 
+    def open_in_browser(self, widget, **kwargs):
+        webbrowser.open(f"{self.current_window.doc.base_url}/slides")
+
     def startup(self):
         # Document-based app; no main window.
         self.main_window = None
@@ -198,7 +201,7 @@ class Podium(toga.App):
         self.stop_command = toga.Command(
                 self.stop,
                 text='Stop slideshow',
-                shortcut=toga.Key.ESCAPE,
+                shortcut=toga.Key.MOD_1 + toga.Key.ESCAPE,
                 group=play_group,
                 section=0,
                 order=1,
@@ -259,6 +262,11 @@ class Podium(toga.App):
                 self.change_aspect_ratio,
                 text='Change aspect ratio',
                 shortcut=toga.Key.MOD_1 + 'a',
+                group=view_group,
+            ),
+            toga.Command(
+                self.open_in_browser,
+                text='Open in browser',
                 group=view_group,
             ),
         )
