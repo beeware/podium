@@ -78,6 +78,10 @@ function() {
     var classes = (block.className + ' ' + (block.parentNode ? block.parentNode.className : '')).split(/\s+/);
     classes = classes.map(function(c) {return c.replace(/^language-/, '')});
     for (var i = 0; i < classes.length; i++) {
+      // This bundled highlighter does not know TOML; avoid autodetecting it as SQL.
+      if (classes[i] == 'toml') {
+        return 'no-highlight';
+      }
       if (languages[classes[i]] || classes[i] == 'no-highlight') {
         return classes[i];
       }
