@@ -151,7 +151,7 @@ class SlideDeck(toga.Document):
             contentFile = self.path / "slides.md"
 
             print(f"Loading content from {contentFile}")
-            with open(contentFile, "r", encoding="utf-8") as f:
+            with open(contentFile, encoding="utf-8") as f:
                 self.content = f.read()
         else:
             # Single file can just be a standalone markdown file

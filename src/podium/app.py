@@ -1,8 +1,8 @@
+import re
+import webbrowser
 from http import HTTPStatus
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Event, Thread
-import re
-import webbrowser
 
 import toga
 
