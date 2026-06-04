@@ -2,13 +2,15 @@ import hashlib
 
 import toga
 
+
 def size_for_aspect(aspect):
-    return (984 if aspect == '16:9' else 738, 576)
+    return (984 if aspect == "16:9" else 738, 576)
 
 
 def gtk_key_press_event(widget, event):
     # GTK WebViews eat keyboard press events.
     from toga_gtk.libs import Gdk
+
     if event.keyval == Gdk.KEY_Right:
         widget.interface.app.next_slide(None)
     elif event.keyval == Gdk.KEY_Left:
@@ -46,13 +48,13 @@ class PrimarySlideWindow(toga.DocumentWindow):
         return self.doc.resource_path / "slide-template.html"
 
     def html_content(self):
-        with self.template_path.open('r', encoding="utf-8") as data:
+        with self.template_path.open("r", encoding="utf-8") as data:
             template = data.read()
 
         html = template.format(
             resource_path=self.doc.resource_path,
             theme=self.doc.theme,
-            aspect_ratio_tag=self.doc.aspect.replace(':', '-'),
+            aspect_ratio_tag=self.doc.aspect.replace(":", "-"),
             aspect_ratio=self.doc.aspect,
             title=self.doc.title,
             slide_content=self.doc.content,
@@ -72,10 +74,7 @@ class PrimarySlideWindow(toga.DocumentWindow):
 class SecondarySlideWindow(toga.Window):
     def __init__(self, doc):
         self.doc = doc
-        super().__init__(
-            size=size_for_aspect(doc.aspect),
-            closable=False
-        )
+        super().__init__(size=size_for_aspect(doc.aspect), closable=False)
         self.create()
 
     @property
@@ -96,13 +95,13 @@ class SecondarySlideWindow(toga.Window):
         return self.doc.resource_path / "notes-template.html"
 
     def html_content(self):
-        with self.template_path.open('r', encoding='utf-8') as data:
+        with self.template_path.open("r", encoding="utf-8") as data:
             template = data.read()
 
         html = template.format(
             resource_path=self.doc.resource_path,
             theme=self.doc.theme,
-            aspect_ratio_tag=self.doc.aspect.replace(':', '-'),
+            aspect_ratio_tag=self.doc.aspect.replace(":", "-"),
             aspect_ratio=self.doc.aspect,
             title=self.doc.title,
             slide_content=self.doc.content,
@@ -120,8 +119,8 @@ class SlideDeck(toga.Document):
 
     def create(self):
         # TODO: There's only 1 theme.
-        self.theme = 'default'
-        self.aspect = '16:9'
+        self.theme = "default"
+        self.aspect = "16:9"
         self.reversed_displays = False
         self.paused = False
         self.current_slide = 1
@@ -136,7 +135,7 @@ class SlideDeck(toga.Document):
 
     @property
     def resource_path(self):
-        return self.app.paths.app / 'resources'
+        return self.app.paths.app / "resources"
 
     @property
     def content_path(self):
@@ -152,12 +151,12 @@ class SlideDeck(toga.Document):
             contentFile = self.path / "slides.md"
 
             print(f"Loading content from {contentFile}")
-            with open(contentFile, 'r', encoding='utf-8') as f:
+            with open(contentFile, "r", encoding="utf-8") as f:
                 self.content = f.read()
         else:
             # Single file can just be a standalone markdown file
             print(f"Loading content from {self.path}")
-            with self.path.open('r', encoding='utf-8') as f:
+            with self.path.open("r", encoding="utf-8") as f:
                 self.content = f.read()
 
         # main window title will be automatically updated;
@@ -172,20 +171,22 @@ class SlideDeck(toga.Document):
 
     @property
     def base_url(self):
-        return f'http://{self.app.server_host}:{self.app.server_port}/deck/{self.file_sha}'
+        return (
+            f"http://{self.app.server_host}:{self.app.server_port}/deck/{self.file_sha}"
+        )
 
     @property
     def print_template_path(self):
         return self.resource_path / "print-template.html"
 
     def html_content(self):
-        with self.print_template_path.open('r', encoding='utf-8') as data:
+        with self.print_template_path.open("r", encoding="utf-8") as data:
             template = data.read()
 
         html = template.format(
             resource_path=self.resource_path,
             theme=self.theme,
-            aspect_ratio_tag=self.aspect.replace(':', '-'),
+            aspect_ratio_tag=self.aspect.replace(":", "-"),
             aspect_ratio=self.aspect,
             title=self.title,
             slide_content=self.content,
@@ -198,18 +199,28 @@ class SlideDeck(toga.Document):
         if self.app.in_presentation_mode:
             self.reversed_displays = not self.reversed_displays
             if self.reversed_displays:
-                self.app.enter_presentation_mode([self.secondary_window, self.main_window])
+                self.app.enter_presentation_mode(
+                    [
+                        self.secondary_window,
+                        self.main_window,
+                    ]
+                )
             else:
-                self.app.enter_presentation_mode([self.main_window, self.secondary_window])
+                self.app.enter_presentation_mode(
+                    [
+                        self.main_window,
+                        self.secondary_window,
+                    ]
+                )
         else:
-            print('Not in full screen mode')
+            print("Not in full screen mode")
 
     def change_aspect_ratio(self):
         print("Switch aspect ratio")
-        if self.aspect == '16:9':
-            self.aspect = '4:3'
+        if self.aspect == "16:9":
+            self.aspect = "4:3"
         else:
-            self.aspect = '16:9'
+            self.aspect = "16:9"
 
         if self.app.in_presentation_mode:
             # If we're fullscreen, just reload to apply different
@@ -227,16 +238,28 @@ class SlideDeck(toga.Document):
             self.app.show_cursor()
         else:
             if self.reversed_displays:
-                self.app.enter_presentation_mode([self.secondary_window, self.main_window])
+                self.app.enter_presentation_mode(
+                    [
+                        self.secondary_window,
+                        self.main_window,
+                    ]
+                )
             else:
-                self.app.enter_presentation_mode([self.main_window, self.secondary_window])
+                self.app.enter_presentation_mode(
+                    [
+                        self.main_window,
+                        self.secondary_window,
+                    ]
+                )
 
             self.app.hide_cursor()
 
     async def reload(self):
         self.read()
 
-        self.current_slide = await self.main_window.html_view.evaluate_javascript("slideshow.getCurrentSlideNo()")
+        self.current_slide = await self.main_window.html_view.evaluate_javascript(
+            "slideshow.getCurrentSlideNo()"
+        )
 
         print("Current slide:", self.current_slide)
 
@@ -252,7 +275,7 @@ class SlideDeck(toga.Document):
             if self.app.in_presentation_mode:
                 self.toggle_full_screen()
             else:
-                print('Not in full screen mode')
+                print("Not in full screen mode")
 
         elif key == toga.Key.F11:
             self.toggle_full_screen()
@@ -267,7 +290,7 @@ class SlideDeck(toga.Document):
             if self.app.in_presentation_mode:
                 self.switch_screens()
             else:
-                print('Not in full screen mode')
+                print("Not in full screen mode")
 
         elif key == toga.Key.A and (toga.Key.MOD_1 in modifiers):
             self.change_aspect_ratio()
@@ -277,7 +300,7 @@ class SlideDeck(toga.Document):
             toga.Key.DOWN,
             toga.Key.SPACE,
             toga.Key.ENTER,
-            toga.Key.PAGE_DOWN
+            toga.Key.PAGE_DOWN,
         ):
             self.goto_next_slide()
 
@@ -307,7 +330,9 @@ class SlideDeck(toga.Document):
             if self.paused:
                 print("Resume presentation")
                 self.main_window.html_view.evaluate_javascript("slideshow.resume()")
-                self.secondary_window.html_view.evaluate_javascript("slideshow.resume()")
+                self.secondary_window.html_view.evaluate_javascript(
+                    "slideshow.resume()"
+                )
                 self.paused = False
             else:
                 print("Pause presentation")
@@ -321,7 +346,9 @@ class SlideDeck(toga.Document):
         print("Goto first slide")
 
         self.main_window.html_view.evaluate_javascript("slideshow.gotoFirstSlide()")
-        self.secondary_window.html_view.evaluate_javascript("slideshow.gotoFirstSlide()")
+        self.secondary_window.html_view.evaluate_javascript(
+            "slideshow.gotoFirstSlide()"
+        )
 
     def goto_last_slide(self):
         print("Goto previous slide")
@@ -339,4 +366,6 @@ class SlideDeck(toga.Document):
         print("Goto previous slide")
 
         self.main_window.html_view.evaluate_javascript("slideshow.gotoPreviousSlide()")
-        self.secondary_window.html_view.evaluate_javascript("slideshow.gotoPreviousSlide()")
+        self.secondary_window.html_view.evaluate_javascript(
+            "slideshow.gotoPreviousSlide()"
+        )

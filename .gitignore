@@ -12,3 +12,6 @@ local
 venv*
 .venv*
 logs
+.briefcase
+.zed
+.vscode

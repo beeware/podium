@@ -32,7 +32,9 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
             elif match[2] == "print":
                 content = deck.html_content()
             else:
-                self.send_error(HTTPStatus.NOT_FOUND, f"Unknown deck content {match[2]!r}")
+                self.send_error(
+                    HTTPStatus.NOT_FOUND, f"Unknown deck content {match[2]!r}"
+                )
                 return
             self.send_response(200)
             self.send_header("Content-type", "text/html")
@@ -47,14 +49,14 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
         if path == "/favicon.ico":
             # Favicon is a special case
             return str(self.server.resources_path / "podium.png")
-        elif path.startswith('/resources/'):
+        elif path.startswith("/resources/"):
             # Any URL starting with /resources/ is static app-based content
             return str(self.server.resources_path / path[11:])
-        elif path.startswith('/deck/'):
+        elif path.startswith("/deck/"):
             # Any URL starting with /deck is deck-based content, except for
             # the slide/notes/print dynamic content, which is handled by do_GET
             try:
-                parts = path.split('/', 3)
+                parts = path.split("/", 3)
                 deck = self.server.app.deck_for_id(parts[2])
                 return f"{deck.content_path}/{parts[3]}"
             except KeyError:
@@ -115,10 +117,7 @@ class Podium(toga.App):
         return True
 
     def deck_for_id(self, deck_id):
-        return {
-            doc.file_sha: doc
-            for doc in self.documents
-        }[deck_id]
+        return {doc.file_sha: doc for doc in self.documents}[deck_id]
 
     # FILE commands ##################################################
 
@@ -136,6 +135,8 @@ class Podium(toga.App):
         self.current_window.doc.toggle_full_screen()
 
     def stop(self, widget, **kwargs):
+        self.beep()
+        self.beep()
         self.play_command.enabled = True
         self.stop_command.enabled = False
         self.current_window.doc.toggle_full_screen()
@@ -171,56 +172,58 @@ class Podium(toga.App):
         self.main_window = None
 
         # Add commands for slide control.
-        play_group = toga.Group('Play', order=31)
-        view_group = toga.Group('View', order=32)
+        play_group = toga.Group("Play", order=31)
+        view_group = toga.Group("View", order=32)
 
         self.commands.add(
             toga.Command(
                 self.reload,
-                text='Reload slide deck',
-                shortcut=toga.Key.MOD_1 + 'r',
+                text="Reload slide deck",
+                shortcut=toga.Key.MOD_1 + "r",
                 group=toga.Group.FILE,
-                section=1
+                section=1,
             ),
             toga.Command(
                 self.print,
-                text='Print...',
-                shortcut=toga.Key.MOD_1 + 'p',
+                text="Print...",
+                shortcut=toga.Key.MOD_1 + "p",
                 group=toga.Group.FILE,
-                section=2
+                section=2,
             ),
         )
         self.play_command = toga.Command(
-                self.play,
-                text='Play slideshow',
-                shortcut=toga.Key.MOD_1 + 'P',
-                group=play_group,
-                section=0,
-                order=0,
-            )
+            self.play,
+            text="Play slideshow",
+            shortcut=toga.Key.MOD_1 + "P",
+            group=play_group,
+            section=0,
+            order=0,
+        )
+
         self.stop_command = toga.Command(
-                self.stop,
-                text='Stop slideshow',
-                shortcut=toga.Key.MOD_1 + toga.Key.ESCAPE,
-                group=play_group,
-                section=0,
-                order=1,
-                enabled=False,
-            )
+            self.stop,
+            text="Stop slideshow",
+            shortcut=toga.Key.MOD_1 + "s",
+            group=play_group,
+            section=0,
+            order=1,
+            # enabled=False,
+            enabled=True,
+        )
         self.commands.add(
             self.play_command,
             self.stop_command,
             toga.Command(
                 self.reset_timer,
-                text='Reset timer',
-                shortcut=toga.Key.MOD_1 + 't',
+                text="Reset timer",
+                shortcut=toga.Key.MOD_1 + "t",
                 group=play_group,
                 section=0,
                 order=2,
             ),
             toga.Command(
                 self.next_slide,
-                text='Next slide',
+                text="Next slide",
                 shortcut=toga.Key.RIGHT,
                 group=play_group,
                 section=1,
@@ -228,7 +231,7 @@ class Podium(toga.App):
             ),
             toga.Command(
                 self.previous_slide,
-                text='Previous slide',
+                text="Previous slide",
                 shortcut=toga.Key.LEFT,
                 group=play_group,
                 section=1,
@@ -236,7 +239,7 @@ class Podium(toga.App):
             ),
             toga.Command(
                 self.first_slide,
-                text='First slide',
+                text="First slide",
                 shortcut=toga.Key.HOME,
                 group=play_group,
                 section=1,
@@ -244,7 +247,7 @@ class Podium(toga.App):
             ),
             toga.Command(
                 self.last_slide,
-                text='Last slide',
+                text="Last slide",
                 shortcut=toga.Key.END,
                 group=play_group,
                 section=1,
@@ -254,19 +257,19 @@ class Podium(toga.App):
         self.commands.add(
             toga.Command(
                 self.switch_screens,
-                text='Switch screens',
+                text="Switch screens",
                 shortcut=toga.Key.MOD_1 + toga.Key.TAB,
                 group=view_group,
             ),
             toga.Command(
                 self.change_aspect_ratio,
-                text='Change aspect ratio',
-                shortcut=toga.Key.MOD_1 + 'a',
+                text="Change aspect ratio",
+                shortcut=toga.Key.MOD_1 + "a",
                 group=view_group,
             ),
             toga.Command(
                 self.open_in_browser,
-                text='Open in browser',
+                text="Open in browser",
                 group=view_group,
             ),
         )

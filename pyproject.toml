@@ -1,10 +1,56 @@
 [build-system]
-requires = ["briefcase"]
+requires = [
+    "setuptools==82.0.1",
+    "setuptools_scm==9.2.2",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version"]
+name = "podium"
+requires-python = "~=3.14"
+# Temporary workaround for beeware/toga#4446
+dependencies = ["packaging"]
+
+[dependency-groups]
+# Extras used by developers *of* briefcase are pinned to specific versions to
+# ensure environment consistency.
+pre-commit = [
+    "pre-commit == 4.6.0",
+]
+
+setuptools-scm = [
+    "setuptools_scm == 10.0.5",
+]
+
+towncrier = [
+    "towncrier == 25.8.0",
+]
+
+tox-uv = [
+    "tox-uv == 1.35.2",
+]
+
+dev = [
+    {include-group = "pre-commit"},
+    {include-group = "setuptools-scm"},
+    {include-group = "tox-uv"},
+]
+
+test = [
+    {include-group = "setuptools-scm"},
+]
+# Docs are always built on a specific Python version; see RTD and tox config files,
+# and the docs contribution guide.
+docs = [
+    "beeware-docs-tools @ git+https://github.com/beeware/beeware-docs-tools",
+    # "beeware-docs-tools @ file://../beeware-docs-tools",
+]
 
 [tool.briefcase]
 project_name = "Podium"
-version = "0.3"
-license.file = "LICENSE"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 bundle = "org.beeware"
 author = 'Russell Keith-Magee'
 author_email = 'russell@keith-magee.com'
@@ -29,13 +75,13 @@ macOS.UTTypeConformsTo = ["com.apple.package", "public.content"]
 
 [tool.briefcase.app.podium.macOS]
 requires = [
-    "toga-cocoa==0.5.1",
+    "toga-cocoa==0.5.4",
     "std-nslog==1.0.1",
 ]
 
 [tool.briefcase.app.podium.linux]
 requires = [
-    "toga-gtk==0.5.1"
+    "toga-gtk==0.5.4"
 ]
 
 [tool.briefcase.app.podium.linux.system.debian]
@@ -131,7 +177,7 @@ flatpak_sdk = "org.gnome.Sdk"
 
 [tool.briefcase.app.podium.windows]
 requires = [
-    "toga-winforms==0.5.1"
+    "toga-winforms==0.5.4"
 ]
 
 [tool.briefcase.app.podium.iOS]
@@ -142,3 +188,22 @@ supported = false
 
 [tool.briefcase.app.podium.web]
 supported = false
+
+[tool.setuptools_scm]
+# To enable SCM versioning, we need an empty tool configuration for setuptools_scm
+
+[tool.towncrier]
+directory = "changes"
+package = "podium"
+package_dir = "src"
+filename = "docs/en/about/releases.md"
+title_format = "## {version} ({project_date})"
+issue_format = "[#{issue}](https://github.com/beeware/briefcase/issues/{issue})"
+template = "changes/template.md"
+type = [
+    { directory = "feature", name = "Features", showcontent = true },
+    { directory = "bugfix", name = "Bugfixes", showcontent = true },
+    { directory = "removal", name = "Backward Incompatible Changes", showcontent = true },
+    { directory = "doc", name = "Documentation", showcontent = true },
+    { directory = "misc", name = "Misc", showcontent = false },
+]

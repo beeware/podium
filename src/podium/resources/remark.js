@@ -3742,8 +3742,8 @@ Parser.prototype.parse = function (src) {
 
 function createSlide () {
   return {
-    source: '', 
-    properties: { 
+    source: '',
+    properties: {
       continued: 'false'
     }
   };
@@ -4131,7 +4131,7 @@ converter.convertMarkdown = function (source) {
 
   // ... and &amp;
   source = source.replace(/&amp;/g, '&');
-  
+
   // ... and &quot;
   source = source.replace(/&quot;/g, '"');
 

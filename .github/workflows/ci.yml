@@ -1,0 +1,71 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      attest-package:
+        description: "Create GitHub provenance attestation for the package."
+        default: "false"
+        type: string
+    outputs:
+      artifact-name:
+        description: "Name of the uploaded artifact; use for artifact retrieval."
+        value: ${{ jobs.package.outputs.artifact-name }}
+
+# Cancel active CI runs for a PR before starting another run
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  FORCE_COLOR: "1"
+
+jobs:
+  pre-commit:
+    name: Pre-commit checks
+    uses: beeware/.github/.github/workflows/pre-commit-run.yml@main
+    with:
+      pre-commit-source: "--group pre-commit"
+
+  # towncrier:
+  #   name: Check towncrier
+  #   uses: beeware/.github/.github/workflows/towncrier-run.yml@main
+  #   with:
+  #     tox-source: "--group tox-uv"
+
+  package:
+    name: Build installer
+    needs: [pre-commit, towncrier, package]
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ["macOS-latest", "windows-latest", "ubuntu-24.04"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6.2.0
+        with:
+          python-version: 3.14
+
+      - name: Install dependencies
+        run: |
+          uvx briefcase package
+
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: installer-${{ matrix.platform }}
+          path: dist
