@@ -34,11 +34,11 @@ jobs:
     with:
       pre-commit-source: "--group pre-commit"
 
-  # towncrier:
-  #   name: Check towncrier
-  #   uses: beeware/.github/.github/workflows/towncrier-run.yml@main
-  #   with:
-  #     tox-source: "--group tox-uv"
+  towncrier:
+    name: Check towncrier
+    uses: beeware/.github/.github/workflows/towncrier-run.yml@main
+    with:
+      tox-source: "--group tox-uv"
 
   package:
     name: Build installer
@@ -47,7 +47,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: ["macOS-latest", "windows-latest", "ubuntu-24.04"]
+        platform: ["macOS-latest", "windows-latest", "ubuntu-latest"]
 
     steps:
       - name: Checkout
