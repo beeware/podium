@@ -42,7 +42,7 @@ jobs:
 
   package:
     name: Build installer
-    needs: [pre-commit, towncrier, package]
+    needs: [pre-commit, towncrier]
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
