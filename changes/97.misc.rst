@@ -1,0 +1,1 @@
+Updated astral-sh/setup-uv from 8.3.0 to 8.3.2 in the dependencies group.
