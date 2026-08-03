@@ -42,7 +42,6 @@ class DeckHTTPHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
         else:
-            #
             super().do_GET()
 
     def translate_path(self, path):
