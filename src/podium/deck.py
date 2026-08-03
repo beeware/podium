@@ -1,4 +1,5 @@
 import hashlib
+from typing import ClassVar
 
 import toga
 
@@ -115,7 +116,7 @@ class SecondarySlideWindow(toga.Window):
 
 class SlideDeck(toga.Document):
     description = "Slide Deck"
-    extensions = ["podium", "md"]
+    extensions: ClassVar[list[str]] = ["podium", "md"]
 
     def create(self):
         # TODO: There's only 1 theme.
