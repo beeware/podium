@@ -145,16 +145,15 @@ class: logo
 
 ```python
 def greeting(arg):
-    if arg == 'hello':
-        print('Hello World')
+    if arg == "hello":
+        print("Hello World")
     else:
         print(arg)
 
 
-class Something():
+class Something:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
 ```
 
 ---
@@ -206,8 +205,8 @@ It will then start a new paragraph.
 
   ```python
   def greeting(arg):
-      if arg == 'hello':
-          print('Hello World')
+      if arg == "hello":
+          print("Hello World")
   ```
 ---
 # Other inline content

@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "setuptools==83.0.0",
+    "setuptools==84.0.0",
     "setuptools_scm==10.2.1",
 
 ]
@@ -17,7 +17,7 @@ dependencies = ["packaging"]
 # Extras used by developers *of* briefcase are pinned to specific versions to
 # ensure environment consistency.
 pre-commit = [
-    "pre-commit == 4.6.1",
+    "pre-commit == 4.6.2",
 ]
 
 setuptools-scm = [
