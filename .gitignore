@@ -6,6 +6,7 @@
 dist
 build
 _build
+docs/_build.*.toml
 distribute-*
 local
 .DS_Store
