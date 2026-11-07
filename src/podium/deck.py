@@ -8,6 +8,10 @@ def size_for_aspect(aspect):
     return (984 if aspect == "16:9" else 738, 576)
 
 
+def is_deck_url(doc, url):
+    return url.startswith(f"{doc.base_url}/")
+
+
 def gtk_key_press_event(widget, event):
     # GTK WebViews eat keyboard press events.
     from toga_gtk.libs import Gdk
@@ -36,13 +40,19 @@ class PrimarySlideWindow(toga.DocumentWindow):
         self.create()
 
     def create(self):
-        self.html_view = toga.WebView(flex=1)
+        self.html_view = toga.WebView(
+            flex=1,
+            on_navigation_starting=self.on_navigation_starting,
+        )
 
         # GTK WebViews eat key press events; propegate them to a handler
         if toga.platform.current_platform == "linux":
             self.html_view._impl.native.connect("key_press_event", gtk_key_press_event)
 
         self.content = self.html_view
+
+    def on_navigation_starting(self, widget, url, **kwargs):
+        return is_deck_url(self.doc, url)
 
     @property
     def template_path(self):
@@ -83,13 +93,19 @@ class SecondarySlideWindow(toga.Window):
         return self.doc.title + " - Speaker notes"
 
     def create(self):
-        self.html_view = toga.WebView(flex=1)
+        self.html_view = toga.WebView(
+            flex=1,
+            on_navigation_starting=self.on_navigation_starting,
+        )
 
         # GTK WebViews eat key press events; propegate them to a handler
         if toga.platform.current_platform == "linux":
             self.html_view._impl.native.connect("key_press_event", gtk_key_press_event)
 
         self.content = self.html_view
+
+    def on_navigation_starting(self, widget, url, **kwargs):
+        return is_deck_url(self.doc, url)
 
     @property
     def template_path(self):
