@@ -475,33 +475,33 @@ Content here.
 
 Incoming transitions include:
 
-- shake - Shakes content back and forth, left to right.
-- tada - Zooms out slightly, and twists content back and forth.
-- swing - Swings content left to right, like a pendulum connected from the top.
-- wobble - Wobbles content left to right, like a pendulum connected from the bottom.
-- pulse - Zooms in and out once.
-- flash - Flashes between the current slide content and the previous slide content.
-- bounce - Bounces content up and down.
-- bounceIn - Bounces content back to front.
-- bounceInUp - Bounces content up from the bottom of the slide.
-- bounceInDown - Bounces content down from the top of the slide.
-- bounceInLeft - Bounces content in from the left of the slide.
-- bounceInRight - Bounces content in from the right of the slide.
-- flip - Flips the content twice around a vertical axis.
-- flipInX - Flips the content once around the x-axis, from top to bottom.
-- flipInY - Flips the content once around the y-axis, from left to right.
-- fadeIn - Fades previous slide content out and current slide content in.
-- fadeInUp - Fades the current content up from the bottom of the slide.
-- fadeInDown - Fades the current content down from the top of the slide.
-- fadeInLeft - Fades the current content in from the left of the slide.
-- fadeInRight - Fades the current content in from the right of the slide.
-- rotateIn - Content begins upside down, and rotates around the z-axis from left to right, to become upright.
-- rotateInUpLeft - Rotates content onto the slide from the bottom, as though attached to the bottom left corner.
-- rotateInDownLeft - Rotates content onto the slide from the top, as though attached to the top left corner.
-- rotateInUpRight - Rotates content onto the slide from the bottom, as though attached to the bottom right corner.
-- rotateInDownRight - Rotates content onto the slide from the bottom, as though attached to the top right corner.
-- rollIn - Rolls content in from the left of the slide.
-- lightSpeedIn - Moves content quickly onto the slide, with momentum, from the right of the slide.
+- `shake` - Shakes content back and forth, left to right.
+- `tada` - Zooms out slightly, and twists content back and forth.
+- `swing` - Swings content left to right, like a pendulum connected from the top.
+- `wobble` - Wobbles content left to right, like a pendulum connected from the bottom.
+- `pulse` - Zooms in and out once.
+- `flash` - Flashes between the current slide content and the previous slide content.
+- `bounce` - Bounces content up and down.
+- `bounceIn` - Bounces content back to front.
+- `bounceInUp` - Bounces content up from the bottom of the slide.
+- `bounceInDown` - Bounces content down from the top of the slide.
+- `bounceInLeft` - Bounces content in from the left of the slide.
+- `bounceInRight` - Bounces content in from the right of the slide.
+- `flip` - Flips the content twice around a vertical axis.
+- `flipInX` - Flips the content once around the x-axis, from top to bottom.
+- `flipInY` - Flips the content once around the y-axis, from left to right.
+- `fadeIn` - Fades previous slide content out and current slide content in.
+- `fadeInUp` - Fades the current content up from the bottom of the slide.
+- `fadeInDown` - Fades the current content down from the top of the slide.
+- `fadeInLeft` - Fades the current content in from the left of the slide.
+- `fadeInRight` - Fades the current content in from the right of the slide.
+- `rotateIn` - Content begins upside down, and rotates around the z-axis from left to right, to become upright.
+- `rotateInUpLeft` - Rotates content onto the slide from the bottom, as though attached to the bottom left corner.
+- `rotateInDownLeft` - Rotates content onto the slide from the top, as though attached to the top left corner.
+- `rotateInUpRight` - Rotates content onto the slide from the bottom, as though attached to the bottom right corner.
+- `rotateInDownRight` - Rotates content onto the slide from the bottom, as though attached to the top right corner.
+- `rollIn` - Rolls content in from the left of the slide.
+- `lightSpeedIn` - Moves content quickly onto the slide, with momentum, from the right of the slide.
 
 ## Keyboard shortcuts
 

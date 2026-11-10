@@ -38,7 +38,7 @@ class PrimarySlideWindow(toga.DocumentWindow):
     def create(self):
         self.html_view = toga.WebView(flex=1)
 
-        # GTK WebViews eat key press events; propegate them to a handler
+        # GTK WebViews eat key press events; propagate them to a handler
         if toga.platform.current_platform == "linux":
             self.html_view._impl.native.connect("key_press_event", gtk_key_press_event)
 
@@ -85,7 +85,7 @@ class SecondarySlideWindow(toga.Window):
     def create(self):
         self.html_view = toga.WebView(flex=1)
 
-        # GTK WebViews eat key press events; propegate them to a handler
+        # GTK WebViews eat key press events; propagate them to a handler
         if toga.platform.current_platform == "linux":
             self.html_view._impl.native.connect("key_press_event", gtk_key_press_event)
 
