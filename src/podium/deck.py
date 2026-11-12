@@ -1,4 +1,5 @@
 import hashlib
+import webbrowser
 from typing import ClassVar
 
 import toga
@@ -48,7 +49,11 @@ class PrimarySlideWindow(toga.DocumentWindow):
         self.content = self.html_view
 
     def on_navigation_starting(self, widget, url, **kwargs):
-        return self.doc.is_deck_url(url)
+        if self.doc.is_deck_url(url):
+            return True
+        if url != "about:blank":
+            webbrowser.open(url)
+        return False
 
     @property
     def template_path(self):
@@ -101,7 +106,11 @@ class SecondarySlideWindow(toga.Window):
         self.content = self.html_view
 
     def on_navigation_starting(self, widget, url, **kwargs):
-        return self.doc.is_deck_url(url)
+        if self.doc.is_deck_url(url):
+            return True
+        if url != "about:blank":
+            webbrowser.open(url)
+        return False
 
     @property
     def template_path(self):
