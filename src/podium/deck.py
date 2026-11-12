@@ -8,10 +8,6 @@ def size_for_aspect(aspect):
     return (984 if aspect == "16:9" else 738, 576)
 
 
-def is_deck_url(doc, url):
-    return url.startswith(f"{doc.base_url}/")
-
-
 def gtk_key_press_event(widget, event):
     # GTK WebViews eat keyboard press events.
     from toga_gtk.libs import Gdk
@@ -52,7 +48,7 @@ class PrimarySlideWindow(toga.DocumentWindow):
         self.content = self.html_view
 
     def on_navigation_starting(self, widget, url, **kwargs):
-        return is_deck_url(self.doc, url)
+        return self.doc.is_deck_url(url)
 
     @property
     def template_path(self):
@@ -105,7 +101,7 @@ class SecondarySlideWindow(toga.Window):
         self.content = self.html_view
 
     def on_navigation_starting(self, widget, url, **kwargs):
-        return is_deck_url(self.doc, url)
+        return self.doc.is_deck_url(url)
 
     @property
     def template_path(self):
@@ -191,6 +187,9 @@ class SlideDeck(toga.Document):
         return (
             f"http://{self.app.server_host}:{self.app.server_port}/deck/{self.file_sha}"
         )
+
+    def is_deck_url(self, url):
+        return url.startswith(f"{self.base_url}/")
 
     @property
     def print_template_path(self):
