@@ -1,4 +1,5 @@
 import hashlib
+import webbrowser
 from typing import ClassVar
 
 import toga
@@ -36,13 +37,23 @@ class PrimarySlideWindow(toga.DocumentWindow):
         self.create()
 
     def create(self):
-        self.html_view = toga.WebView(flex=1)
+        self.html_view = toga.WebView(
+            flex=1,
+            on_navigation_starting=self.on_navigation_starting,
+        )
 
         # GTK WebViews eat key press events; propagate them to a handler
         if toga.platform.current_platform == "linux":
             self.html_view._impl.native.connect("key_press_event", gtk_key_press_event)
 
         self.content = self.html_view
+
+    def on_navigation_starting(self, widget, url, **kwargs):
+        if self.doc.is_deck_url(url):
+            return True
+        if url != "about:blank":
+            webbrowser.open(url)
+        return False
 
     @property
     def template_path(self):
@@ -83,13 +94,23 @@ class SecondarySlideWindow(toga.Window):
         return self.doc.title + " - Speaker notes"
 
     def create(self):
-        self.html_view = toga.WebView(flex=1)
+        self.html_view = toga.WebView(
+            flex=1,
+            on_navigation_starting=self.on_navigation_starting,
+        )
 
         # GTK WebViews eat key press events; propagate them to a handler
         if toga.platform.current_platform == "linux":
             self.html_view._impl.native.connect("key_press_event", gtk_key_press_event)
 
         self.content = self.html_view
+
+    def on_navigation_starting(self, widget, url, **kwargs):
+        if self.doc.is_deck_url(url):
+            return True
+        if url != "about:blank":
+            webbrowser.open(url)
+        return False
 
     @property
     def template_path(self):
@@ -175,6 +196,9 @@ class SlideDeck(toga.Document):
         return (
             f"http://{self.app.server_host}:{self.app.server_port}/deck/{self.file_sha}"
         )
+
+    def is_deck_url(self, url):
+        return url.startswith(f"{self.base_url}/")
 
     @property
     def print_template_path(self):
