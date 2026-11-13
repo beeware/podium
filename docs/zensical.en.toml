@@ -1,0 +1,9 @@
+[project]
+site_name = "Podium"
+docs_dir = "en"
+
+[project.theme]
+language = "en"
+
+[project.extra]
+header = {}
